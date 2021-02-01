@@ -1,0 +1,25 @@
+{
+  "name": "isabellebidou.photos",
+  "version": "1.0.0",
+  "description": "photo website",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "photoapp"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "constantinople": "^4.0.1",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "jade": "^1.11.0",
+    "mysql": "^2.18.1",
+    "path": "^0.12.7",
+    "pug": "^3.0.0"
+  }
+}

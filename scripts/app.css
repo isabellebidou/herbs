@@ -1,0 +1,557 @@
+.photothumbnail{
+    margin: 1em;
+    height: 189px;
+
+}
+.tooltip {
+    position: relative;
+    display: inline-block;
+    
+  }
+  
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+  
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+  }
+
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+  .detailimage{
+      vertical-align: top;
+      padding-right: 2%;
+  }
+  .detailform{
+      padding-left: 2%;
+  }
+  .detailimage, .detailform{
+      width: 45%;
+
+  }
+  form{
+      display: inline-flex;
+  }
+html{
+    position: absolute;
+    height: 100%;
+    width:100%;
+    background-color: aliceblue;
+    
+	/*background: url(/olenka-kotyk2.png) no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;*/
+    
+}
+h1,h2{
+    color: white;
+    
+}
+.headertitle{
+    color:white;
+    position:absolute;
+    width: 80%;
+    font-style: oblique;
+    left:25%;
+    font-size:3em;
+    top:4%;
+    font-family: "Brush Script MT", "Lucida Console", Monaco, monospace;
+}
+#logo{
+    position:absolute;
+    left:2%;
+    top:2%;
+    width:10%;
+    height:auto;
+}
+
+.navhold{
+  
+    position:absolute;
+    right: 8%;
+    top:70%;
+    text-align: center;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    float: left;
+    margin-bottom: 10px;
+    
+    
+}
+
+.footer{
+    color:white;
+    position: absolute;
+    width:15%;
+    height: 7%;
+    bottom:1%;
+    left:40%;
+    text-align: center;
+    margin:auto;
+    font-size: 0.5em;
+    
+}
+.header{
+    position: absolute;
+    width:100%;
+    height: 20%;
+    top:1%;
+    
+}
+
+.maincontent{
+    color:white;
+    position: absolute;
+    height: 86%;
+    width: 90%;
+    right:5%;
+    top:12%;
+    overflow-y: scroll;
+    padding: 0em;
+    background-color: rgba(243, 236, 236, 0.918);
+}
+.userrole{
+    position: absolute;
+    top:1em;
+    right:2em;
+    color: #7f5f87;
+    text-align: center;
+    padding: 1em;
+    text-decoration: none;
+    font-size: 1.5em;
+    font-style: oblique;
+    
+}
+.username{
+    position: absolute;
+    top:0.5em;
+    right:2em;
+    color: #7f5f87;
+    text-align: center;
+    padding:1em;
+    text-decoration: none;
+    font-size: 1em;
+    font-style: oblique;
+    
+}
+p{
+    padding-top: 1em;
+    padding-right: 3em;
+    padding-bottom: 2em;
+    padding-left: 3em;
+    text-align: justify;
+}
+.intro, .conclusion{
+    width: 100%;
+    height:30%;
+}
+.row {
+    display: -webkit-flex;
+    display: inline-block;
+    width: 100%;
+    height:50%;
+}
+
+
+   
+
+
+.left {
+    width: 49%;
+    height:200%;
+    overflow-y: scroll;
+    display: inline-block;
+    background-image: url('/marion-michelesmall.png');
+    background-repeat:no-repeat;
+    background-size:cover;
+    float :left;
+    
+    
+
+}
+
+.right {
+    width: 49%;
+    height:200%;
+    overflow-y: scroll;
+    vertical-align:top;
+    display: inline-block;
+    background-image: url('/dave-contrerassmall.png');
+    background-repeat:no-repeat;
+    background-size:cover;
+    float :right;
+    
+    
+    
+}
+#mobilemenuul {
+	list-style-type: none;
+}
+
+#mobilemenu {
+	display: none;
+}
+#menubutton {
+	display: none;
+}
+
+.grid-container {
+    margin:auto;
+    color:rgba(248, 245, 245, 0.89);
+  display: grid;
+  align-content: center;
+  grid-template-columns: auto auto auto;
+  grid-gap: 5px;
+ /* background-color: #2196F3;  Comment this out later to remove the background color when not needed */
+  padding: 10px;
+}
+.topnav > a{
+    /*background-color: rgba(255, 255, 255, 0.6);*/
+  text-align: center;
+  padding: 0.5em;
+  margin-right: 0.5em;
+  margin-left: 0em;
+  border-radius: 1%;
+  font-size: 1.2em;
+  font-style: oblique;
+}
+.topnav > a:hover{
+    background-color: rgba(255, 255, 255, 0.6);
+
+} 
+.topnav > a:visited 
+{
+    text-decoration: none
+}  
+.item {
+  
+  text-align: center;
+  padding:0.5em 0;
+  margin-right: 0.5em;
+  margin-left: 0.5em;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 1%;
+  
+  
+ 
+}
+.video{
+     text-align: center;
+     width:80%;
+     height:100%;
+  padding:0.5em 0;
+  margin-right: 0.5em;
+  margin-left: 0.5em;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 1%;
+}
+
+
+#itemsContainer {
+    width: 100%;
+    text-align: center;
+   
+    
+    
+}
+
+
+.itemtitle {
+   display: block;
+    color: #7f5f87;
+    text-align: center;
+    padding: 10px 10px;
+    text-decoration: none;
+    font-size: 25px
+    
+}
+
+
+.itemp {
+   display: block;
+    color: #7f5f87;
+    text-align: center;
+    padding: 4px 6px;
+    text-decoration: none;
+    font-size: 1em;
+     background-color: rgba(255, 255, 255, 0.6); 
+     border-radius: 1%;
+    
+}
+label{
+    color: #7f5f87;
+    font-size: 1em;
+    /*background-color: rgba(255, 255, 255, 0.4);*/
+    border-radius: 1%;
+    
+}
+.button {
+    background-color: rgba(127, 95, 135, 0.2);
+    border: 0.2em;
+    border-color: #bba2c2;
+    color: white;
+    padding: 0.1em;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1em;
+    margin: 0.1em;
+    cursor: pointer;
+}
+a.button:hover {
+    border: 0.2em;
+    border-color: #96ccba;
+    color: blue;
+  }
+  a.button:active {
+    border: 0.2em;
+    border-color: #96ccba;
+    color: rgb(236, 226, 81);
+  }
+
+  .deletebutton {
+    background-color: rgba(127, 95, 135, 0.2);
+    border: 0.2em;
+    border-color: #bba2c2;
+    color: red;
+    padding: 0.1em;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1em;
+    margin: 0.1em;
+    cursor: pointer;
+}
+a.deletebutton:hover {
+    border: 0.2em;
+    border-color: #96ccba;
+    color: blue;
+  }
+  a.deletebutton:active {
+    border: 0.2em;
+    border-color: #96ccba;
+    color: rgb(236, 226, 81);
+  }
+/* Style for form */
+.radio{
+    width: 50%;
+    padding: 12px 20px;
+    margin: 8px 0;
+
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+
+}
+
+input, select, .submit{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.submit{
+    background-color: #7f5f87
+}
+button.submit:hover{
+    color: blue
+}
+.notify{
+
+    color: red;
+    padding: 14px 20px;
+
+}
+    
+
+input[type=submit] {
+    width: 100%;
+    background-color: #b271c4;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #45a049;
+}
+
+.formHold {
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    width:95%;
+}
+
+/* End Style for form */
+
+.cart{
+    position: absolute;
+    width:100%;
+    color:grey;
+    height:auto;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    width:90%;
+}
+th,td{
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    width:90%;}
+    
+@media screen and (max-width: 800px) and (orientation: portrait) {    
+    
+
+    .navhold, .topnav{
+      
+        display: none;
+    }
+    .grid-container {
+        margin:auto;
+        color:rgba(248, 242, 242, 0.315);
+        display: grid;
+        align-content: center;
+        grid-template-columns: auto;
+        grid-gap: 0em;
+         /* background-color: #2196F3;  Comment this out later to remove the background color when not needed */
+        padding: 1em;
+    }
+
+	#mobilemenu {
+		position: fixed;
+		top: 3em;
+		
+		right: 0.5em;
+		background: -webkit-linear-gradient(bottom, rgba(217,217,217,0.7),white,rgba(217,217,217,0.7) white); /* For Safari 5.1 to 6.0 */
+		background: -o-linear-gradient(bottom,  rgba(217,217,217,0.7),rgba(255,255,255,0.9),white,  rgba(255,255,255,0.9),rgba(217,217,217,0.7)); /* For Opera 11.1 to 12.0 */
+		background: -moz-linear-gradient(top, rgba(217,217,217,0.7), rgba(255,255,255,0.9),white,  rgba(255,255,255,0.9),rgba(217,217,217,0.7)); /* the standard */
+		background: linear-gradient(to bottom, rgba(217,217,217,0.7),rgba(255,255,255,0.9),white,  rgba(255,255,255,0.9),rgba(217,217,217,0.7));
+		width: auto;
+		text-shadow: 0px 0px #000000;
+		-webkit-box-shadow: 14px 10px 24px 0px rgba(217,217,217,0.3);
+		-moz-box-shadow: 14px 10px 24px 0px rgba(217,217,217,0.3);
+		box-shadow: 14px 10px 24px 0px rgba(217,217,217,0.3);
+		padding: 2%;
+		z-index: 70;
+		border-radius: 10%
+	}
+    .mobilemenuli{
+        line-height: 2.5em;
+        
+        
+        
+    }
+	#menubutton {
+		position: fixed;
+		font-style: oblique;
+		top: 1em;
+		right: 1em;
+		visibility: visible;
+		display: inline;
+		z-index: 50;
+		padding:0.7em;
+		border-radius:10%;
+	}
+	
+	.muscleimage{
+    width:100%;
+    }
+
+    .maincontent{
+        color:white;
+        position: absolute;
+        height: 100%;
+        width: 85%;
+        right:5%;
+        top:22%;
+        overflow-y: scroll;
+        
+        padding: 1em;
+        background-color: rgba(77, 77, 77,0.5);
+    }
+    p{
+        padding:0.3em;
+        text-align: justify;
+    }
+
+
+ 
+    .left {
+   
+        width: 100%;
+        right:5%;
+        height:90%;
+        display: inline-block;
+        background-image: url('/marion-michelesmall.png');
+        background-repeat:no-repeat;
+        background-size:cover;
+        float:clear;
+}
+    
+    
+    .right {
+  
+        width: 100%;
+        right:10%;
+        height:auto;
+        vertical-align:top;
+        display: inline-block;
+        background-image: url('/dave-contrerassmall.png');
+        background-repeat:no-repeat;
+        background-size:cover;
+        float:none;
+}
+.row {
+    display: -webkit-flex;
+    display: inline-block;
+    width: 100%;
+    height:90%;
+}
+.intro,.conclusion{
+    position:static;
+    width: 100%;
+    height:auto;
+}
+.headertitle{
+    color:white;
+    position:absolute;
+    width: 80%;
+    font-style: oblique;
+    left:25%;
+    font-size:2em;
+    top:10%;
+    font-family: "Brush Script MT", "Lucida Console", Monaco, monospace;
+}
+.footer{
+    color:white;
+    position: absolute;
+    width:50%;
+    height: 2%;
+    bottom:1%;
+    left:20%;
+    text-align: center;
+    margin:auto;
+    font-size: 0.5em;
+    
+}
+
+}

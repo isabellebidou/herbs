@@ -1,0 +1,26 @@
+extends layout
+block content
+      
+    .maincontent
+        .formHold
+          h1.itemtitle photo details
+          each photo in indOne
+            img.detailimage(src="http://isabellebidou.com/images/"+photo.name, alt="photo.name")
+            form.detailform(method = "post")
+              fieldset
+                label(for= "newname") name:
+                input(name= "newname", type = "text", value = photo.name) 
+                label(for= "newthumbnail") thumbnail:
+                input(name= "newthumbnail", type = "text", value = photo.thumbnail) 
+                label(for= "newcategory") category:
+                input(name= "newcomments", type = "text", value = photo.category) 
+                label(for= "newcountry") country:
+                input(name= "newemail", type = "text", value = photo.country)
+                label(for= "newpassword") place:
+                input(name= "newplace", type = "text", value = photo.place) 
+                label(for= "newpassword") year:
+                input(name= "newyear", type = "text", value = photo.year) 
+                
+                br
+                button.button(type="submit", class = "submit") Update
+                
