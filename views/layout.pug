@@ -1,7 +1,7 @@
 doctype html
 html
   head
-    title isabelle Bidou -  photo gallery
+    title isabelle Bidou -  
     meta(charset='UTF-8')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
     script(src='https://code.jquery.com/ui/1.12.0/jquery-ui.js', integrity='sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk=', crossorigin='anonymous')
@@ -35,7 +35,7 @@ html
       .header
         .imhold
           img#logo.logoimg(alt='logo', src='/logowhiteresized.png')
-        h1.headertitle My Photo Gallery
+        h1.headertitle isabellebidou.com
         if isAuthenticated
               p.username You're logged in as #{session.user.userFirstName} 
               
@@ -46,21 +46,33 @@ html
             if user.userRole == "teacher"
               .topnav
                 a(href='/') Home
+                a(href='/gallery') Photo Gallery
+                a(href='http://isabellebidou.com/dance/') Dance Moves List
+                a(href='http://isabellebidou.com/') Dance Bio
                 
             //-else if user.userActive == "active"
             else if user.userRole == "student" 
               .topnav
                 a(href='/') Home
+                a(href='/gallery') Photo Gallery
+                a(href='http://isabellebidou.com/dance/') Dance Moves List
+                a(href='http://isabellebidou.com/') Dance Bio
                 
             else 
               .topnav
                 a(href='/') Home
+                a(href='/gallery') Photo Gallery
+                a(href='http://isabellebidou.com/dance/') Dance Moves List
+                a(href='http://isabellebidou.com/') Dance Bio
                 
                 
               
           else
             .topnav
                 a(href='/') Home
+                a(href='/gallery') Photo Gallery
+                a(href='http://isabellebidou.com/dance/') Dance Moves List
+                a(href='http://isabellebidou.com/') Dance Bio
                 
                 
             
@@ -76,20 +88,32 @@ html
           
                 li
                   a.mobilemenuli(href='/') Home
+                  a.mobilemenuli(href='/gallery') Gallery
+                  a.mobilemenuli(href='http://isabellebidou.com/dance/') Dance Moves List
+                  a.mobilemenuli(href='http://isabellebidou.com/') Dance Bio
                 
               else if user.userRole == "student"
 
                 li
                   a.mobilemenuli(href='/') Home
+                  a.mobilemenuli(href='/gallery') Gallery
+                  a.mobilemenuli(href='http://isabellebidou.com/dance/') Dance Moves List
+                  a.mobilemenuli(href='http://isabellebidou.com/') Dance Bio
                 
               else
                 li
                   a.mobilemenuli(href='/') Home
+                  a.mobilemenuli(href='/gallery') Gallery
+                  a.mobilemenuli(href='http://isabellebidou.com/dance/') Dance Moves List
+                  a.mobilemenuli(href='http://isabellebidou.com/') Dance Bio
                 
             else
 
               li
                 a.mobilemenuli(href='/') Home
+                a.mobilemenuli(href='/gallery') Gallery
+                a.mobilemenuli(href='http://isabellebidou.com/dance/') Dance Moves List
+                a.mobilemenuli(href='http://isabellebidou.com/') Dance Bio
               
 
         

@@ -1,0 +1,13 @@
+extends layout
+
+block content
+      .maincontent
+          form(method="post" action="/searchphotos")
+              input(name="search", type="text", Placeholder="Search For a photo...") 
+              button.button(type="submit") Search     
+          .grid-container
+                each photo in gallery
+
+                    a.div.tooltip(href='/editphoto/'+photo.index)
+                        img.photothumbnail(src="http://isabellebidou.com/images/"+photo.thumbnail, alt=photo.thumbnail)
+                        span.tooltiptext #{photo.name}
