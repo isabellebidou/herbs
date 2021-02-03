@@ -15,6 +15,9 @@ app.use(express.static("scripts"));
 app.use(express.static("images"));
 let index = 0;
 var session = require("express-session");
+var globalGallery = [];
+let filteredList = [];
+let filter = false;
 //var MySQLStore = require('express-mysql-session')(session);
 app.use(
   bodyParser.urlencoded({
@@ -24,8 +27,8 @@ app.use(
 app.set("view engine", "pug");
 const db = mysql.createConnection({
   host: "isabellebidou.com",
-  user: "********",
-  password: "********",
+  user: "isabelle_1",
+  password: "lelion75",
   database: "isabelle_db",
   port: 3306,
 });
@@ -38,7 +41,6 @@ db.connect((err) => {
 });
 var upload = require("./models/gallery.json");
 var categories = require("./models/categories.json");
-var globalGallery = [];
 
 //home page
 app.get("/", function (req, res) {
@@ -52,21 +54,19 @@ app.get("/gallery", function (req, res) {
   //console.log("gallery.length");
   //console.log(gallery.length);
 
-  let sql = 'select * FROM photo ; '
+  let sql = "select * FROM photo ; ";
   let query = db.query(sql, (err, gallery) => {
-      if (err) throw err;
-      console.log(gallery.length);
-      globalGallery = gallery;
-      console.log("globalGallery.length");
-      console.log(globalGallery.length);
+    if (err) throw err;
+    console.log(gallery.length);
+    globalGallery = gallery;
+    console.log("globalGallery.length");
+    console.log(globalGallery.length);
 
-      res.render('gallery', {
-          gallery: gallery
-      });
+    res.render("gallery", {
+      gallery: globalGallery,
+    });
   });
-  
 });
-
 
 //photo
 app.get("/uploadphoto/:index", function (req, res) {
@@ -87,32 +87,49 @@ app.get("/uploadphoto/:index", function (req, res) {
 //photo
 
 app.get("/displayphoto/:index", function (req, res) {
-    function choosephoto(indOne) {
-      return indOne.photoId === parseInt(req.params.index);
+  function choosephoto(indOne) {
+    return indOne.photoId === parseInt(req.params.index);
+  }
+  function retreiveGalleryFromDb() {
+    console.log("retreiveGalleryFromDb");
+    let sql = "select * FROM photo ; ";
+    let query = db.query(sql, (err, res) => {
+      if (err) throw err;
+      return res;
+    });
+  }
+  function findIndex(e, g) {
+    console.log("findIndex");
+    var i = 0;
+    for (i; i < g.length; i++) {
+      if (e === g[i]) return i;
+      //return 25;
     }
-    function retreiveGalleryFromDb(){
+  }
+  globalGallery =
+    globalGallery.length == 0 ? retreiveGalleryFromDb : globalGallery;
+  var indOne = globalGallery.filter(choosephoto);
 
-        let sql = 'select * FROM photo ; '
-        let query = db.query(sql, (err, res) => {
-            
-            if (err) throw err;
-            return res;
- 
-        });
-    }   
-    globalGallery = globalGallery.length == 0? retreiveGalleryFromDb : globalGallery;
-    console.log("globalGallery.length");
-    console.log(globalGallery.length);
-    var indOne = globalGallery.filter(choosephoto);
-    index = indOne.index;
-    console.log("indOne");
-    console.log(indOne);
-  
+  if (indOne == [] || indOne == undefined || !indOne) {
+    res.redirect("/gallery");
+  } else {
+    //var myGallery = filter ? filteredList : globalGallery;
+    var myIndex = filter
+      ? myGallery.filter(findIndex)
+      : getIndOnePhotoId(indOne);
+    // console.log("indOne[0]");
+    // console.log(JSON.stringify(indOne[0]));
+    // console.log("indOne");
+    // console.log(JSON.stringify(indOne));
     res.render("displayphoto", {
       indOne: indOne,
-      index: indOne.photoId
+      index: myIndex,
     });
-  });
+  }
+});
+function getIndOnePhotoId(e) {
+  return e[0] ? e[0].photoId : e.photoId;
+}
 app.get("/editphoto/:index", function (req, res) {
   function choosephoto(indOne) {
     return indOne.index === parseInt(req.params.index);
@@ -120,8 +137,8 @@ app.get("/editphoto/:index", function (req, res) {
 
   var indOne = gallery.filter(choosephoto);
   index = indOne.index;
-  console.log("indOne");
-  console.log(indOne);
+//   console.log("indOne");
+//   console.log(indOne);
 
   res.render("editphoto", {
     indOne: indOne,
