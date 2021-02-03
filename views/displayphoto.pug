@@ -1,0 +1,18 @@
+extends layout
+block content
+      
+    .maincontent
+
+          each photo in indOne
+           - var next = photo.photoId+1
+           - var back = photo.photoId-1
+            a.div.leftgallerytooltip(href='/displayphoto/'+back)
+                p #{back}
+                //span.tooltiptext back
+            img.displayimage(src="http://isabellebidou.com/images/"+photo.photoName, alt="photo.photoName")
+            a.div.rightgallerytooltip(href='/displayphoto/'+next)
+                p #{next}
+                //span.tooltiptext next
+            a.closeWindow(href='/gallery') x
+            
+            

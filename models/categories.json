@@ -4,7 +4,7 @@
         "name": "Dance Moves List",
         "url": "http://isabellebidou.com/dance/",
         "photo": "/dml.png",
-        "text": "FCBD&#174Style moves in YouTube videos"
+        "text": "FCBD@Style moves in YouTube videos replacing the mobile apps"
     },
     {
         "index": 2,
@@ -20,5 +20,13 @@
         "url": "./gallery",
         "photo": "/gallery.png",
         "text": "My photos :)"
+    }
+    ,
+    {
+        "index": 4,
+        "name": "Which FCBD@Style dvd?",
+        "url": "http://isabellebidou.com/dance/dvds.html",
+        "photo": "/wdvd.png",
+        "text": "my dance notes to help you find where to find step instructions on the FCBD@Style dvds  "
     }
 ]

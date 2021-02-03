@@ -26,7 +26,7 @@ const db = mysql.createConnection({
   host: "isabellebidou.com",
   user: "********",
   password: "********",
-  database: "**********",
+  database: "isabelle_db",
   port: 3306,
 });
 db.connect((err) => {
@@ -36,9 +36,9 @@ db.connect((err) => {
     console.log("db connected!");
   }
 });
-var gallery = require("./models/gallery.json");
+var upload = require("./models/gallery.json");
 var categories = require("./models/categories.json");
-//var gallery = galleryFile.gallery;
+var globalGallery = [];
 
 //home page
 app.get("/", function (req, res) {
@@ -49,13 +49,24 @@ app.get("/", function (req, res) {
 
 //gallery page
 app.get("/gallery", function (req, res) {
-  console.log("gallery.length");
-  console.log(gallery.length);
+  //console.log("gallery.length");
+  //console.log(gallery.length);
 
-  res.render("gallery", {
-    gallery: gallery,
+  let sql = 'select * FROM photo ; '
+  let query = db.query(sql, (err, gallery) => {
+      if (err) throw err;
+      console.log(gallery.length);
+      globalGallery = gallery;
+      console.log("globalGallery.length");
+      console.log(globalGallery.length);
+
+      res.render('gallery', {
+          gallery: gallery
+      });
   });
+  
 });
+
 
 //photo
 app.get("/uploadphoto/:index", function (req, res) {
@@ -74,6 +85,34 @@ app.get("/uploadphoto/:index", function (req, res) {
 });
 
 //photo
+
+app.get("/displayphoto/:index", function (req, res) {
+    function choosephoto(indOne) {
+      return indOne.photoId === parseInt(req.params.index);
+    }
+    function retreiveGalleryFromDb(){
+
+        let sql = 'select * FROM photo ; '
+        let query = db.query(sql, (err, res) => {
+            
+            if (err) throw err;
+            return res;
+ 
+        });
+    }   
+    globalGallery = globalGallery.length == 0? retreiveGalleryFromDb : globalGallery;
+    console.log("globalGallery.length");
+    console.log(globalGallery.length);
+    var indOne = globalGallery.filter(choosephoto);
+    index = indOne.index;
+    console.log("indOne");
+    console.log(indOne);
+  
+    res.render("displayphoto", {
+      indOne: indOne,
+      index: indOne.photoId
+    });
+  });
 app.get("/editphoto/:index", function (req, res) {
   function choosephoto(indOne) {
     return indOne.index === parseInt(req.params.index);

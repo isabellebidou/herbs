@@ -3,13 +3,14 @@
     height: 189px;
 
 }
-.tooltip {
+.tooltip , .leftgallerytooltip, .rightgallerytooltip{
     position: relative;
     display: inline-block;
     
   }
+
   
-  .tooltip .tooltiptext {
+  .tooltip .tooltiptext , .rightgallerytooltip.tooltiptext, .leftgallerytooltip.tooltiptext{
     visibility: hidden;
     width: 120px;
     background-color: black;
@@ -24,6 +25,16 @@
   }
 
   .tooltip:hover .tooltiptext {
+    
+    visibility: visible;
+  }
+  
+  .rightgallerytooltip:hover .tooltiptext {
+    right:10%;
+    visibility: visible;
+  }
+  .leftgallerytooltip:hover .tooltiptext {
+    left:10%;
     visibility: visible;
   }
   .detailimage{
@@ -33,12 +44,25 @@
   .detailform{
       padding-left: 2%;
   }
+  .displayimage{
+    max-height: 100%;
+    width:auto;
+    vertical-align:middle;
+  }
   .detailimage, .detailform{
       width: 45%;
 
   }
   form{
       display: inline-flex;
+  }
+  .closeWindow{
+    position: absolute;
+      top:2%;
+      right:2%;
+      width: 10%;
+      height: 10%;
+      text-decoration: none;
   }
 html{
     position: absolute;
