@@ -16,7 +16,7 @@ app.use(express.static("images"));
 let index = 0;
 var session = require("express-session");
 var globalGallery = [];
-let filteredList = [];
+let filteredIndexes = [];
 let filter = false;
 //var MySQLStore = require('express-mysql-session')(session);
 app.use(
@@ -51,17 +51,11 @@ app.get("/", function (req, res) {
 
 //gallery page
 app.get("/gallery", function (req, res) {
-  //console.log("gallery.length");
-  //console.log(gallery.length);
-
   let sql = "select * FROM photo ; ";
   let query = db.query(sql, (err, gallery) => {
     if (err) throw err;
-    console.log(gallery.length);
     globalGallery = gallery;
-    console.log("globalGallery.length");
-    console.log(globalGallery.length);
-
+    filter = false;
     res.render("gallery", {
       gallery: globalGallery,
     });
@@ -76,8 +70,6 @@ app.get("/uploadphoto/:index", function (req, res) {
 
   var indOne = gallery.filter(choosephoto);
   index = indOne.index;
-  console.log("indOne");
-  console.log(indOne);
 
   res.render("uploadphoto", {
     indOne: indOne,
@@ -99,13 +91,12 @@ app.get("/displayphoto/:index", function (req, res) {
     });
   }
   function findIndex(e, g) {
-    console.log("findIndex");
     var i = 0;
     for (i; i < g.length; i++) {
       if (e === g[i]) return i;
-      //return 25;
     }
   }
+
   globalGallery =
     globalGallery.length == 0 ? retreiveGalleryFromDb : globalGallery;
   var indOne = globalGallery.filter(choosephoto);
@@ -113,17 +104,11 @@ app.get("/displayphoto/:index", function (req, res) {
   if (indOne == [] || indOne == undefined || !indOne) {
     res.redirect("/gallery");
   } else {
-    //var myGallery = filter ? filteredList : globalGallery;
-    var myIndex = filter
-      ? myGallery.filter(findIndex)
-      : getIndOnePhotoId(indOne);
-    // console.log("indOne[0]");
-    // console.log(JSON.stringify(indOne[0]));
-    // console.log("indOne");
-    // console.log(JSON.stringify(indOne));
+    //var myIndex = getIndOnePhotoId(indOne);
     res.render("displayphoto", {
       indOne: indOne,
-      index: myIndex,
+      galleryLength: globalGallery.length,
+      filter: filter,
     });
   }
 });
@@ -137,9 +122,6 @@ app.get("/editphoto/:index", function (req, res) {
 
   var indOne = gallery.filter(choosephoto);
   index = indOne.index;
-//   console.log("indOne");
-//   console.log(indOne);
-
   res.render("editphoto", {
     indOne: indOne,
   });
@@ -175,9 +157,6 @@ app.post("/editphoto/:index", function (req, res) {
 });
 
 app.post("/uploadphoto/:index", function (req, res) {
-  console.log("req.params.index: " + req.params.index);
-  // console.log(JSON.stringify(req.body, null, 4));
-
   let sql =
     'INSERT INTO photo (photoName, photoThumbnail, photoCategory, photoCountry, photoPlace, photoComments, photoTags, photoPath) VALUES ("' +
     req.body.name +
@@ -199,7 +178,7 @@ app.post("/uploadphoto/:index", function (req, res) {
     '");';
   let query = db.query(sql, (err, res1) => {
     if (err) throw err;
-    console.log(res1);
+    console.error(res1);
   });
   if (req.params.index <= gallery.length) {
     let index = parseInt(req.params.index);
@@ -233,7 +212,7 @@ app.get("/uploadphotos/", function (req, res) {
       '");';
     let query = db.query(sql, (err, res1) => {
       if (err) throw err;
-      console.log(res1);
+      console.error(res1);
     });
   }
   res.redirect("/");
@@ -248,7 +227,6 @@ app.get("/createphotocategorytable", function (req, res) {
 });
 
 app.get("/insertcategory/:cat", function (req, res) {
-  console.log(cat);
   let sql =
     'INSERT INTO photocategory (photoCategoryName) VALUES ("' +
     req.body.name +
@@ -257,7 +235,7 @@ app.get("/insertcategory/:cat", function (req, res) {
     '";';
   let query = db.query(sql, (err, res1) => {
     if (err) throw err;
-    console.log(res1);
+    console.error(res1);
   });
 });
 
@@ -265,14 +243,39 @@ app.get("/createphototable", function (req, res) {
   //name, thumbnail, category, country, place, comments, tags, path
   let sql =
     "CREATE TABLE photo (photoId int NOT NULL AUTO_INCREMENT PRIMARY KEY, photoName varchar(255), photoThumbnail varchar(255), photoCategory varchar(255),  photoCountry varchar(255),  photoPlace varchar(255), photoComments varchar(255), photoTags varchar(255), photoPath varchar(255));";
-
   let query = db.query(sql, (err, res) => {
     if (err) throw err;
   });
 });
 
+app.post("/filterphotos", function (req, res) {
+  filter = true;
+  console.log(req.body.search); //classId = "' + req.params.id + '"
+  let sql =
+    'select * FROM photo WHERE photoTags LIKE  "%' +
+    req.body.search +
+    '%" OR photoPlace LIKE "%' +
+    req.body.search +
+    '%" OR photoCountry LIKE "%' +
+    req.body.search +
+    '%" OR photoName LIKE "%' +
+    req.body.search +
+    '%" OR photoCategory LIKE "%' +
+    req.body.search +
+    '%" GROUP BY photoPlace  ORDER BY photoCountry DESC;';
+  console.log(sql);
+
+  let query = db.query(sql, (err, gallery) => {
+    if (err) throw err;
+    console.error(err);
+    globalGallery = gallery;
+    res.render("gallery", {
+      gallery: globalGallery,
+    });
+  });
+});
 //set up the environment for the app to run
 app.listen(process.env.PORT || 7000, process.env.IP || "0.0.0.0", function () {
-  console.log("app is running");
+  console.log("app is running on port 7000");
 });
 ////https://nodejs.dev/learn/update-all-the-nodejs-dependencies-to-their-latest-version

@@ -5,14 +5,18 @@ block content
 
     each photo in indOne
 
-      - var next = index+1
-      - var back = index-1
-        a.div.leftgallerytooltip(href='/displayphoto/'+back)
-          p #{back}
-          // span.tooltiptext #{gallery[back].photoName}
+      - var next = photo.photoId+1
+      - var back = photo.photoId-1
+        unless filter
+          unless back < 1
+            a.div.leftgallerytooltip(href='/displayphoto/'+back)
+              p back
+              //span.tooltiptext #{filter}
         img.displayimage(src="http://isabellebidou.com/images/"+photo.photoName, alt="photo.photoName")
-        a.div.rightgallerytooltip(href='/displayphoto/'+next)
-          p #{next}
-          //span.tooltiptext next
+        unless filter
+          unless next >= galleryLength
+            a.div.rightgallerytooltip(href='/displayphoto/'+next)
+              p next
+              //span.tooltiptext next
         a.closeWindow(href='/gallery') x
 
