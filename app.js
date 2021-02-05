@@ -16,8 +16,8 @@ app.use(express.static("images"));
 let index = 0;
 var session = require("express-session");
 var globalGallery = [];
-let filteredIndexes = [];
 let filter = false;
+var lastSearchItem = "";
 //var MySQLStore = require('express-mysql-session')(session);
 app.use(
   bodyParser.urlencoded({
@@ -25,13 +25,7 @@ app.use(
   })
 );
 app.set("view engine", "pug");
-const db = mysql.createConnection({
-  host: "isabellebidou.com",
-  user: "isabelle_1",
-  password: "lelion75",
-  database: "isabelle_db",
-  port: 3306,
-});
+
 db.connect((err) => {
   if (err) {
     throw err;
@@ -99,7 +93,12 @@ app.get("/displayphoto/:index", function (req, res) {
 
   globalGallery =
     globalGallery.length == 0 ? retreiveGalleryFromDb : globalGallery;
-  var indOne = globalGallery.filter(choosephoto);
+  try {
+    var indOne = globalGallery.filter(choosephoto);
+  } catch (e) {
+    console.error(e);
+    res.redirect("/gallery");
+  }
 
   if (indOne == [] || indOne == undefined || !indOne) {
     res.redirect("/gallery");
@@ -248,6 +247,34 @@ app.get("/createphototable", function (req, res) {
   });
 });
 
+app.get("/filterphotos", function (req, res) {
+  //filter = true;
+  console.log(req.body.search); //classId = "' + req.params.id + '"
+  let sql =
+    'select * FROM photo WHERE photoTags LIKE  "%' +
+    lastSearchItem +
+    '%" OR photoPlace LIKE "%' +
+    lastSearchItem +
+    '%" OR photoCountry LIKE "%' +
+    lastSearchItem +
+    '%" OR photoName LIKE "%' +
+    lastSearchItem +
+    '%" OR photoCategory LIKE "%' +
+    lastSearchItem +
+    '%" ORDER BY photoId DESC;';
+  console.log(sql);
+
+  let query = db.query(sql, (err, gallery) => {
+    if (err) throw err;
+    console.error(err);
+    globalGallery = gallery;
+    res.render("filterphotos", {
+      gallery: globalGallery,
+      searchItem: lastSearchItem,
+    });
+  });
+});
+
 app.post("/filterphotos", function (req, res) {
   filter = true;
   console.log(req.body.search); //classId = "' + req.params.id + '"
@@ -262,15 +289,17 @@ app.post("/filterphotos", function (req, res) {
     req.body.search +
     '%" OR photoCategory LIKE "%' +
     req.body.search +
-    '%" GROUP BY photoPlace  ORDER BY photoCountry DESC;';
+    '%"  ORDER BY photoId DESC;';
   console.log(sql);
+  lastSearchItem = req.body.search;
 
   let query = db.query(sql, (err, gallery) => {
     if (err) throw err;
     console.error(err);
     globalGallery = gallery;
-    res.render("gallery", {
+    res.render("filterphotos", {
       gallery: globalGallery,
+      searchItem: lastSearchItem,
     });
   });
 });

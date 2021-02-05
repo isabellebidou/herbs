@@ -2,9 +2,12 @@ extends layout
 
 block content
       .maincontent
-          form(method="post" action="/gallery")
-              input(name="search", type="text", Placeholder="Search For a photo...") 
-              button.button(type="submit") Search     
+          a.searchItem(href='/gallery')
+           |remove filter "#{searchItem}" 
+
+          form(method="post" action="/filterphotos")
+              input.search(name="search", type="text", Placeholder="type 'sp' for example...") 
+              button.searchbutton(type="submit") Search     
           .grid-container
                 each photo in gallery
                     - var text =  photo.photoPlace? photo.photoPlace : photo.photoCountry

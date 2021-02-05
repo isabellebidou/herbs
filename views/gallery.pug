@@ -3,14 +3,16 @@ extends layout
 block content
       .maincontent
           form(method="post" action="/filterphotos")
-              input(name="search", type="text", Placeholder="Search For a photo...") 
-              button.button(type="submit") Search     
+              input.search(name="search", type="text", Placeholder="type 'ir' for example...") 
+              button.searchbutton(type="submit") Search     
           .grid-container
                 each photo in gallery
-                    - var text =  photo.photoPlace? photo.photoPlace : photo.photoCountry
-                    - var text =  photo.photoCountry? text+" "+photo.photoCountry : text
-                    - var text =  photo.photoComments? text+" "+photo.photoComments : text
+                    - var text 
+                    - text =  photo.photoPlace? photo.photoPlace : text
+                    - text =  photo.photoCountry? text+" "+photo.photoCountry : text
+                    - text =  photo.photoComments? text+" "+photo.photoComments : text 
 
                     a.div.tooltip(href='/displayphoto/'+photo.photoId)
                         img.photothumbnail(src="http://isabellebidou.com/images/"+photo.photoThumbnail, alt=photo.photoThumbnail)
-                        span.tooltiptext #{text}
+                        if text.length > 1 
+                         span.tooltiptext #{text}

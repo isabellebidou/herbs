@@ -8,114 +8,16 @@ html
     script(src='./behaviour.js')
     meta(name='viewport', content='width=device-width,initial-scale=1')
     link(rel='stylesheet', href='../app.css', type='text/css')
-    script.
-
-      $(window).resize(function(){location.reload();console.log("resized");}); 
-      $(document).ready(function() {
-      $("#menubutton").mousin(function() {
-      $("#mobilemenu").show();
-      });
-      });
-      $(document).ready(function() {
-      $("#mobilemenu").hide();
-      });
-      $(document).ready(function() {
-      $(".mobilemenuli,#menubutton").click(function(){
-      $("#mobilemenu").slideToggle();
-      });
-      });
-      
-      
-                     
 
       
+ 
 
   body
     #container
       .header
-        .imhold
-          img#logo.logoimg(alt='logo', src='/logowhiteresized.png')
-        h1.headertitle isabellebidou.com
-        if isAuthenticated
-              p.username You're logged in as #{session.user.userFirstName} 
-              
-              unless userRole == "student" 
-              p.userrole  #{user.userRole}
-        .navhold
-          if isAuthenticated
-            if user.userRole == "teacher"
-              .topnav
-                a(href='/') Home
-                a(href='/gallery') Photo Gallery
-                a(href='http://isabellebidou.com/dance/') Dance Moves List
-                a(href='http://isabellebidou.com/') Dance Bio
-                
-            //-else if user.userActive == "active"
-            else if user.userRole == "student" 
-              .topnav
-                a(href='/') Home
-                a(href='/gallery') Photo Gallery
-                a(href='http://isabellebidou.com/dance/') Dance Moves List
-                a(href='http://isabellebidou.com/') Dance Bio
-                
-            else 
-              .topnav
-                a(href='/') Home
-                a(href='/gallery') Photo Gallery
-                a(href='http://isabellebidou.com/dance/') Dance Moves List
-                a(href='http://isabellebidou.com/') Dance Bio
-                
-                
-              
-          else
-            .topnav
-                a(href='/') Home
-                a(href='/gallery') Photo Gallery
-                a(href='http://isabellebidou.com/dance/') Dance Moves List
-                a(href='http://isabellebidou.com/') Dance Bio
-                
-                
-            
+        a(href="/").logo.h1.headertitle isabellebidou.com              
+ 
       block content
-      button#menubutton
-      
-        | menu
-        #mobilemenu
-        
-          ul#mobilemenuul
-            if isAuthenticated
-              if user.userRole == "teacher"
-          
-                li
-                  a.mobilemenuli(href='/') Home
-                  a.mobilemenuli(href='/gallery') Gallery
-                  a.mobilemenuli(href='http://isabellebidou.com/dance/') Dance Moves List
-                  a.mobilemenuli(href='http://isabellebidou.com/') Dance Bio
-                
-              else if user.userRole == "student"
-
-                li
-                  a.mobilemenuli(href='/') Home
-                  a.mobilemenuli(href='/gallery') Gallery
-                  a.mobilemenuli(href='http://isabellebidou.com/dance/') Dance Moves List
-                  a.mobilemenuli(href='http://isabellebidou.com/') Dance Bio
-                
-              else
-                li
-                  a.mobilemenuli(href='/') Home
-                  a.mobilemenuli(href='/gallery') Gallery
-                  a.mobilemenuli(href='http://isabellebidou.com/dance/') Dance Moves List
-                  a.mobilemenuli(href='http://isabellebidou.com/') Dance Bio
-                
-            else
-
-              li
-                a.mobilemenuli(href='/') Home
-                a.mobilemenuli(href='/gallery') Gallery
-                a.mobilemenuli(href='http://isabellebidou.com/dance/') Dance Moves List
-                a.mobilemenuli(href='http://isabellebidou.com/') Dance Bio
-              
-
-        
+             
     .footer
       p   Isabelle Bidou - copyright 2021

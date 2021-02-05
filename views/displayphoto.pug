@@ -7,16 +7,27 @@ block content
 
       - var next = photo.photoId+1
       - var back = photo.photoId-1
+      - var text 
+      - text =  photo.photoPlace? photo.photoPlace : text
+      - text =  photo.photoCountry? text+" "+photo.photoCountry : text
+      - text =  photo.photoComments? text+" "+photo.photoComments : text 
+
         unless filter
           unless back < 1
             a.div.leftgallerytooltip(href='/displayphoto/'+back)
-              p back
+              p.direction back
               //span.tooltiptext #{filter}
-        img.displayimage(src="http://isabellebidou.com/images/"+photo.photoName, alt="photo.photoName")
+        div.tooltip      
+          img.displayimage(src="http://isabellebidou.com/images/"+photo.photoName, alt="photo.photoName")
+          if text.length > 1 
+          span.tooltiptext #{text}
         unless filter
           unless next >= galleryLength
             a.div.rightgallerytooltip(href='/displayphoto/'+next)
-              p next
+              p.direction next
               //span.tooltiptext next
-        a.closeWindow(href='/gallery') x
+        if filter      
+         a.closeWindow(href='/filterphotos') x
+        else
+         a.closeWindow(href='/gallery') x
 
