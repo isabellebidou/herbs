@@ -5,15 +5,15 @@ block content
 
     each photo in indOne
 
-      - var next = photo.photoId+1
-      - var back = photo.photoId-1
+      - var next = photo.photoId-1
+      - var back = photo.photoId+1
       - var text 
       - text =  photo.photoPlace? photo.photoPlace : text
       - text =  photo.photoCountry? text+" "+photo.photoCountry : text
       - text =  photo.photoComments? text+" "+photo.photoComments : text 
 
         unless filter
-          unless back < 1
+          unless back >= galleryLength
             a.div.leftgallerytooltip(href='/displayphoto/'+back)
               p.direction back
               //span.tooltiptext #{filter}
@@ -22,7 +22,7 @@ block content
           if text.length > 1 
           span.tooltiptext #{text}
         unless filter
-          unless next >= galleryLength
+          unless next < 1
             a.div.rightgallerytooltip(href='/displayphoto/'+next)
               p.direction next
               //span.tooltiptext next

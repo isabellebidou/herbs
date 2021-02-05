@@ -45,7 +45,7 @@ app.get("/", function (req, res) {
 
 //gallery page
 app.get("/gallery", function (req, res) {
-  let sql = "select * FROM photo ; ";
+  let sql = "select * FROM photo ORDER BY photoId DESC; ";
   let query = db.query(sql, (err, gallery) => {
     if (err) throw err;
     globalGallery = gallery;
@@ -78,7 +78,7 @@ app.get("/displayphoto/:index", function (req, res) {
   }
   function retreiveGalleryFromDb() {
     console.log("retreiveGalleryFromDb");
-    let sql = "select * FROM photo ; ";
+    let sql = "select * FROM photo ORDER BY photoId DESC ; ";
     let query = db.query(sql, (err, res) => {
       if (err) throw err;
       return res;
