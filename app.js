@@ -13,6 +13,7 @@ app.use(express.static("scripts"));
 app.use(express.static("images"));
 let index = 0;
 var session = require("express-session");
+const secret = require("./secret");
 var globalGallery = [];
 let filter = false;
 var lastSearchItem = "";
@@ -24,13 +25,7 @@ app.use(
 );
 app.set("view engine", "pug");
 
-const db = mysql.createConnection({
-  host: "isabellebidou.com",
-  user: "isabelle_2",
-  password: "TheHorse18",
-  database: "isabelle_db",
-  port: 3306,
-});
+const db = secret.db;
 
 db.connect((err) => {
   if (err) {
@@ -50,7 +45,7 @@ db.connect((err) => {
 // });
 
 //gallery page
-app.get("/", function (req, res) {
+app.get("/gallery", function (req, res) {
   let sql = "select * FROM photo ORDER BY photoId DESC; ";
   let query = db.query(sql, (err, gallery) => {
     if (err) throw err;
@@ -314,3 +309,10 @@ app.listen(process.env.PORT || 7000, process.env.IP || "0.0.0.0", function () {
   console.log("app is running on port 7000");
 });
 ////https://nodejs.dev/learn/update-all-the-nodejs-dependencies-to-their-latest-version
+if(process.env.NODE_ENV === 'production'){
+  //set static folder
+  app.use(express.static('client/build'));
+}
+app.get('*',(req, res) => {
+  res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+});
