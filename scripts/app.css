@@ -247,55 +247,7 @@ p {
   /* background-color: #2196F3;  Comment this out later to remove the background color when not needed */
   padding: 10px;
 }
-.topnav > a {
-  /*background-color: rgba(255, 255, 255, 0.6);*/
-  text-align: center;
-  padding: 0.5em;
-  margin-right: 0.5em;
-  margin-left: 0em;
-  border-radius: 1%;
-  font-size: 1.2em;
-  font-style: oblique;
-}
-.topnav > a:hover {
-  background-color: rgba(255, 255, 255, 0.6);
-}
-.topnav > a:visited {
-  text-decoration: none;
-}
-.item {
-  text-align: center;
-  padding: 0.5em 0;
-  margin-right: 0.5em;
-  margin-left: 0.5em;
-  background-color: rgba(255, 255, 255, 0.6);
-  border-radius: 1%;
-}
 
-#itemsContainer {
-  width: 100%;
-  text-align: center;
-}
-
-.itemtitle {
-  display: block;
-  color: #7f5f87;
-  text-align: center;
-  padding: 10px 10px;
-  text-decoration: none;
-  font-size: 25px;
-}
-
-.itemp {
-  display: block;
-  color: #7f5f87;
-  text-align: center;
-  padding: 4px 6px;
-  text-decoration: none;
-  font-size: 1em;
-  background-color: rgba(255, 255, 255, 0.6);
-  border-radius: 1%;
-}
 label {
   color: #7f5f87;
   font-size: 1em;
@@ -350,15 +302,6 @@ a.deletebutton:active {
   color: rgb(236, 226, 81);
 }
 /* Style for form */
-.radio {
-  width: 50%;
-  padding: 12px 20px;
-  margin: 8px 0;
-
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
 
 input,
 select,
@@ -407,82 +350,16 @@ input[type="submit"]:hover {
 /* End Style for form */
 
 @media screen and (max-width: 800px) and (orientation: portrait) {
-  .navhold,
-  .topnav {
-    display: none;
-  }
   .grid-container {
+    color: rgba(248, 245, 245, 0.89);
+    padding: 10px;
     margin: auto;
-    color: rgba(248, 242, 242, 0.315);
     display: grid;
     align-content: center;
     grid-template-columns: auto;
     grid-gap: 0em;
     /* background-color: #2196F3;  Comment this out later to remove the background color when not needed */
     padding: 1em;
-  }
-
-  #mobilemenu {
-    position: fixed;
-    top: 3em;
-
-    right: 0.5em;
-    background: -webkit-linear-gradient(
-      bottom,
-      rgba(217, 217, 217, 0.7),
-      white,
-      rgba(217, 217, 217, 0.7) white
-    ); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(
-      bottom,
-      rgba(217, 217, 217, 0.7),
-      rgba(255, 255, 255, 0.9),
-      white,
-      rgba(255, 255, 255, 0.9),
-      rgba(217, 217, 217, 0.7)
-    ); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(
-      top,
-      rgba(217, 217, 217, 0.7),
-      rgba(255, 255, 255, 0.9),
-      white,
-      rgba(255, 255, 255, 0.9),
-      rgba(217, 217, 217, 0.7)
-    ); /* the standard */
-    background: linear-gradient(
-      to bottom,
-      rgba(217, 217, 217, 0.7),
-      rgba(255, 255, 255, 0.9),
-      white,
-      rgba(255, 255, 255, 0.9),
-      rgba(217, 217, 217, 0.7)
-    );
-    width: auto;
-    text-shadow: 0px 0px #000000;
-    -webkit-box-shadow: 14px 10px 24px 0px rgba(217, 217, 217, 0.3);
-    -moz-box-shadow: 14px 10px 24px 0px rgba(217, 217, 217, 0.3);
-    box-shadow: 14px 10px 24px 0px rgba(217, 217, 217, 0.3);
-    padding: 2%;
-    z-index: 70;
-    border-radius: 10%;
-  }
-  .mobilemenuli {
-    line-height: 2.5em;
-  }
-  #menubutton {
-    position: fixed;
-    font-style: oblique;
-    top: 1em;
-    right: 1em;
-    visibility: visible;
-    display: inline;
-    z-index: 50;
-    padding: 0.7em;
-    border-radius: 10%;
-  }
-
-  .muscleimage {
-    width: 100%;
   }
 
   .maincontent {
@@ -493,24 +370,10 @@ input[type="submit"]:hover {
     right: 2%;
     top: 2%;
     overflow-y: scroll;
-
     padding: 1em;
-    background-color: rgba(77, 77, 77, 0.5);
-  }
-  p {
-    padding: 0.3em;
-    text-align: justify;
-  }
-
-  .row {
-    display: -webkit-flex;
-    display: inline-block;
-    width: 100%;
-    height: 90%;
   }
 
   .headertitle {
-    color: white;
     position: absolute;
     width: 80%;
     font-style: oblique;
@@ -529,5 +392,50 @@ input[type="submit"]:hover {
     text-align: center;
     margin: auto;
     font-size: 0.5em;
+  }
+
+  .searchItem {
+    position: fixed;
+    top: 6%;
+    text-decoration: none;
+    left: 1%;
+    padding: 0em;
+    height: 3em;
+    z-index: 1;
+    color: rgba(25, 98, 194, 0.456);
+    font-size: 1.3em;
+    font-family: "Brush Script MT", "Lucida Console", Monaco, monospace;
+  }
+  .search {
+    position: fixed;
+    top: 6%;
+    z-index: 1;
+    width: 55%;
+    height: 3em;
+    right: 12%;
+  }
+
+  .searchbutton {
+    position: fixed;
+    top: 6%;
+    width: 25%;
+    right: 5%;
+    padding: 0em;
+    height: 3em;
+    z-index: 1;
+  }
+}
+@media screen and (max-width: 800px) and (orientation: landscape) {
+  .search {
+    position: fixed;
+    top: 10%;
+    z-index: 1;
+    width: 65%;
+    height: 3em;
+    right: 16%;
+  }
+  .searchItem {
+    position: fixed;
+    top: 12%;
   }
 }

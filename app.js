@@ -7,8 +7,6 @@ var app = express();
 // });
 var mysql = require("mysql"); // allow access to sql
 var bodyParser = require("body-parser");
-var behaviour = require("./behaviour.js");
-//var utils = require('./utils.js');
 const path = require("path");
 const VIEWS = path.join(__dirname, "views");
 app.use(express.static("scripts"));
@@ -26,6 +24,14 @@ app.use(
 );
 app.set("view engine", "pug");
 
+const db = mysql.createConnection({
+  host: "isabellebidou.com",
+  user: "isabelle_2",
+  password: "TheHorse18",
+  database: "isabelle_db",
+  port: 3306,
+});
+
 db.connect((err) => {
   if (err) {
     throw err;
@@ -33,24 +39,24 @@ db.connect((err) => {
     console.log("db connected!");
   }
 });
-var upload = require("./models/gallery.json");
-var categories = require("./models/categories.json");
+//var upload = require("./models/gallery.json");
+//var categories = require("./models/categories.json");
 
 //home page
-app.get("/", function (req, res) {
-  res.render("index", {
-    categories: categories,
-  });
-});
+// app.get("/", function (req, res) {
+//   res.render("index", {
+//     categories: categories,
+//   });
+// });
 
 //gallery page
-app.get("/gallery", function (req, res) {
+app.get("/", function (req, res) {
   let sql = "select * FROM photo ORDER BY photoId DESC; ";
   let query = db.query(sql, (err, gallery) => {
     if (err) throw err;
     globalGallery = gallery;
     filter = false;
-    res.render("gallery", {
+    res.render("index", {
       gallery: globalGallery,
     });
   });
@@ -97,11 +103,11 @@ app.get("/displayphoto/:index", function (req, res) {
     var indOne = globalGallery.filter(choosephoto);
   } catch (e) {
     console.error(e);
-    res.redirect("/gallery");
+    res.redirect("/");
   }
 
   if (indOne == [] || indOne == undefined || !indOne) {
-    res.redirect("/gallery");
+    res.redirect("/");
   } else {
     //var myIndex = getIndOnePhotoId(indOne);
     res.render("displayphoto", {
