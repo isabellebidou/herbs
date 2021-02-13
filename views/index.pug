@@ -1,18 +1,10 @@
 extends layout
 
 block content
-      .maincontent
-          form(method="post" action="/filterphotos")
-              input.search(name="search", type="text", Placeholder="type 'ir' for example...") 
-              button.searchbutton(type="submit") Search     
+      .maincontent    
           .grid-container
-                each photo in gallery
-                    - var text 
-                    - text =  photo.photoPlace? photo.photoPlace : text
-                    - text =  photo.photoCountry? text+" "+photo.photoCountry : text
-                    - text =  photo.photoComments? text+" "+photo.photoComments : text 
+                each category in categories
 
-                    a.div.tooltip(href='/displayphoto/'+photo.photoId)
-                        img.photothumbnail(src="http://isabellebidou.com/images/"+photo.photoThumbnail, alt=photo.photoThumbnail)
-                        if text.length > 1 
-                         span.tooltiptext #{text}
+                    a.div.tooltip(href=category.url)
+                        img.photothumbnail(src=category.photo, alt=category.name)
+                        span.tooltiptext #{category.text}

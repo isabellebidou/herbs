@@ -17,7 +17,7 @@ const secret = require("./secret");
 var globalGallery = [];
 let filter = false;
 var lastSearchItem = "";
-//var MySQLStore = require('express-mysql-session')(session);
+
 app.use(
   bodyParser.urlencoded({
     extended: true,
@@ -31,45 +31,40 @@ db.connect((err) => {
   if (err) {
     throw err;
   } else {
-    console.log("db connected!");
+    //console.log("db connected!");
   }
 });
 //var upload = require("./models/gallery.json");
-//var categories = require("./models/categories.json");
+var categories = require("./models/categories.json");
+
+
 
 //home page
-// app.get("/", function (req, res) {
-//   res.render("index", {
-//     categories: categories,
-//   });
-// });
+app.get("/", function (req, res) {
+
+  // res.render("index", {
+  //   categories: categories,
+  // });
+
+  res.render('index', {
+    root: VIEWS,
+    categories
+  });
+});
 
 //gallery page
 app.get("/gallery", function (req, res) {
   let sql = "select * FROM photo ORDER BY photoId DESC; ";
-  let query = db.query(sql, (err, gallery) => {
+  db.query(sql, (err, gallery) => {
     if (err) throw err;
     globalGallery = gallery;
     filter = false;
-    res.render("index", {
+    res.render("gallery", {
       gallery: globalGallery,
     });
   });
 });
 
-//photo
-app.get("/uploadphoto/:index", function (req, res) {
-  function choosephoto(indOne) {
-    return indOne.index === parseInt(req.params.index);
-  }
-
-  var indOne = gallery.filter(choosephoto);
-  index = indOne.index;
-
-  res.render("uploadphoto", {
-    indOne: indOne,
-  });
-});
 
 //photo
 
@@ -78,7 +73,6 @@ app.get("/displayphoto/:index", function (req, res) {
     return indOne.photoId === parseInt(req.params.index);
   }
   function retreiveGalleryFromDb() {
-    console.log("retreiveGalleryFromDb");
     let sql = "select * FROM photo ORDER BY photoId DESC ; ";
     let query = db.query(sql, (err, res) => {
       if (err) throw err;
@@ -112,9 +106,32 @@ app.get("/displayphoto/:index", function (req, res) {
     });
   }
 });
-function getIndOnePhotoId(e) {
-  return e[0] ? e[0].photoId : e.photoId;
-}
+app.post("/filterphotos", function (req, res) {
+  filter = true;
+  let sql =
+    'select * FROM photo WHERE photoTags LIKE  "%' +
+    req.body.search +
+    '%" OR photoPlace LIKE "%' +
+    req.body.search +
+    '%" OR photoCountry LIKE "%' +
+    req.body.search +
+    '%" OR photoName LIKE "%' +
+    req.body.search +
+    '%" OR photoCategory LIKE "%' +
+    req.body.search +
+    '%"  ORDER BY photoId DESC;';
+  lastSearchItem = req.body.search;
+
+  let query = db.query(sql, (err, gallery) => {
+    if (err) throw err;
+    globalGallery = gallery;
+    res.render("filterphotos", {
+      gallery: globalGallery,
+      searchItem: lastSearchItem,
+    });
+  });
+});
+
 app.get("/editphoto/:index", function (req, res) {
   function choosephoto(indOne) {
     return indOne.index === parseInt(req.params.index);
@@ -151,7 +168,7 @@ app.post("/editphoto/:index", function (req, res) {
 
   let query = db.query(sql, (err, res1) => {
     if (err) throw err;
-    console.log(res1);
+    //console.log(res1);
   });
   res.redirect("/");
 });
@@ -250,7 +267,7 @@ app.get("/createphototable", function (req, res) {
 
 app.get("/filterphotos", function (req, res) {
   //filter = true;
-  console.log(req.body.search); //classId = "' + req.params.id + '"
+  //console.log(req.body.search); //classId = "' + req.params.id + '"
   let sql =
     'select * FROM photo WHERE photoTags LIKE  "%' +
     lastSearchItem +
@@ -263,7 +280,7 @@ app.get("/filterphotos", function (req, res) {
     '%" OR photoCategory LIKE "%' +
     lastSearchItem +
     '%" ORDER BY photoId DESC;';
-  console.log(sql);
+  //console.log(sql);
 
   let query = db.query(sql, (err, gallery) => {
     if (err) throw err;
@@ -276,43 +293,17 @@ app.get("/filterphotos", function (req, res) {
   });
 });
 
-app.post("/filterphotos", function (req, res) {
-  filter = true;
-  console.log(req.body.search); //classId = "' + req.params.id + '"
-  let sql =
-    'select * FROM photo WHERE photoTags LIKE  "%' +
-    req.body.search +
-    '%" OR photoPlace LIKE "%' +
-    req.body.search +
-    '%" OR photoCountry LIKE "%' +
-    req.body.search +
-    '%" OR photoName LIKE "%' +
-    req.body.search +
-    '%" OR photoCategory LIKE "%' +
-    req.body.search +
-    '%"  ORDER BY photoId DESC;';
-  console.log(sql);
-  lastSearchItem = req.body.search;
 
-  let query = db.query(sql, (err, gallery) => {
-    if (err) throw err;
-    console.error(err);
-    globalGallery = gallery;
-    res.render("filterphotos", {
-      gallery: globalGallery,
-      searchItem: lastSearchItem,
-    });
-  });
-});
 //set up the environment for the app to run
 app.listen(process.env.PORT || 7000, process.env.IP || "0.0.0.0", function () {
-  console.log("app is running on port 7000");
+  //console.log("app is running on port 7000");
 });
+app.get('/', (req, res) => res.render('views/index'));
 ////https://nodejs.dev/learn/update-all-the-nodejs-dependencies-to-their-latest-version
-if(process.env.NODE_ENV === 'production'){
-  //set static folder
-  app.use(express.static('client/build'));
-}
-app.get('*',(req, res) => {
-  res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-});
+// if(process.env.NODE_ENV === 'production'){
+//   //set static folder
+//   app.use(express.static('client/build'));
+// }
+// app.get('*',(req, res) => {
+//   res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+// });

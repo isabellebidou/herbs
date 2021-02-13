@@ -13,7 +13,7 @@ block content
       - text =  photo.photoComments? text+" "+photo.photoComments : text 
 
         unless filter
-          unless back >= galleryLength
+          unless back > galleryLength
             a.div.leftgallerytooltip(href='/displayphoto/'+back)
               p.direction back
               //span.tooltiptext #{filter}
@@ -29,5 +29,5 @@ block content
         if filter      
          a.closeWindow(href='/filterphotos') x
         else
-         a.closeWindow(href='/') x
+         a.closeWindow(href='/gallery') x
 
