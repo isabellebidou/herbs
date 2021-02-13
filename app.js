@@ -92,11 +92,11 @@ app.get("/displayphoto/:index", function (req, res) {
     var indOne = globalGallery.filter(choosephoto);
   } catch (e) {
     console.error(e);
-    res.redirect("/");
+    res.redirect("/gallery");
   }
 
   if (indOne == [] || indOne == undefined || !indOne) {
-    res.redirect("/");
+    res.redirect("/gallery");
   } else {
     //var myIndex = getIndOnePhotoId(indOne);
     res.render("displayphoto", {
