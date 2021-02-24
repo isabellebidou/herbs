@@ -1,0 +1,17 @@
+extends layout
+
+block content
+      .maincontent
+       if messages.error
+        div #{messages.error}
+       form#login(action='/login', method='post')
+                  ul
+                   li.div
+                    label email:
+                    input(type='text', name='email')
+                   li.div
+                    label Password:
+                    input(type='password', name='password')
+                   li.div
+                    input(type='submit', value='Log In')
+       a.authentication(href='/register') register

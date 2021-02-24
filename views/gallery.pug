@@ -2,6 +2,15 @@ extends layout
 
 block content
       .maincontent
+          div
+          div.authentication
+           unless session.user
+            a.loginbutton(href='/login') login 
+            a.registerbutton(href='/register') register
+           if session.user
+            form(action="/logout?_method=DELETE" method="POST")
+             button.logoutbutton(type="submit") logout
+
           form(method="post" action="/filterphotos")
               input.search(name="search", type="text", Placeholder="type 'ir' for example...") 
               button.searchbutton(type="submit") Search     
