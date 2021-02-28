@@ -7,9 +7,16 @@ block content
            unless session.user
             a.loginbutton(href='/login') login 
             a.registerbutton(href='/register') register
+           
+           if session.user 
+             if session.user.userRole == 'admin'
+              a.uploadjsonbutton(href='/uploadjson') upload JSON
+              a.updatedbbutton(href='/updatedb') update DB
+              
            if session.user
             form(action="/logout?_method=DELETE" method="POST")
              button.logoutbutton(type="submit") logout
+            
 
           form(method="post" action="/filterphotos")
               input.search(name="search", type="text", Placeholder="type 'ir' for example...") 

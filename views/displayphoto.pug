@@ -8,7 +8,7 @@ block content
       - var next = photo.photoId-1
       - var back = photo.photoId+1
       - var text 
-      - text =  photo.photoPlace? photo.photoPlace : text
+      - text =  photo.photoPlace != 'undefined'? photo.photoPlace : text
       - text =  photo.photoCountry? text+" "+photo.photoCountry : text
       - text =  photo.photoComments? text+" "+photo.photoComments : text 
 
@@ -21,6 +21,7 @@ block content
           img.displayimage(src="http://isabellebidou.com/images/"+photo.photoName, alt="photo.photoName")
           if text.length > 1 
           span.tooltiptext #{text}
+          div.details #{text}
         unless filter
           unless next < 1
             a.div.rightgallerytooltip(href='/displayphoto/'+next)

@@ -1,0 +1,16 @@
+extends layout
+
+block content
+    .maincontent
+        form#updatedb(action='/updatedb', method='POST')
+                ul
+                   li.div
+                    label enter sql statement:
+                    input.longInput(name= "sql", type = "text" required) 
+                   li.div
+                    input(type='submit', value='update')
+                    //button.button(type="submit") send update
+        a.authentication(href='/gallery') back to gallery 
+        div.result
+        if status
+         #{status}

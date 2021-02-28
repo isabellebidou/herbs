@@ -1,4 +1,3 @@
-
 .maincontent div:first-child {
   color: red;
   position: absolute;
@@ -7,34 +6,35 @@
   right: 25%;
 }
 
-.authentication{
-  
+.authentication {
   position: fixed;
   z-index: 2;
   top: 1em;
   right: 1em;
 }
-.loginbutton ,.registerbutton {
+.loginbutton,
+.registerbutton,
+.uploadjsonbutton,
+.updatedbbutton {
   padding: 0.5em;
   text-decoration: none;
 }
 
 div.form {
   overflow: hidden;
-  
 }
-li.div{
+li.div {
   list-style-type: none;
 }
-label{
+label {
   float: left;
   clear: both;
 }
-input{
+input {
   float: right;
   clear: both;
 }
-#login{
+#login {
   padding: 2em;
 }
 .photothumbnail {
@@ -42,9 +42,7 @@ input{
   height: 189px;
   width: 241px;
 }
-.tooltip,
-.leftgallerytooltip,
-.rightgallerytooltip {
+.tooltip {
   position: relative;
   display: inline-block;
 }
@@ -65,6 +63,22 @@ input{
   z-index: 1;
   top: 20%;
   right: 150px;
+}
+.leftgallerytooltip {
+  position: fixed;
+  bottom: 20%;
+  right: 10%;
+  font-size: 1em;
+  visibility: visible;
+  z-index: 2;
+}
+.rightgallerytooltip {
+  position: fixed;
+  bottom: 40%;
+  right: 10%;
+  font-size: 1em;
+  visibility: visible;
+  z-index: 2;
 }
 
 .tooltip:hover .tooltiptext {
@@ -87,10 +101,16 @@ input{
   padding-left: 2%;
 }
 .displayimage {
-  max-height: 90%;
   width: 700px;
   vertical-align: middle;
   padding-top: 3em;
+}
+.details {
+  color: rgba(25, 98, 194, 0.356);
+  font-size: 1em;
+  z-index: 1.5;
+  font-family: "Brush Script MT", "Lucida Console", Monaco, monospace;
+  padding-top: 2em;
 }
 .detailimage,
 .detailform {
@@ -105,6 +125,7 @@ form {
   right: 2%;
   width: 10%;
   height: 10%;
+  z-index: 2;
   text-decoration: none;
 }
 .logo {
@@ -353,6 +374,9 @@ select,
   border-radius: 4px;
   box-sizing: border-box;
 }
+.longInput {
+  width: 500px;
+}
 .submit {
   background-color: #7f5f87;
 }
@@ -414,10 +438,10 @@ input[type="submit"]:hover {
 
   .headertitle {
     position: absolute;
-    width: 80%;
+    width: 45%;
     font-style: oblique;
     left: 5%;
-    font-size: 3em;
+    font-size: 2em;
     top: 1%;
     font-family: "Brush Script MT", "Lucida Console", Monaco, monospace;
   }
@@ -426,55 +450,57 @@ input[type="submit"]:hover {
     vertical-align: middle;
     padding-top: 3em;
   }
- 
-  
-    .tooltip {
-      position:static;
-      width: 350px;
+
+  .uploadjsonbutton {
+    visibility:hidden;
+  }
+  .tooltip {
+    position: static;
+    width: 350px;
     height: 310px;
-    }
-    .leftgallerytooltip {
-      position: absolute;
-      bottom: 1em;
-      left: 1em;
-      font-size: 1em;
-      visibility: visible;
-      z-index: 2;
-  
-  
-    }
-    .rightgallerytooltip {
-      position: absolute;
+  }
+  .leftgallerytooltip {
+    position: absolute;
+    bottom: 1em;
+    left: 1em;
+    font-size: 1em;
+    visibility: visible;
+    z-index: 2;
+  }
+  .rightgallerytooltip {
+    position: absolute;
     bottom: 1em;
     right: 1em;
     font-size: 1em;
     visibility: visible;
     z-index: 2;
-  
-    }
+  }
+  .longInput {
+    width: 300px;
+  }
 
-    .tooltip .tooltiptext,
-.rightgallerytooltip.tooltiptext,
-.leftgallerytooltip.tooltiptext {
-  visibility: hidden;
-  width: 150px;
-  height: 2em;
-  background-color: rgba(0, 0, 0, 0.664);
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
+  .tooltip .tooltiptext,
+  .rightgallerytooltip.tooltiptext,
+  .leftgallerytooltip.tooltiptext {
+    visibility: hidden;
+    width: 150px;
+    height: 2em;
+    background-color: rgba(0, 0, 0, 0.664);
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
 
-  /* Position the tooltip */
-  position: absolute;
-  z-index: 1;
-  bottom: -220px;
-  right: 100px;
-}
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-}
-   
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    bottom: -220px;
+    right: 100px;
+  }
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+
   .footer {
     color: white;
     position: absolute;
@@ -504,17 +530,16 @@ input[type="submit"]:hover {
     top: 6%;
     z-index: 1;
     width: 55%;
-    height: 3em;
+    height: 2em;
     right: 12%;
   }
 
   .searchbutton {
     position: fixed;
     top: 6%;
-    width: 25%;
+    width: 20%;
     right: 5%;
-    padding: 0em;
-    height: 3em;
+    height: 2em;
     z-index: 1;
   }
 }
@@ -530,48 +555,74 @@ input[type="submit"]:hover {
     /* background-color: #2196F3;  Comment this out later to remove the background color when not needed */
     padding: 1em;
   }
-.displayimage{
-  max-width: 450px;
-
-}
-
+  .displayimage {
+    max-width: 450px;
+  }
+  .uploadjsonbutton {
+    visibility: hidden;
+  }
+  .details {
+    position: fixed;
+    right: 10%;
+    top: 20%;
+    max-width: 10%;
+    color: rgba(25, 98, 194, 0.356);
+    font-size: 1em;
+    z-index: 1.5;
+    font-family: "Brush Script MT", "Lucida Console", Monaco, monospace;
+    padding-top: 2em;
+  }
+  .headertitle {
+    position: absolute;
+    width: 45%;
+    font-style: oblique;
+    left: 5%;
+    font-size: 2em;
+    top: 1%;
+    font-family: "Brush Script MT", "Lucida Console", Monaco, monospace;
+  }
   .tooltip {
-    
     height: 100%;
-  max-height: 90%;
+    max-height: 90%;
   }
   .leftgallerytooltip {
-    position: absolute;
+    position: fixed;
     bottom: 1em;
-    left: 1em;
+    right: 1em;
     font-size: 1em;
-    visibility: hidden;
+    visibility: visible;
     z-index: 2;
-
-
   }
   .rightgallerytooltip {
-    position: absolute;
-  bottom: 1em;
-  right: 1em;
-  font-size: 1em;
-  visibility: hidden;
-  z-index: 2;
-
-  }
-  .leftgallerytooltip :hover .leftgallerytooltip :hover{
+    position: fixed;
+    bottom: 20%;
+    right: 1em;
+    font-size: 1em;
     visibility: visible;
+    z-index: 2;
   }
+  .longInput {
+    width: 300px;
+  }
+
   .search {
     position: fixed;
-    top: 10%;
+    top: 6%;
     z-index: 1;
     width: 65%;
-    height: 3em;
+    height: 2em;
     right: 16%;
   }
   .searchItem {
     position: fixed;
     top: 12%;
+  }
+  .searchbutton {
+    position: fixed;
+    top: 6%;
+    width: 20%;
+    right: 5%;
+    height: 2em;
+    z-index: 1;
   }
 }

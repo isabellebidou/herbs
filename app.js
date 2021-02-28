@@ -9,7 +9,8 @@ const passport = require("passport");
 const initializePassport = require("./passport-config");
 const flash = require("express-flash");
 const session = require("express-session");
-const methodOverride = require ('method-override')
+const methodOverride = require("method-override");
+const upload = require("./storage-config");
 
 // app.get('/', function(req,res){
 //     res.send("hello beautuful world!");
@@ -33,7 +34,7 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(methodOverride('_method'));
+app.use(methodOverride("_method"));
 let index = 0;
 //var session = require("express-session");
 const secret = require("./secret");
@@ -64,22 +65,20 @@ initializePassport(
     return new Promise(async (resolve, reject) => {
       console.log(`making email request to db`);
       let sql = "select * FROM user WHERE userEmail = '" + email + "'";
-      user =  null;
+      user = null;
       await db.query(sql, (err, rows) => {
         if (err) throw err;
 
         user = { ...rows[0] };
         // console.log("rows[0].userPassword");
         // console.log(rows[0].userPassword);
-         
-        if (rows.length) {
 
+        if (rows.length) {
           resolve(user);
           console.log("user.userEmail");
-         console.log(user.userEmail);
+          console.log(user.userEmail);
         } else reject(`no user with email:  ${email}`);
       });
-      
     });
   },
   (id) => {
@@ -93,9 +92,8 @@ initializePassport(
         //console.log("user.userId");
         //console.log(user.userId);
         if (user != null) resolve(user);
-      else reject(`no user with id:  ${id}`);
+        else reject(`no user with id:  ${id}`);
       });
-      
     });
   }
 );
@@ -116,7 +114,7 @@ app.get("/", function (req, res) {
 
 //gallery page
 app.get("/gallery", function (req, res) {
-  console.log(`gallery: ${session.user}`)
+  console.log(`gallery: ${session.user}`);
   let sql = "select * FROM photo ORDER BY photoId DESC; ";
   db.query(sql, (err, gallery) => {
     if (err) throw err;
@@ -124,7 +122,7 @@ app.get("/gallery", function (req, res) {
     filter = false;
     res.render("gallery", {
       gallery: globalGallery,
-      session: session
+      session: session,
     });
   });
 });
@@ -272,7 +270,7 @@ app.get("/uploadphotos/", checkAuthenticated, function (req, res) {
   for (i = 54; i < gallery.length; i++) {
     let photo = gallery[i];
     let sql =
-      'INSERT INTO photo (photoName, photoThumbnail, photoCategory, photoCountry, photoPlace, photoComments, photoTags, photoPath) VALUES ("' +
+      'INSERT INTO photo (photoName, photoThumbnail, photoCategory, photoCountry, photoPlace, photoYear,photoComments, photoTags, photoPath) VALUES ("' +
       photo.name +
       '","' +
       photo.thumbnail +
@@ -282,6 +280,8 @@ app.get("/uploadphotos/", checkAuthenticated, function (req, res) {
       photo.country +
       '","' +
       photo.place +
+      '","' +
+      photo.year +
       '","' +
       photo.comments +
       '","' +
@@ -365,20 +365,17 @@ app.get("/filterphotos", function (req, res) {
 
 app.get("/login", checkNotAuthenticated, (req, res) => {
   res.render("login", {
-    
     //gallery: globalGallery,
   });
-  
-
 });
 
-app.post("/login",
+app.post(
+  "/login",
   passport.authenticate("local", {
     successRedirect: "/gallery",
     failureRedirect: "/login",
     failureFlash: true,
   })
-  
 );
 
 app.get("/register", checkNotAuthenticated, (req, res) => {
@@ -410,26 +407,88 @@ app.post("/register", async (req, res) => {
     res.redirect("/register");
   }
 });
-app.delete('/logout', (req, res) => {
-  session.user = null
-  req.logOut()
-  res.redirect('/gallery')
-})
+app.delete("/logout", (req, res) => {
+  session.user = null;
+  req.logOut();
+  res.redirect("/gallery");
+});
 
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
-    return next()
+    return next();
   }
 
-  res.redirect('/login')
+  res.redirect("/login");
 }
 
 function checkNotAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
-    return res.redirect('/')
+    return res.redirect("/");
   }
-  next()
+  next();
 }
+app.get("/uploadjson", function (req, res) {
+  res.render("uploadjson", {
+    root: VIEWS,
+  });
+});
+app.post("/uploadjson", upload.single("json"), (req, res) => {
+  console.log(req.file.originalname);
+  console.log(req.file.filename);
+
+  var newPhotos = require(`./models/${req.file.filename}`);
+  for (i = 0; i < newPhotos.length; i++) {
+    let photo = newPhotos[i];
+    console.log(photo.name);
+    let sql =
+      'INSERT INTO photo (photoName, photoThumbnail, photoCategory, photoCountry, photoPlace, photoYear,photoComments, photoTags, photoPath) VALUES ("' +
+      photo.name +
+      '","' +
+      photo.thumbnail +
+      '","' +
+      photo.category +
+      '","' +
+      photo.country +
+      '","' +
+      photo.place +
+      '","' +
+      photo.year +
+      '","' +
+      photo.comments +
+      '","' +
+      photo.tags +
+      '","' +
+      "http://isabellebidou.com/images/" +
+      photo.name +
+      '");';
+    let query = db.query(sql, (err, res1) => {
+      if (err) throw err;
+      console.error(res1);
+      console.log(`res1= ${JSON.stringify(res1)}`);
+      console.log("status ok");
+    });
+  }
+  res.redirect("/gallery");
+  //return res.json({ status: 'OK' });
+});
+
+app.post("/updatedb", (req, res) => {
+  let sql = req.body.sql;
+  //let sql = `UPDATE photo SET photoPlace='' WHERE photoCountry='seychelles';`;
+
+  let query = db.query(sql, (err, res1) => {
+    if (err) throw err;
+    console.error(res1);
+    console.log(`res1= ${JSON.stringify(res1)}`);
+    console.log(sql);
+  });
+});
+
+app.get("/updatedb", checkAuthenticated, function (req, res) {
+  res.render("updatedb", {
+    root: VIEWS,
+  });
+});
 
 //set up the environment for the app to run
 app.listen(process.env.PORT || 7000, process.env.IP || "0.0.0.0", function () {
