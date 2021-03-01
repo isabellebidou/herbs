@@ -16,10 +16,14 @@ block content
            if session.user
             form(action="/logout?_method=DELETE" method="POST")
              button.logoutbutton(type="submit") logout
-            
-
+          
           form(method="post" action="/filterphotos")
-              input.search(name="search", type="text", Placeholder="type 'ir' for example...") 
+              input.search(name="search", list = 'tags', type="text", Placeholder="type 'ir' for example...")       
+              datalist#tags
+               each element in datalist
+                option #{element}
+                
+               
               button.searchbutton(type="submit") Search     
           .grid-container
                 each photo in gallery

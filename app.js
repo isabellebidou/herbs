@@ -11,12 +11,7 @@ const flash = require("express-flash");
 const session = require("express-session");
 const methodOverride = require("method-override");
 const upload = require("./storage-config");
-
-// app.get('/', function(req,res){
-//     res.send("hello beautuful world!");
-//     console.log("Isabelle has spoken");
-
-// });
+const utils = require("./utils");
 var mysql = require("mysql"); // allow access to sql
 var bodyParser = require("body-parser");
 const path = require("path");
@@ -36,7 +31,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(methodOverride("_method"));
 let index = 0;
-//var session = require("express-session");
 const secret = require("./secret");
 var globalGallery = [];
 let filter = false;
@@ -56,6 +50,7 @@ db.connect((err) => {
   if (err) {
     throw err;
   } else {
+    if (!process.env.PORT)
     console.log("db connected!");
   }
 });
@@ -63,34 +58,25 @@ initializePassport(
   passport,
   (email) => {
     return new Promise(async (resolve, reject) => {
-      console.log(`making email request to db`);
+      //console.log(`making email request to db`);
       let sql = "select * FROM user WHERE userEmail = '" + email + "'";
       user = null;
       await db.query(sql, (err, rows) => {
         if (err) throw err;
-
         user = { ...rows[0] };
-        // console.log("rows[0].userPassword");
-        // console.log(rows[0].userPassword);
-
         if (rows.length) {
           resolve(user);
-          console.log("user.userEmail");
-          console.log(user.userEmail);
         } else reject(`no user with email:  ${email}`);
       });
     });
   },
   (id) => {
     return new Promise(async (resolve, reject) => {
-      console.log(`making id request to db`);
+      //console.log(`making id request to db`);
       let sql = "select * FROM user WHERE userId = '" + id + "'";
       await db.query(sql, (err, rows) => {
         if (err) throw err;
-
         user = { ...rows[0] };
-        //console.log("user.userId");
-        //console.log(user.userId);
         if (user != null) resolve(user);
         else reject(`no user with id:  ${id}`);
       });
@@ -102,9 +88,6 @@ var categories = require("./models/categories.json");
 
 //home page
 app.get("/", function (req, res) {
-  // res.render("index", {
-  //   categories: categories,
-  // });
 
   res.render("index", {
     root: VIEWS,
@@ -114,18 +97,26 @@ app.get("/", function (req, res) {
 
 //gallery page
 app.get("/gallery", function (req, res) {
-  console.log(`gallery: ${session.user}`);
+  if (session.user)
+  console.log(`user is logged in: ${session.user}`);
   let sql = "select * FROM photo ORDER BY photoId DESC; ";
-  db.query(sql, (err, gallery) => {
+  db.query(sql,async (err, gallery) => {
     if (err) throw err;
     globalGallery = gallery;
     filter = false;
-    res.render("gallery", {
-      gallery: globalGallery,
-      session: session,
-    });
+    try {
+      const dataList = await utils.findTagsList(globalGallery);
+      res.render("gallery", {
+        gallery: globalGallery,
+        session: session,
+        datalist: dataList,
+      });
+    } catch (error) {
+      console.error(error)
+    }
   });
 });
+
 
 //photo
 
@@ -336,8 +327,6 @@ app.get("/createusertable", function (req, res) {
 });
 
 app.get("/filterphotos", function (req, res) {
-  //filter = true;
-  //console.log(req.body.search); //classId = "' + req.params.id + '"
   let sql =
     'select * FROM photo WHERE photoTags LIKE  "%' +
     lastSearchItem +
@@ -417,7 +406,6 @@ function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   }
-
   res.redirect("/login");
 }
 
@@ -433,13 +421,12 @@ app.get("/uploadjson", function (req, res) {
   });
 });
 app.post("/uploadjson", upload.single("json"), (req, res) => {
-  console.log(req.file.originalname);
-  console.log(req.file.filename);
+  //console.log(req.file.originalname);
+  //console.log(req.file.filename);
 
   var newPhotos = require(`./models/${req.file.filename}`);
   for (i = 0; i < newPhotos.length; i++) {
     let photo = newPhotos[i];
-    console.log(photo.name);
     let sql =
       'INSERT INTO photo (photoName, photoThumbnail, photoCategory, photoCountry, photoPlace, photoYear,photoComments, photoTags, photoPath) VALUES ("' +
       photo.name +
@@ -464,8 +451,8 @@ app.post("/uploadjson", upload.single("json"), (req, res) => {
     let query = db.query(sql, (err, res1) => {
       if (err) throw err;
       console.error(res1);
-      console.log(`res1= ${JSON.stringify(res1)}`);
-      console.log("status ok");
+      //console.log(`res1= ${JSON.stringify(res1)}`);
+      //console.log("status ok");
     });
   }
   res.redirect("/gallery");
@@ -479,8 +466,8 @@ app.post("/updatedb", (req, res) => {
   let query = db.query(sql, (err, res1) => {
     if (err) throw err;
     console.error(res1);
-    console.log(`res1= ${JSON.stringify(res1)}`);
-    console.log(sql);
+    //console.log(`res1= ${JSON.stringify(res1)}`);
+    //console.log(sql);
   });
 });
 
@@ -492,14 +479,11 @@ app.get("/updatedb", checkAuthenticated, function (req, res) {
 
 //set up the environment for the app to run
 app.listen(process.env.PORT || 7000, process.env.IP || "0.0.0.0", function () {
-  //console.log("app is running on port 7000");
+  if (!process.env.PORT)
+  console.log("app is running on port 7000");
 });
 app.get("/", (req, res) => res.render("views/index"));
 ////https://nodejs.dev/learn/update-all-the-nodejs-dependencies-to-their-latest-version
-// if(process.env.NODE_ENV === 'production'){
-//   //set static folder
-//   app.use(express.static('client/build'));
+//if(process.env.NODE_ENV != 'production'){
 // }
-// app.get('*',(req, res) => {
-//   res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-// });
+
