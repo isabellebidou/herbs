@@ -1,29 +1,28 @@
 extends layout
-block content
+block content 
       
     .maincontent
-        .formHold
-          h1.itemtitle photo details
           each photo in indOne
-            img.detailimage(src="http://isabellebidou.com/images/"+photo.name, alt="photo.name")
+            img.detailimage(src="http://isabellebidou.com/images/"+photo.photoName, alt="photo.name")
             form.detailform(method = "post")
               fieldset
-                label(for= "newname") name:
-                input(name= "newname", type = "text", value = photo.name) 
-                label(for= "newthumbnail") thumbnail:
-                input(name= "newthumbnail", type = "text", value = photo.thumbnail) 
-                label(for= "newcategory") category:
-                input(name= "newcategory", type = "text", value = photo.category) 
-                label(for= "newcountry") country:
-                input(name= "newcountry", type = "text", value = photo.country)
-                label(for= "newplace") place:
-                input(name= "newplace", type = "text", value = photo.place) 
-                label(for= "newyear") year:
-                input(name= "newyear", type = "text", value = photo.year) 
-                label(for= "newcomments") comments:
-                input(name= "newcomments", type = "text", value = photo.comments) 
-                label(for= "newtags") tags:
-                input(name= "newtags", type = "text", value = photo.tags) 
+                legend image details
+                label.detaillabel(for= "newname") name:
+                input.detailinput(name= "newname", type = "text", value = photo.photoName) 
+                label.detaillabel(for= "newthumbnail") thumbnail:
+                input.detailinput(name= "newthumbnail", type = "text", value = photo.photoThumbnail) 
+                label.detaillabel(for= "newcategory") category:
+                input.detailinput(name= "newcategory", type = "text", value = photo.photoCategory) 
+                label.detaillabel(for= "newcountry") country:
+                input.detailinput(name= "newcountry", type = "text", value = photo.photoCountry)
+                label.detaillabel(for= "newplace") place:
+                input.detailinput(name= "newplace", type = "text", value = photo.photoPlace) 
+                label.detaillabel(for= "newyear") year:
+                input.detailinput(name= "newyear", type = "text", value = photo.photoYear) 
+                label.detaillabel(for= "newcomments") comments:
+                input.detailinput(name= "newcomments", type = "text", value = photo.photoComments) 
+                label.detaillabel(for= "newtags") tags:
+                input.detailinput(name= "newtags", type = "text", value = photo.photoTags) 
                 
                 br
                 button.button(type="submit", class = "submit") Update

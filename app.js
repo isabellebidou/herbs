@@ -50,8 +50,7 @@ db.connect((err) => {
   if (err) {
     throw err;
   } else {
-    if (!process.env.PORT)
-    console.log("db connected!");
+    if (!process.env.PORT) console.log("db connected!");
   }
 });
 initializePassport(
@@ -88,7 +87,6 @@ var categories = require("./models/categories.json");
 
 //home page
 app.get("/", function (req, res) {
-
   res.render("index", {
     root: VIEWS,
     categories,
@@ -97,10 +95,9 @@ app.get("/", function (req, res) {
 
 //gallery page
 app.get("/gallery", function (req, res) {
-  if (session.user)
-  console.log(`user is logged in: ${session.user}`);
+  if (session.user) console.log(`user is logged in: ${session.user}`);
   let sql = "select * FROM photo ORDER BY photoId DESC; ";
-  db.query(sql,async (err, gallery) => {
+  db.query(sql, async (err, gallery) => {
     if (err) throw err;
     globalGallery = gallery;
     filter = false;
@@ -112,11 +109,10 @@ app.get("/gallery", function (req, res) {
         datalist: dataList,
       });
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   });
 });
-
 
 //photo
 
@@ -131,22 +127,24 @@ app.get("/displayphoto/:index", function (req, res) {
       return res;
     });
   }
-  function findIndex(e, g) {
-    var i = 0;
-    for (i; i < g.length; i++) {
-      if (e === g[i]) return i;
-    }
-  }
+  // function findIndex(e, g) {
+  //   var i = 0;
+  //   for (i; i < g.length; i++) {
+  //     if (e === g[i]) return i;
+  //   }
+  // }
 
   globalGallery =
-    globalGallery.length == 0 ? retreiveGalleryFromDb : globalGallery;
+    globalGallery.length == 0 || !globalGallery || globalGallery === undefined
+      ? retreiveGalleryFromDb
+      : globalGallery;
   try {
-    var indOne = globalGallery.filter(choosephoto);
+    if (globalGallery && (Array.isArray(globalGallery))) var indOne = globalGallery.filter(choosephoto);
+    else res.redirect("/gallery");
   } catch (e) {
     console.error(e);
     res.redirect("/gallery");
   }
-
   if (indOne == [] || indOne == undefined || !indOne) {
     res.redirect("/gallery");
   } else {
@@ -154,6 +152,7 @@ app.get("/displayphoto/:index", function (req, res) {
     res.render("displayphoto", {
       indOne: indOne,
       galleryLength: globalGallery.length,
+      session: session,
       filter: filter,
     });
   }
@@ -186,13 +185,14 @@ app.post("/filterphotos", function (req, res) {
 
 app.get("/editphoto/:index", checkAuthenticated, function (req, res) {
   function choosephoto(indOne) {
-    return indOne.index === parseInt(req.params.index);
+    return indOne.photoId === parseInt(req.params.index);
   }
 
-  var indOne = gallery.filter(choosephoto);
-  index = indOne.index;
+  var indOne = globalGallery.filter(choosephoto);
+  index = indOne.photoId;
   res.render("editphoto", {
     indOne: indOne,
+    session: session,
   });
 });
 app.post("/editphoto/:index", checkAuthenticated, function (req, res) {
@@ -208,6 +208,8 @@ app.post("/editphoto/:index", checkAuthenticated, function (req, res) {
     req.body.newcountry +
     '",photoPlace = "' +
     req.body.newplace +
+    '", photoYear = "' +
+    req.body.newyear +
     '", photoComments = "' +
     req.body.newcomments +
     '", photoTags = "' +
@@ -222,7 +224,9 @@ app.post("/editphoto/:index", checkAuthenticated, function (req, res) {
     if (err) throw err;
     //console.log(res1);
   });
-  res.redirect("/");
+  if (req.params.index + 1 < globalGallery.length)
+    res.redirect(`/editphoto/:${req.params.index + 1}`);
+  else res.redirect(`/gallery`);
 });
 
 app.post("/uploadphoto/:index", checkAuthenticated, function (req, res) {
@@ -479,11 +483,9 @@ app.get("/updatedb", checkAuthenticated, function (req, res) {
 
 //set up the environment for the app to run
 app.listen(process.env.PORT || 7000, process.env.IP || "0.0.0.0", function () {
-  if (!process.env.PORT)
-  console.log("app is running on port 7000");
+  if (!process.env.PORT) console.log("app is running on port 7000");
 });
 app.get("/", (req, res) => res.render("views/index"));
 ////https://nodejs.dev/learn/update-all-the-nodejs-dependencies-to-their-latest-version
 //if(process.env.NODE_ENV != 'production'){
 // }
-

@@ -31,4 +31,7 @@ block content
          a.closeWindow(href='/filterphotos') x
         else
          a.closeWindow(href='/gallery') x
+        if session
+         if session.user 
+          a.editPhoto(href='/editphoto/'+photo.photoId) edit photo
 
