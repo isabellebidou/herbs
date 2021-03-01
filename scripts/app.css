@@ -8,8 +8,8 @@
 
 .authentication {
   position: fixed;
-  z-index: 20;
-  top: 1em;
+  z-index: 10;
+  top: 10%;
   right: 1em;
 }
 .loginbutton,
@@ -248,7 +248,7 @@ h2 {
 .header {
   position: fixed;
   width: 100%;
-  height: 12%;
+  height: 10%;
   top: 0%;
   z-index: 1;
 
@@ -293,7 +293,7 @@ h2 {
 .maincontent {
   color: rgb(196, 17, 17);
   position: fixed;
-  height: 90%;
+  height: 93%;
   width: 100%;
   right: 0%;
   bottom: 0%;
@@ -468,6 +468,11 @@ input[type="submit"]:hover {
   .header {
     height: 2em;
   }
+  .authentication {
+
+    top: 5%;
+
+  }
   .grid-container {
     color: rgba(248, 245, 245, 0.89);
     padding: 10px;
@@ -620,6 +625,11 @@ input[type="submit"]:hover {
 @media screen and (max-width: 800px) and (orientation: landscape) {
   .header {
     height: 2em;
+  }
+  .authentication {
+
+    top: 5%;
+
   }
   .grid-container {
     color: rgba(248, 245, 245, 0.89);
