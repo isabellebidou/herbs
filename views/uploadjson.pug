@@ -3,6 +3,8 @@ extends layout
 block content
     .maincontent
         form#upload(action='/uploadjson', method='POST' enctype='multipart/form-data')
+         fieldset
+                legend browse to json file
                 ul
                    li.div
                     label select JSON file:

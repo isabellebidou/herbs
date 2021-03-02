@@ -3,6 +3,8 @@ extends layout
 block content
       .maincontent
         form#login(action='/register', method='POST')
+         fieldset
+            legend registration details
             ul
                 li.div
                  label(for= "firstname") first name:
@@ -19,5 +21,7 @@ block content
                 li.div
                     input(type='submit', value='Register')
                 //button.button(type="submit") OK
-        a.authentication(href='/login') login 
+        div.authentication
+         a.loginbutton(href='/login') login 
+         a.togallerybutton(href='/gallery') back to gallery 
            

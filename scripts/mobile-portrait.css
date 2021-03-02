@@ -1,0 +1,163 @@
+@media screen and (max-width: 800px) and (orientation: portrait) {
+  #login fieldset:first-child,
+  #upload fieldset:first-child,
+  #updatedb fieldset:first-child {
+    width: 96%;
+    padding: 2%;
+  }
+  input[type="submit"] {
+    width: 100%;
+  }
+  .header {
+    height: 2em;
+  }
+  .authentication {
+    top: 2%;
+  }
+  .grid-container {
+    color: rgba(248, 245, 245, 0.89);
+    margin: auto;
+    display: grid;
+    align-content: center;
+    grid-template-columns: auto;
+    grid-gap: 0em;
+    /* background-color: #2196F3;  Comment this out later to remove the background color when not needed */
+  }
+
+  .maincontent {
+    color: rgb(180, 25, 25);
+    position: fixed;
+    height: 90%;
+    width: 100%;
+    right: 0%;
+    bottom: 0%;
+    overflow-y: scroll;
+  }
+
+  .headertitle {
+    position: absolute;
+    width: 35%;
+    font-style: oblique;
+    left: 5%;
+    font-size: 1.5em;
+    top: 1%;
+    font-family: "Brush Script MT", "Lucida Console", Monaco, monospace;
+  }
+  .displayimage {
+    width: 98%;
+    left: 0%;
+    padding-top: 1em;
+  }
+
+  .uploadjsonbutton {
+    visibility: hidden;
+  }
+  .tooltip {
+    position: static;
+    width: 350px;
+    height: 310px;
+  }
+  .leftgallerytooltip {
+    position: absolute;
+    bottom: 1em;
+    left: 1em;
+    font-size: 1em;
+    visibility: visible;
+    z-index: 2;
+  }
+  .rightgallerytooltip {
+    position: absolute;
+    bottom: 1em;
+    right: 1em;
+    font-size: 1em;
+    visibility: visible;
+    z-index: 2;
+  }
+
+  .detailimage {
+    position: absolute;
+    left: 5%;
+    top: 5%;
+    height: 20%;
+  }
+  .detailform {
+    position: absolute;
+    height: 70%;
+    min-width: 95%;
+    left: 5%;
+
+    bottom: 0%;
+
+    overflow-y: scroll;
+  }
+
+  .tooltip .tooltiptext,
+  .rightgallerytooltip.tooltiptext,
+  .leftgallerytooltip.tooltiptext {
+    visibility: hidden;
+    width: 150px;
+    height: 2em;
+    background-color: rgba(0, 0, 0, 0.664);
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    bottom: -220px;
+    right: 100px;
+  }
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+
+  .footer {
+    color: white;
+    position: absolute;
+    width: 50%;
+    height: 2%;
+    bottom: 1%;
+    left: 20%;
+    text-align: center;
+    margin: auto;
+    font-size: 0.5em;
+  }
+
+  .searchItem {
+    position: fixed;
+    top: 6%;
+    text-decoration: none;
+    left: 1%;
+    padding: 0em;
+    height: 3em;
+    z-index: 2;
+    color: rgba(25, 98, 194, 0.456);
+    font-size: 1.3em;
+    font-family: "Brush Script MT", "Lucida Console", Monaco, monospace;
+  }
+  .search {
+    position: fixed;
+    top: 6%;
+    z-index: 1;
+    width: 55%;
+    height: 2em;
+    right: 25%;
+    -webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+  }
+
+  .searchbutton {
+    position: fixed;
+    top: 6%;
+    width: 20%;
+    right: 5%;
+    height: 2em;
+    z-index: 2;
+    -webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+  }
+}

@@ -95,7 +95,7 @@ app.get("/", function (req, res) {
 
 //gallery page
 app.get("/gallery", function (req, res) {
-  if (session.user) console.log(`user is logged in: ${session.user}`);
+  //if (session.user) console.log(`user is logged in: ${session.user}`);
   let sql = "select * FROM photo ORDER BY photoId DESC; ";
   db.query(sql, async (err, gallery) => {
     if (err) throw err;
@@ -139,7 +139,8 @@ app.get("/displayphoto/:index", function (req, res) {
       ? retreiveGalleryFromDb
       : globalGallery;
   try {
-    if (globalGallery && (Array.isArray(globalGallery))) var indOne = globalGallery.filter(choosephoto);
+    if (globalGallery && Array.isArray(globalGallery))
+      var indOne = globalGallery.filter(choosephoto);
     else res.redirect("/gallery");
   } catch (e) {
     console.error(e);

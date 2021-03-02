@@ -3,6 +3,8 @@ extends layout
 block content
     .maincontent
         form#updatedb(action='/updatedb', method='POST')
+         fieldset
+                legend sql statement
                 ul
                    li.div
                     label enter sql statement:

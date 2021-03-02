@@ -1,0 +1,121 @@
+@media screen and (max-width: 800px) and (orientation: landscape) {
+  #login fieldset:first-child,
+  #upload fieldset:first-child,
+  #updatedb fieldset:first-child {
+    width: 50%;
+    padding: 2%;
+  }
+
+  .header {
+    height: 2em;
+  }
+  input {
+    height: 2em;
+    padding: 0.5em;
+  }
+  .authentication {
+    top: 2%;
+  }
+  .grid-container {
+    color: rgba(248, 245, 245, 0.89);
+    margin: auto;
+    display: grid;
+    align-content: center;
+    grid-template-columns: auto auto;
+    grid-gap: 0em;
+    /* background-color: #2196F3;  Comment this out later to remove the background color when not needed */
+    padding-top: 1em;
+  }
+  .displayimage {
+    max-width: 75%;
+    left: 1%;
+    padding: 1em;
+  }
+  .uploadjsonbutton {
+    visibility: hidden;
+  }
+  .details {
+    position: fixed;
+    right: 10%;
+    top: 20%;
+    max-width: 10%;
+    color: rgba(25, 98, 194, 0.356);
+    font-size: 1em;
+    z-index: 1.5;
+    font-family: "Brush Script MT", "Lucida Console", Monaco, monospace;
+    padding-top: 2em;
+    padding-left: 3em;
+  }
+  .detailimage {
+    position: absolute;
+    left: 5%;
+    top: 5%;
+    width: 30%;
+  }
+  .detailform {
+    position: absolute;
+    width: 60%;
+
+    right: 5%;
+
+    bottom: 0%;
+
+    overflow-y: scroll;
+  }
+  .headertitle {
+    position: absolute;
+    width: 35%;
+    font-style: oblique;
+    left: 5%;
+    font-size: 1.5em;
+    top: 1%;
+    font-family: "Brush Script MT", "Lucida Console", Monaco, monospace;
+  }
+  .tooltip {
+    height: 100%;
+    max-height: 90%;
+  }
+  .leftgallerytooltip {
+    position: fixed;
+    bottom: 1em;
+    right: 1em;
+    font-size: 1em;
+    visibility: visible;
+    z-index: 2;
+  }
+  .rightgallerytooltip {
+    position: fixed;
+    bottom: 20%;
+    right: 1em;
+    font-size: 1em;
+    visibility: visible;
+    z-index: 2;
+  }
+
+  .search {
+    position: fixed;
+    top: 6%;
+    z-index: 1;
+    width: 67%;
+    height: 2em;
+    right: 25%;
+    -webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+  }
+  .searchItem {
+    position: fixed;
+    top: 12%;
+  }
+  .searchbutton {
+    position: fixed;
+    top: 6%;
+    width: 20%;
+    right: 5%;
+    height: 2em;
+    z-index: 2;
+    -webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+  }
+}

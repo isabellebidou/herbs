@@ -21,7 +21,11 @@ block content
           img.displayimage(src="http://isabellebidou.com/images/"+photo.photoName, alt="photo.photoName")
           if text.length > 1 
           span.tooltiptext #{text}
+          
           div.details #{text}
+           if session
+            if session.user 
+              a.editPhoto(href='/editphoto/'+photo.photoId) edit
         unless filter
           unless next < 1
             a.div.rightgallerytooltip(href='/displayphoto/'+next)
@@ -31,7 +35,6 @@ block content
          a.closeWindow(href='/filterphotos') x
         else
          a.closeWindow(href='/gallery') x
-        if session
-         if session.user 
-          a.editPhoto(href='/editphoto/'+photo.photoId) edit photo
+        
+        a.authentication(href='/gallery') back to gallery   
 

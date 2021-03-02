@@ -14,15 +14,21 @@ function initialize( passport, getUserByEmail, getUserbyId) {
       if (await bcrypt.compare(password, user.userPassword)) {
         if (user.active) {
           session.user = user;
-          console.log(session.user);
+          if (process.env.NODE_ENV !== "production") {
+            console.log(session.user);
+          }
+          //console.log(session.user);
           return done(null, user);
         } else {
-          console.log(`account activation pending: ${user.userEmail}`);
+          //console.log(`account activation pending: ${user.userEmail}`);
           
           return done(null, false, { message: "account activation pending" });
         }
       } else {
-        console.log(`password incorrect: ${password}`);
+        if (process.env.NODE_ENV !== "production") {
+          console.log(`password incorrect: ${password}`);
+        }
+        
   
         return done(null, false, { message: "password incorrect" });
       }

@@ -5,6 +5,8 @@ block content
        if messages.error
         div #{messages.error}
        form#login(action='/login', method='post')
+        fieldset
+                  legend login details
                   ul
                    li.div
                     label email:
@@ -14,4 +16,6 @@ block content
                     input(type='password', name='password')
                    li.div
                     input(type='submit', value='Log In')
-       a.authentication(href='/register') register
+       div.authentication
+        a.registerbutton(href='/register') register
+        a.togallerybutton(href='/gallery') back to gallery 
