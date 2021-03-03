@@ -407,6 +407,12 @@ app.delete("/logout", (req, res) => {
   res.redirect("/gallery");
 });
 
+app.get("/logout", (req, res) => {
+  session.user = null;
+  req.logOut();
+  res.redirect("/gallery");
+});
+
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     return next();

@@ -1,8 +1,10 @@
 extends layout
 
+
 block content
       .maincontent
           div
+
           div.authentication
            unless session.user
             a.loginbutton(href='/login') login 
@@ -16,15 +18,48 @@ block content
            if session.user
             form(action="/logout?_method=DELETE" method="POST")
              button.logoutbutton(type="submit") logout
-          
-          form(method="post" action="/filterphotos")
-              input.search(name="search", list = 'tags', type="text", Placeholder="type 'ir' for example...")       
-              datalist#tags
-               each element in datalist
-                option #{element}
+          button#menubutton
+            | menu
+            div#mobilemenu
+                ul#mobilemenuul
+                    unless session.user
                 
-               
-              button.searchbutton(type="submit") Search     
+                        li
+                        a.mobilemenuli(href='/login') login 
+                        li
+                        a.mobilemenuli(href='/register') register
+                        
+                    if session.user
+                        if session.user.userRole == 'admin'
+
+                            li
+                            a.mobilemenuli(href='/uploadjson') upload JSON
+                            li
+                            a.mobilemenuli(href='/updatedb') update DB
+                            li
+                            a.mobilemenuli(href='/logout') logout                        
+          script.
+              $(document).ready(function() {
+              $("#menubutton").click(function(){
+              $("#mobilemenu").slideToggle();
+              });
+              });       
+
+          form.filterphotos(method="post" action="/filterphotos")
+                input.search(name="search", onchange='{handleChange(event)}' ,list = 'tags', type="text", Placeholder="type 'ir' for example...")             
+                datalist#tags
+                    each element in datalist
+                        option #{element}
+                script.
+                    $(document).ready(function() {
+                    $(".search").change(function() {
+                    -alert( "Handler for .change() called." );
+                    -});
+                    -});
+                    -function handleChange(e){
+                    -alert(e.target.value);
+                    -} 
+                button.searchbutton(type="submit") go     
           .grid-container
                 each photo in gallery
                     - var text 
@@ -36,3 +71,4 @@ block content
                         img.photothumbnail(src="http://isabellebidou.com/images/"+photo.photoThumbnail, alt=photo.photoThumbnail)
                         if text.length > 1 
                          span.tooltiptext #{text}
+                         //https://coryrylan.com/blog/how-to-center-in-css-with-css-grid

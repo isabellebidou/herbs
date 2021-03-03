@@ -1,0 +1,95 @@
+        .navhold
+          if isAuthenticated
+            if user.userRole == "teacher"
+              .topnav
+                a(href='/') Home
+                a(href='/classes') Classes
+                a(href='/createclass') add Classes
+                a(href='/steps') steps
+                a(href='/students') Students
+                a(href='/createuser') add Students
+                a(href='/cart') cart
+                a(href='/logout') Logout
+            //-else if user.userActive == "active"
+            else if user.userRole == "student" 
+              .topnav
+                a(href='/') Home
+                a(href='/classes') Classes
+                a(href='/steps') steps
+                a(href='/cart') cart
+                a(href='/logout') Logout
+            else 
+              .topnav
+                a(href='/') Home
+                a(href='/classes') Classes
+                a(href='/steps') steps
+                a(href='/logout') Logout
+                
+              
+          else
+            .topnav
+                a(href='/') Home
+                a(href='/cart') cart
+                a(href='/login') Login
+                a(href='/register') Register
+                
+            
+      block content
+      button#menubutton
+      
+        | menu
+        #mobilemenu
+        
+          ul#mobilemenuul
+            if isAuthenticated
+              if user.userRole == "teacher"
+          
+                li
+                  a.mobilemenuli(href='/') Home
+                li
+                  a.mobilemenuli(href='/classes') Classes
+                li
+                  a.mobilemenuli(href='/createclass') add Class
+                li
+                  a.mobilemenuli(href='/students') Students
+                li
+                  a.mobilemenuli(href='/createuser') add Students
+                li
+                  a.mobilemenuli(href='/steps') Steps
+                li
+                  a.mobilemenuli(href='/cart') Cart
+                li
+                  a.mobilemenuli(href='/logout') Logout
+              else if user.userRole == "student"
+
+                li
+                  a.mobilemenuli(href='/') Home
+                li
+                  a.mobilemenuli(href='/classes') Classes
+                li
+                  a.mobilemenuli(href='/steps') Steps
+                li
+                  a.mobilemenuli(href='/cart') Cart
+                li
+                  a.mobilemenuli(href='/logout') Logout
+              else
+                li
+                  a.mobilemenuli(href='/') Home
+                li
+                  a.mobilemenuli(href='/classes') Classes
+                li
+                  a.mobilemenuli(href='/steps') Steps
+                li
+                  a.mobilemenuli(href='/logout') Logout
+            else
+
+              li
+                a.mobilemenuli(href='/') Home
+              li
+                a.mobilemenuli(href='/login') Login
+              li
+                a.mobilemenuli(href='/register') Register
+
+        
+    .footer
+      p   Isabelle Bidou - copyright 2018

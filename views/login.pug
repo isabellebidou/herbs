@@ -18,4 +18,21 @@ block content
                     input(type='submit', value='Log In')
        div.authentication
         a.registerbutton(href='/register') register
-        a.togallerybutton(href='/gallery') back to gallery 
+        a.togallerybutton(href='/gallery') to gallery 
+       button#menubutton
+            | menu
+            div#mobilemenu
+                ul#mobilemenuul
+                    li
+                    a.mobilemenuli(href='/register') register
+                        
+                    li
+                    a.mobilemenuli(href='/gallery') to gallery         
+                        
+                     
+       script.
+              $(document).ready(function() {
+              $("#menubutton").click(function(){
+              $("#mobilemenu").slideToggle();
+              });
+              });

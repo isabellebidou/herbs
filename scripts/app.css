@@ -34,7 +34,8 @@
 .loginbutton,
 .registerbutton,
 .uploadjsonbutton,
-.updatedbbutton {
+.updatedbbutton,
+.togallerybutton {
   padding: 0.5em;
   text-decoration: none;
 }
@@ -220,11 +221,11 @@ form {
 .search {
   position: fixed;
   background-color: rgba(243, 236, 236, 0.6);
-  top: 10%;
+  top: 3%;
   z-index: 2;
   width: 35%;
   height: 3em;
-  right: 30%;
+  right: 35%;
   /*https://cssgenerator.org/box-shadow-css-generator.html*/
   box-shadow: 8px 9px 6px -3px rgba(123, 112, 112, 0.93);
   -webkit-box-shadow: 8px 9px 6px -3px rgba(123, 112, 112, 0.93);
@@ -234,9 +235,9 @@ form {
 .searchbutton {
   position: fixed;
   background-color: rgba(243, 236, 236, 0.6);
-  top: 10%;
-  width: 15%;
-  right: 15%;
+  top: 3%;
+  width: 5%;
+  right: 30%;
   padding: 0em;
   height: 3em;
   z-index: 2;
@@ -392,8 +393,7 @@ label {
   border-radius: 1%;
 }
 .button,
-button,
-.loginbutton {
+button {
   background-color: rgba(248, 245, 245, 0.89);
   border: 0.2em;
   border-color: #b794c0;
@@ -488,3 +488,14 @@ input[type="submit"]:hover {
 }
 
 /* End Style for form */
+
+#mobilemenuul {
+	list-style-type: none;
+}
+
+#mobilemenu {
+	display: none;
+}
+#menubutton {
+	display: none;
+}

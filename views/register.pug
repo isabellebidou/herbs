@@ -23,5 +23,20 @@ block content
                 //button.button(type="submit") OK
         div.authentication
          a.loginbutton(href='/login') login 
-         a.togallerybutton(href='/gallery') back to gallery 
-           
+         a.togallerybutton(href='/gallery') to gallery 
+        button#menubutton
+            | menu
+            div#mobilemenu
+                ul#mobilemenuul
+                    li
+                    a.mobilemenuli(href='/login') login
+                        
+                    li
+                    a.mobilemenuli(href='/gallery') to gallery         
+                    
+        script.
+              $(document).ready(function() {
+              $("#menubutton").click(function(){
+              $("#mobilemenu").slideToggle();
+              });
+              });  

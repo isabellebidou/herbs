@@ -36,5 +36,21 @@ block content
         else
          a.closeWindow(href='/gallery') x
         
-        a.authentication(href='/gallery') back to gallery   
+        div.authentication
+          a.togallerybutton(href='/gallery') to gallery   
+        button#menubutton
+            | menu
+            div#mobilemenu
+                ul#mobilemenuul
+                        
+                    li
+                    a.mobilemenuli(href='/gallery') to gallery  
+                    li
+                    a.mobilemenuli(href='/logout') logout
+        script.
+              $(document).ready(function() {
+              $("#menubutton").click(function(){
+              $("#mobilemenu").slideToggle();
+              });
+              });
 

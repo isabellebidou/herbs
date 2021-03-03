@@ -5,14 +5,14 @@
     width: 96%;
     padding: 2%;
   }
-  input[type="submit"] {
+  input{
     width: 100%;
   }
   .header {
     height: 2em;
   }
   .authentication {
-    top: 2%;
+    display: none;
   }
   .grid-container {
     color: rgba(248, 245, 245, 0.89);
@@ -127,7 +127,7 @@
 
   .searchItem {
     position: fixed;
-    top: 6%;
+    top: 9%;
     text-decoration: none;
     left: 1%;
     padding: 0em;
@@ -136,14 +136,17 @@
     color: rgba(25, 98, 194, 0.456);
     font-size: 1.3em;
     font-family: "Brush Script MT", "Lucida Console", Monaco, monospace;
+    box-shadow: 8px 9px 6px -3px rgba(123, 112, 112, 0.93);
+    -webkit-box-shadow: 8px 9px 6px -3px rgba(123, 112, 112, 0.93);
+    -moz-box-shadow: 8px 9px 6px -3px rgba(123, 112, 112, 0.93);
   }
   .search {
     position: fixed;
-    top: 6%;
+    top: 3%;
     z-index: 1;
-    width: 55%;
-    height: 2em;
-    right: 25%;
+    width: 60%;
+    height: 2.5em;
+    left: 1%;
     -webkit-box-shadow: none;
 	-moz-box-shadow: none;
 	box-shadow: none;
@@ -151,13 +154,52 @@
 
   .searchbutton {
     position: fixed;
-    top: 6%;
+    top: 3%;
     width: 20%;
-    right: 5%;
-    height: 2em;
+    left: 61%;
+    height: 2.5em;
     z-index: 2;
     -webkit-box-shadow: none;
 	-moz-box-shadow: none;
 	box-shadow: none;
   }
+
+
+  #mobilemenu {
+		position: fixed;
+		top: 8%;
+		
+		right: 0.5em;
+		background: -webkit-linear-gradient(bottom, rgba(217,217,217,0.7),white,rgba(217,217,217,0.7) white); /* For Safari 5.1 to 6.0 */
+		background: -o-linear-gradient(bottom,  rgba(217,217,217,0.7),rgba(255,255,255,0.9),white,  rgba(255,255,255,0.9),rgba(217,217,217,0.7)); /* For Opera 11.1 to 12.0 */
+		background: -moz-linear-gradient(top, rgba(217,217,217,0.7), rgba(255,255,255,0.9),white,  rgba(255,255,255,0.9),rgba(217,217,217,0.7)); /* the standard */
+		background: linear-gradient(to bottom, rgba(217,217,217,0.7),rgba(255,255,255,0.9),white,  rgba(255,255,255,0.9),rgba(217,217,217,0.7));
+		width: auto;
+		text-shadow: 0px 0px #000000;
+		-webkit-box-shadow: 14px 10px 24px 0px rgba(217,217,217,0.3);
+		-moz-box-shadow: 14px 10px 24px 0px rgba(217,217,217,0.3);
+		box-shadow: 14px 10px 24px 0px rgba(217,217,217,0.3);
+		padding: 2%;
+		z-index: 70;
+		border-radius: 10%;
+    height: 92%;
+    width: 100%;
+
+	}
+    .mobilemenuli{
+        line-height: 6em;
+        padding:3em;
+          
+    }
+	#menubutton {
+		position: fixed;
+		font-style: oblique;
+    top: 0.5em;
+		right: 0.5em;
+		visibility: visible;
+		display: inline;
+		z-index: 50;
+		padding:0.7em;
+		border-radius:10%;
+	}
 }
