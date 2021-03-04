@@ -128,17 +128,12 @@ legend {
   font-family: "Brush Script MT", "Lucida Console", Monaco, monospace;
 }
 .detailinput {
-  margin-top: 5px;
-  margin-bottom: 5px;
   display: inline-block;
   *display: inline; /* for IE7*/
   zoom: 1; /* for IE7*/
   vertical-align: middle;
-  margin-left: 20px;
-  padding: 2px 2px;
-  margin: 0em;
-  height: 2em;
-  /* width: 250px; */
+
+  width: 100%;
 }
 
 .detaillabel {
@@ -449,20 +444,24 @@ input,
 select,
 .submit,
 .searchbutton {
-  padding: 12px 20px;
-  margin: 8px 0;
+  /* padding: 0.3em;
+  margin: 0.2em; */
   display: inline-block;
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
 }
-.longInput {
+input , .submit{
   width: 100%;
 }
 .submit {
   background-color: #7f5f87;
+  color: #fff;
+  padding-top: 1em;
+  margin-top: 0.5em;
+  height: 3em;
 }
-button.submit:hover {
+.submit:hover {
   color: blue;
 }
 .notify {
