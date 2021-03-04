@@ -24,8 +24,10 @@ block content
                         
                     li
                     a.mobilemenuli(href='/gallery') to gallery  
-                    li
-                    a.mobilemenuli(href='/logout') logout 
+                    if session
+                      if session.user
+                        li
+                          a.mobilemenuli(href='/logout') logout 
         script.
               $(document).ready(function() {
               $("#menubutton").click(function(){

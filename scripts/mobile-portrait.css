@@ -14,6 +14,12 @@
   .authentication {
     display: none;
   }
+  p {
+    padding-top: 1em;
+    padding-right: 1em;
+    padding-bottom: 1em;
+    padding-left: 1em;
+  }
   .grid-container {
     color: rgba(248, 245, 245, 0.89);
     margin: auto;
@@ -43,9 +49,22 @@
     top: 1%;
     font-family: "Brush Script MT", "Lucida Console", Monaco, monospace;
   }
+  .details {
+    position: fixed;
+    left: 2%;
+    top: 5%;
+    max-width: 80%;
+    max-height: 15%;
+    color: rgba(25, 98, 194, 0.356);
+    font-size: 1em;
+    z-index: 1.5;
+    font-family: "Brush Script MT", "Lucida Console", Monaco, monospace;
+    
+  }
+
   .displayimage {
-    width: 98%;
-    left: 0%;
+    width: 96%;
+    left: 1%;
     padding-top: 1em;
   }
 
@@ -57,7 +76,7 @@
     width: 350px;
     height: 310px;
   }
-  .leftgallerytooltip {
+  .back {
     position: absolute;
     bottom: 1em;
     left: 1em;
@@ -65,7 +84,7 @@
     visibility: visible;
     z-index: 2;
   }
-  .rightgallerytooltip {
+  .next {
     position: absolute;
     bottom: 1em;
     right: 1em;
@@ -77,23 +96,25 @@
   .detailimage {
     position: absolute;
     left: 5%;
-    top: 5%;
-    height: 20%;
+    top: -7%;
+    height: 18%;
   }
   .detailform {
     position: absolute;
-    height: 70%;
-    min-width: 95%;
-    left: 5%;
+    height: 80%;
+    width: 96%;
+    left: 3%;
 
     bottom: 0%;
 
     overflow-y: scroll;
   }
+  .submit {
+    margin-top: 1em;
+    width: 100%;
+  }
 
-  .tooltip .tooltiptext,
-  .rightgallerytooltip.tooltiptext,
-  .leftgallerytooltip.tooltiptext {
+  .tooltip .tooltiptext {
     visibility: hidden;
     width: 150px;
     height: 2em;

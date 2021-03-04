@@ -14,21 +14,19 @@ block content
 
         unless filter
           unless back > galleryLength
-            a.div.leftgallerytooltip(href='/displayphoto/'+back)
+            a.back(href='/displayphoto/'+back) 
               p.direction back
               //span.tooltiptext #{filter}
-        div.tooltip      
+        div.frame      
           img.displayimage(src="http://isabellebidou.com/images/"+photo.photoName, alt="photo.photoName")
-          if text.length > 1 
-          span.tooltiptext #{text}
-          
+           
+          //span.tooltiptext #{text}
+          if text.length > 1
           div.details #{text}
-           if session
-            if session.user 
-              a.editPhoto(href='/editphoto/'+photo.photoId) edit
+           
         unless filter
           unless next < 1
-            a.div.rightgallerytooltip(href='/displayphoto/'+next)
+            a.next(href='/displayphoto/'+next) 
               p.direction next
               //span.tooltiptext next
         if filter      
@@ -37,20 +35,29 @@ block content
          a.closeWindow(href='/gallery') x
         
         div.authentication
+          if session
+            if session.user 
+              a.editPhoto(href='/editphoto/'+photo.photoId) edit photo
           a.togallerybutton(href='/gallery') to gallery   
         button#menubutton
             | menu
             div#mobilemenu
                 ul#mobilemenuul
-                        
+                    if session
+                      if session.user
+                        li
+                          a.mobilemenuli(href='/editphoto/'+photo.photoId) edit photo
                     li
                     a.mobilemenuli(href='/gallery') to gallery  
-                    li
-                    a.mobilemenuli(href='/logout') logout
+                    if session
+                      if session.user
+                        li
+                          a.mobilemenuli(href='/logout') logout
         script.
               $(document).ready(function() {
               $("#menubutton").click(function(){
               $("#mobilemenu").slideToggle();
               });
               });
+        //https://stackoverflow.com/questions/9980531/center-image-in-div-horizontally
 

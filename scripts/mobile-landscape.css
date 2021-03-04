@@ -7,7 +7,7 @@
   }
 
   .header {
-    height: 2em;
+    height: 0.5em;
   }
   input {
     height: 2em;
@@ -16,6 +16,12 @@
   }
   .authentication {
     display: none;
+  }
+  p {
+    padding-top: 1em;
+    padding-right: 1em;
+    padding-bottom: 1em;
+    padding-left: 1em;
   }
   .grid-container {
     color: rgba(248, 245, 245, 0.89);
@@ -37,31 +43,38 @@
   }
   .details {
     position: fixed;
-    right: 10%;
-    top: 20%;
+    left: 1%;
+    top: 5%;
     max-width: 10%;
+    max-height: 100%;
     color: rgba(25, 98, 194, 0.356);
     font-size: 1em;
     z-index: 1.5;
     font-family: "Brush Script MT", "Lucida Console", Monaco, monospace;
-    padding-top: 2em;
-    padding-left: 3em;
+    
+  }
+  .frame {
+    padding-top: 0em;
   }
   .detailimage {
     position: absolute;
-    left: 5%;
-    top: 5%;
-    width: 30%;
+    left: 2%;
+    top: 3%;
+    width: 20%;
   }
   .detailform {
     position: absolute;
-    width: 60%;
+    width: 76%;
 
-    right: 5%;
+    right: 2%;
 
     bottom: 0%;
 
     overflow-y: scroll;
+  }
+  .submit {
+    margin-top: 1em;
+    width: 100%;
   }
   .headertitle {
     position: absolute;
@@ -76,18 +89,18 @@
     height: 100%;
     max-height: 90%;
   }
-  .leftgallerytooltip {
+  .back {
     position: fixed;
-    bottom: 1em;
-    right: 1em;
+    bottom: 0.5em;
+    left: 0.5em;
     font-size: 1em;
     visibility: visible;
     z-index: 2;
   }
-  .rightgallerytooltip {
+  .next {
     position: fixed;
-    bottom: 20%;
-    right: 1em;
+    bottom: 0.5em;
+    right: 0.5em;
     font-size: 1em;
     visibility: visible;
     z-index: 2;
