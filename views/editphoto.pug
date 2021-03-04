@@ -24,8 +24,10 @@ block content
                 label.detaillabel(for= "newtags") tags:
                 input.detailinput(name= "newtags", type = "text", value = photo.photoTags) 
                 
-                br
-                button.button(type="submit", class = "submit") Update
+                
+                button.button(type="submit", class = "submit") update
+                - var next = photo.photoId-1
+                button.button(href='/editphoto/'+next) skip
 
             div.authentication
               a.togallerybutton(href='/gallery') to gallery 

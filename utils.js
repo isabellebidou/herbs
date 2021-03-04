@@ -10,7 +10,7 @@ function findTagsList(gallery) {
         }
         if (photo.photoTags){
           var tags = photo.photoTags
-          var values = tags.split(' ')
+          var values = tags.split(',')
           if (values){
             for (j = 0; j< values.length; j++){
               if ((values[j] )&& (values[j] !='[]') && (values[j] != 'undefined' ))

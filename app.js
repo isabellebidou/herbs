@@ -214,19 +214,20 @@ app.post("/editphoto/:index", checkAuthenticated, function (req, res) {
     '", photoComments = "' +
     req.body.newcomments +
     '", photoTags = "' +
-    req.body.newTags +
+    req.body.newtags +
     '", photoPath = "http://isabellebidou.com/images/ ' +
     req.body.newname +
     '" WHERE photoId = "' +
     req.params.index +
     '" ;';
-
+ 
   let query = db.query(sql, (err, res1) => {
     if (err) throw err;
-    //console.log(res1);
+
   });
-  if (req.params.index + 1 < globalGallery.length)
-    res.redirect(`/editphoto/:${req.params.index + 1}`);
+  console.log(parseInt(req.params.index) - 1)
+  if (parseInt(req.params.index) - 1 > 1)
+    res.redirect(`/editphoto/${parseInt(req.params.index) - 1}`);//res.redirect("/uploadphoto/" + nextIndex);
   else res.redirect(`/gallery`);
 });
 
