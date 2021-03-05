@@ -99,6 +99,7 @@ app.get("/gallery", async (req, res, next) => {
   try {
     let sql = "select * FROM photo ORDER BY photoId DESC; ";
     db.query(sql, async (err, gallery) => {
+      try {
       if (err) throw err;
       globalGallery = gallery;
       filter = false;
@@ -108,6 +109,9 @@ app.get("/gallery", async (req, res, next) => {
         session: session,
         datalist: dataList,
       });
+    } catch (e){
+      console.error(e)
+    }
     });
   } catch (error) {
     next(error);
