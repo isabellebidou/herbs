@@ -94,25 +94,44 @@ app.get("/", function (req, res) {
 });
 
 //gallery page
-app.get("/gallery", function (req, res) {
-  //if (session.user) console.log(`user is logged in: ${session.user}`);
-  let sql = "select * FROM photo ORDER BY photoId DESC; ";
-  db.query(sql, async (err, gallery) => {
-    if (err) throw err;
-    globalGallery = gallery;
-    filter = false;
-    try {
+app.get("/gallery", async (req, res, next) => {
+  //https://stackoverflow.com/questions/53940043/unhandledpromiserejectionwarning-this-error-originated-either-by-throwing-insid
+  try {
+    let sql = "select * FROM photo ORDER BY photoId DESC; ";
+    db.query(sql, async (err, gallery) => {
+      if (err) throw err;
+      globalGallery = gallery;
+      filter = false;
       const dataList = await utils.findTagsList(globalGallery);
       res.render("gallery", {
         gallery: globalGallery,
         session: session,
         datalist: dataList,
       });
-    } catch (error) {
-      console.error(error);
-    }
-  });
+    });
+  } catch (error) {
+    next(error);
+  }
 });
+// app.get("/gallery", function (req, res) {
+//   //if (session.user) console.log(`user is logged in: ${session.user}`);
+//   let sql = "select * FROM photo ORDER BY photoId DESC; ";
+//   db.query(sql, async (err, gallery) => {
+//     if (err) throw err;
+//     globalGallery = gallery;
+//     filter = false;
+//     try {
+//       const dataList = await utils.findTagsList(globalGallery);
+//       res.render("gallery", {
+//         gallery: globalGallery,
+//         session: session,
+//         datalist: dataList,
+//       });
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   });
+// });
 
 //photo
 
@@ -220,14 +239,14 @@ app.post("/editphoto/:index", checkAuthenticated, function (req, res) {
     '" WHERE photoId = "' +
     req.params.index +
     '" ;';
- 
+
   let query = db.query(sql, (err, res1) => {
     if (err) throw err;
-
   });
-  console.log(parseInt(req.params.index) - 1)
+  console.log(parseInt(req.params.index) - 1);
   if (parseInt(req.params.index) - 1 > 1)
-    res.redirect(`/editphoto/${parseInt(req.params.index) - 1}`);//res.redirect("/uploadphoto/" + nextIndex);
+    res.redirect(`/editphoto/${parseInt(req.params.index) - 1}`);
+  //res.redirect("/uploadphoto/" + nextIndex);
   else res.redirect(`/gallery`);
 });
 
