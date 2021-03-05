@@ -5,12 +5,11 @@ block content
           each photo in indOne
             img.detailimage(src="http://isabellebidou.com/images/"+photo.photoName, alt="photo.name")
             form.detailform(method = "post")
+              
               fieldset
-                legend image details
-                label.detaillabel(for= "newname") name:
-                input.detailinput(name= "newname", type = "text", value = photo.photoName) 
-                label.detaillabel(for= "newthumbnail") thumbnail:
-                input.detailinput(name= "newthumbnail", type = "text", value = photo.photoThumbnail) 
+                legend #{photo.photoName}
+                label.detaillabel(for= "newtags") tags:
+                input.detailinput(name= "newtags", type = "text", value = photo.photoTags) 
                 label.detaillabel(for= "newcategory") category:
                 input.detailinput(name= "newcategory", type = "text", value = photo.photoCategory) 
                 label.detaillabel(for= "newcountry") country:
@@ -21,13 +20,11 @@ block content
                 input.detailinput(name= "newyear", type = "text", value = photo.photoYear) 
                 label.detaillabel(for= "newcomments") comments:
                 input.detailinput(name= "newcomments", type = "text", value = photo.photoComments) 
-                label.detaillabel(for= "newtags") tags:
-                input.detailinput(name= "newtags", type = "text", value = photo.photoTags) 
-                
-                
-                button.button(type="submit", class = "submit") update
                 - var next = photo.photoId-1
-                button.button(href='/editphoto/'+next) skip
+                div.buttonsidebyside
+                    button.buttonduo(href='/editphoto/'+next) skip 
+                    button.buttonduo(type="submit", class = "submit") update
+                
 
             div.authentication
               a.togallerybutton(href='/gallery') to gallery 

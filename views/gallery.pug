@@ -4,8 +4,12 @@ extends layout
 block content
       .maincontent
           div
-
           div.authentication
+           a.home(href='/') home
+           if session.user
+            if session.user.userRole == 'admin'
+             a.editgallery(href='/editgallery') edit gallery
+           
            unless session.user
             a.loginbutton(href='/login') login 
             a.registerbutton(href='/register') register
@@ -23,7 +27,6 @@ block content
             div#mobilemenu
                 ul#mobilemenuul
                     unless session.user
-                
                         li
                         a.mobilemenuli(href='/login') login 
                         li
@@ -31,7 +34,6 @@ block content
                         
                     if session.user
                         if session.user.userRole == 'admin'
-
                             li
                             a.mobilemenuli(href='/uploadjson') upload JSON
                             li
@@ -49,10 +51,10 @@ block content
                 input.search(name="search", onchange='{handleChange(event)}' ,list = 'tags', type="text", Placeholder="type 'ir' for example...")             
                 datalist#tags
                     each element in datalist
-                        option #{element}
+                        option.option #{element}
                 script.
                     $(document).ready(function() {
-                    $(".search").change(function() {
+                    $(".search").select(function() {
                     -alert( "Handler for .change() called." );
                     -});
                     -});
@@ -67,6 +69,7 @@ block content
                     - text =  photo.photoCountry? text+" "+photo.photoCountry : text
                     - text =  photo.photoComments? text+" "+photo.photoComments : text 
 
+                    
                     a.div.tooltip(href='/displayphoto/'+photo.photoId)
                         img.photothumbnail(src="http://isabellebidou.com/images/"+photo.photoThumbnail, alt=photo.photoThumbnail)
                         if text.length > 1 

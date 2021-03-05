@@ -100,18 +100,18 @@ app.get("/gallery", async (req, res, next) => {
     let sql = "select * FROM photo ORDER BY photoId DESC; ";
     db.query(sql, async (err, gallery) => {
       try {
-      if (err) throw err;
-      globalGallery = gallery;
-      filter = false;
-      const dataList = await utils.findTagsList(globalGallery);
-      res.render("gallery", {
-        gallery: globalGallery,
-        session: session,
-        datalist: dataList,
-      });
-    } catch (e){
-      console.error(e)
-    }
+        if (err) throw err;
+        globalGallery = gallery;
+        filter = false;
+        const dataList = await utils.findTagsList(globalGallery);
+        res.render("gallery", {
+          gallery: globalGallery,
+          session: session,
+          datalist: dataList,
+        });
+      } catch (e) {
+        console.error(e);
+      }
     });
   } catch (error) {
     next(error);
@@ -222,11 +222,7 @@ app.get("/editphoto/:index", checkAuthenticated, function (req, res) {
 app.post("/editphoto/:index", checkAuthenticated, function (req, res) {
   //photoName, photoThumbnail, photoCategory, photoCountry, photoPlace, photoComments, photoTags, photoPath
   let sql =
-    'UPDATE photo SET photoName= "' +
-    req.body.newname +
-    '" , photoThumbnail = "' +
-    req.body.newthumbnail +
-    '", photoCategory = "' +
+    'UPDATE photo SET photoCategory = "' +
     req.body.newcategory +
     '", photoCountry = "' +
     req.body.newcountry +
@@ -238,8 +234,6 @@ app.post("/editphoto/:index", checkAuthenticated, function (req, res) {
     req.body.newcomments +
     '", photoTags = "' +
     req.body.newtags +
-    '", photoPath = "http://isabellebidou.com/images/ ' +
-    req.body.newname +
     '" WHERE photoId = "' +
     req.params.index +
     '" ;';

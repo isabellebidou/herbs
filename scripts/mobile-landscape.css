@@ -13,8 +13,7 @@
     height: 0.5em;
   }
 
-
-  input{
+  input {
     padding: 0.5em;
     width: 100%;
     height: 2em;
@@ -39,6 +38,10 @@
     /* background-color: #2196F3;  Comment this out later to remove the background color when not needed */
     padding-top: 1em;
   }
+  fieldset {
+    padding-top: 0em;
+  }
+
   .displayimage {
     max-width: 75%;
     left: 1%;
@@ -57,7 +60,6 @@
     font-size: 1em;
     z-index: 1.5;
     font-family: "Brush Script MT", "Lucida Console", Monaco, monospace;
-    
   }
   .frame {
     padding-top: 0em;
@@ -117,8 +119,8 @@
     height: 2.5em;
     left: 1%;
     -webkit-box-shadow: none;
-	-moz-box-shadow: none;
-	box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
   }
   .searchItem {
     position: fixed;
@@ -137,43 +139,68 @@
     height: 2.5em;
     z-index: 2;
     -webkit-box-shadow: none;
-	-moz-box-shadow: none;
-	box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
   }
   #mobilemenu {
-		position: fixed;
-		top: 8%;
-		right: 0.5em;
-		background: -webkit-linear-gradient(bottom, rgba(217,217,217,0.7),white,rgba(217,217,217,0.7) white); /* For Safari 5.1 to 6.0 */
-		background: -o-linear-gradient(bottom,  rgba(217,217,217,0.7),rgba(255,255,255,0.9),white,  rgba(255,255,255,0.9),rgba(217,217,217,0.7)); /* For Opera 11.1 to 12.0 */
-		background: -moz-linear-gradient(top, rgba(217,217,217,0.7), rgba(255,255,255,0.9),white,  rgba(255,255,255,0.9),rgba(217,217,217,0.7)); /* the standard */
-		background: linear-gradient(to bottom, rgba(217,217,217,0.7),rgba(255,255,255,0.9),white,  rgba(255,255,255,0.9),rgba(217,217,217,0.7));
-		width: auto;
-		text-shadow: 0px 0px #000000;
-		-webkit-box-shadow: 14px 10px 24px 0px rgba(217,217,217,0.3);
-		-moz-box-shadow: 14px 10px 24px 0px rgba(217,217,217,0.3);
-		box-shadow: 14px 10px 24px 0px rgba(217,217,217,0.3);
-		padding: 2%;
-		z-index: 70;
-		border-radius: 10%;
+    position: fixed;
+    top: 8%;
+    right: 0.5em;
+    background: -webkit-linear-gradient(
+      bottom,
+      rgba(217, 217, 217, 0.7),
+      white,
+      rgba(217, 217, 217, 0.7) white
+    ); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(
+      bottom,
+      rgba(217, 217, 217, 0.7),
+      rgba(255, 255, 255, 0.9),
+      white,
+      rgba(255, 255, 255, 0.9),
+      rgba(217, 217, 217, 0.7)
+    ); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(
+      top,
+      rgba(217, 217, 217, 0.7),
+      rgba(255, 255, 255, 0.9),
+      white,
+      rgba(255, 255, 255, 0.9),
+      rgba(217, 217, 217, 0.7)
+    ); /* the standard */
+    background: linear-gradient(
+      to bottom,
+      rgba(217, 217, 217, 0.7),
+      rgba(255, 255, 255, 0.9),
+      white,
+      rgba(255, 255, 255, 0.9),
+      rgba(217, 217, 217, 0.7)
+    );
+    width: auto;
+    text-shadow: 0px 0px #000000;
+    -webkit-box-shadow: 14px 10px 24px 0px rgba(217, 217, 217, 0.3);
+    -moz-box-shadow: 14px 10px 24px 0px rgba(217, 217, 217, 0.3);
+    box-shadow: 14px 10px 24px 0px rgba(217, 217, 217, 0.3);
+    padding: 2%;
+    z-index: 70;
+    border-radius: 10%;
     height: 92%;
     width: 100%;
     overflow-y: scroll;
-	}
-    .mobilemenuli{
-        line-height: 6em;
-        font-size: x-large;
-          
-    }
-	#menubutton {
-		position: fixed;
-		font-style: oblique;
-		top: 0.5em;
-		right: 0.5em;
-		visibility: visible;
-		display: inline;
-		z-index: 50;
-		padding:0.7em;
-		border-radius:10%;
-	}
+  }
+  .mobilemenuli {
+    line-height: 6em;
+    font-size: x-large;
+  }
+  #menubutton {
+    position: fixed;
+    font-style: oblique;
+    top: 0.5em;
+    right: 0.5em;
+    visibility: visible;
+    display: inline;
+    z-index: 50;
+    padding: 0.7em;
+    border-radius: 10%;
+  }
 }

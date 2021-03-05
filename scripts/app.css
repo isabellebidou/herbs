@@ -1,4 +1,8 @@
-.maincontent div:first-child :not(.frame) :not(.mobilemenuul) :not(.mobilemenuli){
+.maincontent
+  div:first-child
+  :not(.frame)
+  :not(.mobilemenuul)
+  :not(.mobilemenuli) {
   /* https://css-tricks.com/almanac/selectors/n/not/ */
   color: red;
   position: absolute;
@@ -37,7 +41,9 @@
 .uploadjsonbutton,
 .updatedbbutton,
 .togallerybutton,
-.editPhoto {
+.editPhoto,
+.editgallery,
+.home {
   padding: 0.5em;
   text-decoration: none;
 }
@@ -120,6 +126,7 @@ fieldset {
   -webkit-border-radius: 8px;
   border-radius: 8px;
   background-color: rgba(243, 236, 236, 0.4);
+  padding-top: 3em;
 }
 legend {
   color: rgba(25, 98, 194, 0.356);
@@ -163,8 +170,8 @@ legend {
   overflow-y: scroll;
 }
 .frame {
-  padding-top:2em;
-  position:fixed;
+  padding-top: 2em;
+  position: fixed;
   width: 100%;
   height: 100%;
   overflow-y: scroll;
@@ -173,10 +180,9 @@ legend {
 .displayimage {
   width: 700px;
   display: block;
-margin: 0 auto;
-/* margin-right: auto; */
+  margin: auto auto;
+  /* margin-right: auto; */
 }
-
 
 .details {
   /* https://www.freecodecamp.org/news/how-to-center-anything-with-css-align-a-div-text-and-more/ */
@@ -185,9 +191,7 @@ margin: 0 auto;
   font-size: 1em;
   z-index: 1.5;
   font-family: "Brush Script MT", "Lucida Console", Monaco, monospace;
-  
 }
-
 
 form {
   display: inline;
@@ -253,7 +257,9 @@ form {
   border-color: #96ccba;
   color: rgb(151, 206, 63);
 }
-.direction, .next, .back {
+.direction,
+.next,
+.back {
   color: rgba(25, 98, 194, 0.656);
   font-size: 1.5em;
   text-decoration: none;
@@ -277,7 +283,8 @@ html {
 #container {
   position: fixed;
   width: 100%;
-  height: 100%;
+  height: 95%;
+  bottom: 0%;
 }
 h1,
 h2 {
@@ -285,17 +292,18 @@ h2 {
 }
 .header {
   position: fixed;
-  height: 14%;
+  width: 100%;
+  height: 11%;
   top: 0%;
-  z-index: 3;
+  z-index: 1;
 
   background: linear-gradient(
     rgba(243, 236, 236, 0.9),
-    rgba(243, 236, 236, 0.1)
+    rgba(243, 236, 236, 0.6)
   );
   background: -webkit-linear-gradient(
     rgba(243, 236, 236, 0.9),
-    rgba(243, 236, 236, 0.1)
+    rgba(243, 236, 236, 0.6)
   );
 }
 .headertitle {
@@ -336,7 +344,7 @@ h2 {
 .maincontent {
   color: rgb(196, 17, 17);
   position: absolute;
-  height: 93%;
+  height: 95%;
   width: 100%;
   right: 0%;
   bottom: 0%;
@@ -451,7 +459,8 @@ select,
   border-radius: 4px;
   box-sizing: border-box;
 }
-input , .submit{
+input,
+.submit {
   width: 100%;
 }
 .submit {
@@ -493,12 +502,12 @@ input[type="submit"]:hover {
 /* End Style for form */
 
 #mobilemenuul {
-	list-style-type: none;
+  list-style-type: none;
 }
 
 #mobilemenu {
-	display: none;
+  display: none;
 }
 #menubutton {
-	display: none;
+  display: none;
 }
