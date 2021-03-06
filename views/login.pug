@@ -1,21 +1,5 @@
 extends layout
-
-block content
-      .maincontent
-       if messages.error
-        div #{messages.error}
-       form#login(action='/login', method='post')
-        fieldset
-                  legend login details
-                  ul
-                   li.div
-                    label email:
-                    input(type='text', name='email')
-                   li.div
-                    label Password:
-                    input(type='password', name='password')
-                   li.div
-                    input(type='submit', value='Log In')
+block navigation
        div.authentication
         a.registerbutton(href='/register') register
         a.togallerybutton(href='/gallery') to gallery 
@@ -36,3 +20,20 @@ block content
               $("#mobilemenu").slideToggle();
               });
               });
+
+block content
+      .maincontent
+       if messages.error
+        div #{messages.error}
+       form#login(action='/login', method='post')
+        fieldset
+                  legend login details
+                  ul
+                   li.div
+                    label email:
+                    input(type='text', name='email')
+                   li.div
+                    label Password:
+                    input(type='password', name='password')
+                   li.div
+                    input(type='submit', value='Log In')

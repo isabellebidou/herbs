@@ -50,7 +50,7 @@
   .uploadjsonbutton {
     visibility: hidden;
   }
-  .details {
+  #details {
     position: fixed;
     left: 1%;
     top: 5%;

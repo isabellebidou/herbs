@@ -1,10 +1,7 @@
 extends layout
 
-
-block content
-      .maincontent
-          div
-          div.authentication
+block navigation
+    div.authentication
            a.home(href='/') home
            if session.user
             if session.user.userRole == 'admin'
@@ -22,7 +19,7 @@ block content
            if session.user
             form(action="/logout?_method=DELETE" method="POST")
              button.logoutbutton(type="submit") logout
-          button#menubutton
+    button#menubutton
             | menu
             div#mobilemenu
                 ul#mobilemenuul
@@ -40,12 +37,19 @@ block content
                             a.mobilemenuli(href='/updatedb') update DB
                             li
                             a.mobilemenuli(href='/logout') logout                        
-          script.
+    script.
               $(document).ready(function() {
               $("#menubutton").click(function(){
               $("#mobilemenu").slideToggle();
               });
               });       
+
+
+
+block content
+      .maincontent
+          div
+          
 
           form.filterphotos(method="post" action="/filterphotos")
                 input.search(name="search", onchange='{handleChange(event)}' ,list = 'tags', type="text", Placeholder="type 'ir' for example...")             

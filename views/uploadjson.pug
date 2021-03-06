@@ -1,17 +1,5 @@
 extends layout
-
-block content
-    .maincontent
-        form#upload(action='/uploadjson', method='POST' enctype='multipart/form-data')
-         fieldset
-                legend browse to json file
-                ul
-                   li.div
-                    label select JSON file:
-                    input.longInput(name= "json", type = "file" required) 
-                   li.div
-                    input(type='submit', value='upload')
-                    //button.button(type="submit") upload
+block navigation
         div.authentication
             a.togallerybutton(href='/gallery') to gallery 
             div.result
@@ -34,3 +22,16 @@ block content
               $("#mobilemenu").slideToggle();
               });
               });
+
+block content
+    .maincontent
+        form#upload(action='/uploadjson', method='POST' enctype='multipart/form-data')
+         fieldset
+                legend browse to json file
+                ul
+                   li.div
+                    label select JSON file:
+                    input.longInput(name= "json", type = "file" required) 
+                   li.div
+                    input(type='submit', value='upload')
+                    //button.button(type="submit") upload

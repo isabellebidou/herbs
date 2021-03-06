@@ -184,7 +184,7 @@ legend {
   /* margin-right: auto; */
 }
 
-.details {
+#details {
   /* https://www.freecodecamp.org/news/how-to-center-anything-with-css-align-a-div-text-and-more/ */
   text-align: center;
   color: rgba(25, 98, 194, 0.356);
@@ -375,9 +375,9 @@ h2 {
   font-style: oblique;
 }
 p {
-  padding-top: 2em;
+  padding-top: 1em;
   padding-right: 2em;
-  padding-bottom: 2em;
+  padding-bottom: 1em;
   padding-left: 2em;
   text-align: justify;
 }

@@ -230,8 +230,6 @@ app.post("/editphoto/:index", checkAuthenticated, function (req, res) {
     req.body.newplace +
     '", photoYear = "' +
     req.body.newyear +
-    '", photoComments = "' +
-    req.body.newcomments +
     '", photoTags = "' +
     req.body.newtags +
     '" WHERE photoId = "' +

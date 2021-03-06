@@ -1,4 +1,24 @@
 extends layout
+block navigation
+            div.authentication
+              a.togallerybutton(href='/gallery') to gallery 
+            button#menubutton
+              | menu
+              div#mobilemenu
+                  ul#mobilemenuul
+                        
+                      li
+                      a.mobilemenuli(href='/gallery') to gallery  
+                      if session
+                        if session.user
+                          li
+                            a.mobilemenuli(href='/logout') logout
+            script.
+              $(document).ready(function() {
+              $("#menubutton").click(function(){
+              $("#mobilemenu").slideToggle();
+              });
+              });
 block content 
       
     .maincontent
@@ -18,31 +38,13 @@ block content
                 input.detailinput(name= "newplace", type = "text", value = photo.photoPlace) 
                 label.detaillabel(for= "newyear") year:
                 input.detailinput(name= "newyear", type = "text", value = photo.photoYear) 
-                label.detaillabel(for= "newcomments") comments:
-                input.detailinput(name= "newcomments", type = "text", value = photo.photoComments) 
+                //label.detaillabel(for= "newcomments") comments:
+                //input.detailinput(name= "newcomments", type = "text", value = photo.photoComments) 
                 - var next = photo.photoId-1
                 div.buttonsidebyside
                     button.buttonduo(href='/editphoto/'+next) skip 
                     button.buttonduo(type="submit", class = "submit") update
                 
 
-            div.authentication
-              a.togallerybutton(href='/gallery') to gallery 
-            button#menubutton
-              | menu
-              div#mobilemenu
-                  ul#mobilemenuul
-                        
-                      li
-                      a.mobilemenuli(href='/gallery') to gallery  
-                      if session
-                        if session.user
-                          li
-                            a.mobilemenuli(href='/logout') logout
-            script.
-              $(document).ready(function() {
-              $("#menubutton").click(function(){
-              $("#mobilemenu").slideToggle();
-              });
-              });   
+   
                 

@@ -1,5 +1,26 @@
 extends layout
 
+block navigation
+    div.authentication
+         a.loginbutton(href='/login') login 
+         a.togallerybutton(href='/gallery') to gallery 
+    button#menubutton
+            | menu
+            div#mobilemenu
+                ul#mobilemenuul
+                    li
+                    a.mobilemenuli(href='/login') login
+                        
+                    li
+                    a.mobilemenuli(href='/gallery') to gallery         
+                    
+    script.
+              $(document).ready(function() {
+              $("#menubutton").click(function(){
+              $("#mobilemenu").slideToggle();
+              });
+              });  
+
 block content
       .maincontent
         form#login(action='/register', method='POST')
@@ -21,22 +42,5 @@ block content
                 li.div
                     input(type='submit', value='Register')
                 //button.button(type="submit") OK
-        div.authentication
-         a.loginbutton(href='/login') login 
-         a.togallerybutton(href='/gallery') to gallery 
-        button#menubutton
-            | menu
-            div#mobilemenu
-                ul#mobilemenuul
-                    li
-                    a.mobilemenuli(href='/login') login
-                        
-                    li
-                    a.mobilemenuli(href='/gallery') to gallery         
-                    
-        script.
-              $(document).ready(function() {
-              $("#menubutton").click(function(){
-              $("#mobilemenu").slideToggle();
-              });
-              });  
+        
+        
