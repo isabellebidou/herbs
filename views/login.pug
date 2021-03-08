@@ -1,12 +1,15 @@
 extends layout
 block navigation
        div.authentication
+        a.home(href='/home') home
         a.registerbutton(href='/register') register
         a.togallerybutton(href='/gallery') to gallery 
        button#menubutton
             | menu
             div#mobilemenu
                 ul#mobilemenuul
+                    li
+                    a.mobilemenuli(href='/home') home
                     li
                     a.mobilemenuli(href='/register') register
                         

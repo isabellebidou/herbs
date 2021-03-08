@@ -1,18 +1,35 @@
 extends layout
 block navigation
             div.authentication
-              a.togallerybutton(href='/gallery') to gallery 
+              a.home(href='/') home
+              a.togallerybutton(href='/gallery') to gallery
+              if session.user 
+                if session.user.userRole == 'admin'
+                  a.uploadjsonbutton(href='/uploadjson') upload JSON
+                  a.updatedbbutton(href='/updatedb') update DB
+                  
+              if session.user
+                form(action="/logout?_method=DELETE" method="POST")
+                button.logoutbutton(type="submit") logout 
             button#menubutton
               | menu
               div#mobilemenu
                   ul#mobilemenuul
                         
-                      li
-                      a.mobilemenuli(href='/gallery') to gallery  
-                      if session
+                    li
+                    a.mobilemenuli(href='/gallery') to gallery  
+
+                    if session.user
+                      if session.user.userRole == 'admin'
+                            li
+                            a.mobilemenuli(href='/uploadjson') upload JSON
+                            li
+                            a.mobilemenuli(href='/updatedb') update DB
+                    if session
                         if session.user
                           li
                             a.mobilemenuli(href='/logout') logout
+                            
             script.
               $(document).ready(function() {
               $("#menubutton").click(function(){

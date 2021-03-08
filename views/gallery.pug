@@ -23,11 +23,15 @@ block navigation
             | menu
             div#mobilemenu
                 ul#mobilemenuul
+                    li
+                    a.mobilemenuli(href='/') home
                     unless session.user
-                        li
-                        a.mobilemenuli(href='/login') login 
-                        li
-                        a.mobilemenuli(href='/register') register
+                        unless view == 'login'
+                            li
+                            a.mobilemenuli(href='/login') login 
+                        unless view == 'register'
+                            li
+                            a.mobilemenuli(href='/register') register
                         
                     if session.user
                         if session.user.userRole == 'admin'
@@ -52,19 +56,17 @@ block content
           
 
           form.filterphotos(method="post" action="/filterphotos")
-                input.search(name="search", onchange='{handleChange(event)}' ,list = 'tags', type="text", Placeholder="type 'ir' for example...")             
+                //input.search(name="search", onchange='{handleChange(event)}' ,list = 'tags', type="text", Placeholder="type 'ir' for example...")  
+                input.search(name="search",list = 'tags', type="text", Placeholder="type 'ir' for example...")              
                 datalist#tags
                     each element in datalist
                         option.option #{element}
-                script.
-                    $(document).ready(function() {
-                    $(".search").select(function() {
-                    -alert( "Handler for .change() called." );
-                    -});
-                    -});
-                    -function handleChange(e){
-                    -alert(e.target.value);
-                    -} 
+                //script.
+ 
+                    function handleChange(e){
+                    alert(e.target.value);
+                    res.redirect('/');
+                    } 
                 button.searchbutton(type="submit") go     
           .grid-container
                 each photo in gallery

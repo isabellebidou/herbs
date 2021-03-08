@@ -57,28 +57,36 @@ initializePassport(
   passport,
   (email) => {
     return new Promise(async (resolve, reject) => {
-      //console.log(`making email request to db`);
-      let sql = "select * FROM user WHERE userEmail = '" + email + "'";
-      user = null;
-      await db.query(sql, (err, rows) => {
-        if (err) throw err;
-        user = { ...rows[0] };
-        if (rows.length) {
-          resolve(user);
-        } else reject(`no user with email:  ${email}`);
-      });
+      try {
+        //console.log(`making email request to db`);
+        let sql = "select * FROM user WHERE userEmail = '" + email + "'";
+        user = null;
+        await db.query(sql, (err, rows) => {
+          if (err) throw err;
+          user = { ...rows[0] };
+          if (rows.length) {
+            resolve(user);
+          } else reject(`no user with email:  ${email}`);
+        });
+      } catch (error) {
+        console.error(error);
+      }
     });
   },
   (id) => {
     return new Promise(async (resolve, reject) => {
-      //console.log(`making id request to db`);
-      let sql = "select * FROM user WHERE userId = '" + id + "'";
-      await db.query(sql, (err, rows) => {
-        if (err) throw err;
-        user = { ...rows[0] };
-        if (user != null) resolve(user);
-        else reject(`no user with id:  ${id}`);
-      });
+      try {
+        //console.log(`making id request to db`);
+        let sql = "select * FROM user WHERE userId = '" + id + "'";
+        await db.query(sql, (err, rows) => {
+          if (err) throw err;
+          user = { ...rows[0] };
+          if (user != null) resolve(user);
+          else reject(`no user with id:  ${id}`);
+        });
+      } catch (error) {
+        console.error(error);
+      }
     });
   }
 );
@@ -239,7 +247,6 @@ app.post("/editphoto/:index", checkAuthenticated, function (req, res) {
   let query = db.query(sql, (err, res1) => {
     if (err) throw err;
   });
-  console.log(parseInt(req.params.index) - 1);
   if (parseInt(req.params.index) - 1 > 1)
     res.redirect(`/editphoto/${parseInt(req.params.index) - 1}`);
   //res.redirect("/uploadphoto/" + nextIndex);
