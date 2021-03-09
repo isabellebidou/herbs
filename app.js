@@ -36,6 +36,7 @@ var globalGallery = [];
 let filter = false;
 var lastSearchItem = "";
 var user = null;
+var dbIsOffline = false;
 
 app.use(
   bodyParser.urlencoded({
@@ -104,6 +105,7 @@ app.get("/", function (req, res) {
 //gallery page
 app.get("/gallery", async (req, res, next) => {
   //https://stackoverflow.com/questions/53940043/unhandledpromiserejectionwarning-this-error-originated-either-by-throwing-insid
+
   try {
     let sql = "select * FROM photo ORDER BY photoId DESC; ";
     db.query(sql, async (err, gallery) => {
@@ -123,27 +125,21 @@ app.get("/gallery", async (req, res, next) => {
     });
   } catch (error) {
     next(error);
+    // there was an error retreiving data from the db, using JSON file instead
+    dbIsOffline = true;
+    globalGallery = require("./models/data.json");
+    try {
+      const dataList = await utils.findTagsList(globalGallery);
+      res.render("gallery", {
+        gallery: globalGallery,
+        session: session,
+        datalist: dataList,
+      });
+    } catch (e) {
+      console.error(e);
+    }
   }
 });
-// app.get("/gallery", function (req, res) {
-//   //if (session.user) console.log(`user is logged in: ${session.user}`);
-//   let sql = "select * FROM photo ORDER BY photoId DESC; ";
-//   db.query(sql, async (err, gallery) => {
-//     if (err) throw err;
-//     globalGallery = gallery;
-//     filter = false;
-//     try {
-//       const dataList = await utils.findTagsList(globalGallery);
-//       res.render("gallery", {
-//         gallery: globalGallery,
-//         session: session,
-//         datalist: dataList,
-//       });
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   });
-// });
 
 //photo
 
@@ -186,6 +182,7 @@ app.get("/displayphoto/:index", function (req, res) {
       galleryLength: globalGallery.length,
       session: session,
       filter: filter,
+      dbIsOffline: dbIsOffline,
     });
   }
 });
@@ -215,7 +212,7 @@ app.post("/filterphotos", function (req, res) {
   });
 });
 
-app.get("/editphoto/:index", checkAuthenticated, function (req, res) {
+app.get("/editphoto/:index", utils.checkAuthenticated, function (req, res) {
   function choosephoto(indOne) {
     return indOne.photoId === parseInt(req.params.index);
   }
@@ -227,8 +224,9 @@ app.get("/editphoto/:index", checkAuthenticated, function (req, res) {
     session: session,
   });
 });
-app.post("/editphoto/:index", checkAuthenticated, function (req, res) {
+app.post("/editphoto/:index", utils.checkAuthenticated, function (req, res) {
   //photoName, photoThumbnail, photoCategory, photoCountry, photoPlace, photoComments, photoTags, photoPath
+
   let sql =
     'UPDATE photo SET photoCategory = "' +
     req.body.newcategory +
@@ -253,7 +251,7 @@ app.post("/editphoto/:index", checkAuthenticated, function (req, res) {
   else res.redirect(`/gallery`);
 });
 
-app.post("/uploadphoto/:index", checkAuthenticated, function (req, res) {
+app.post("/uploadphoto/:index", utils.checkAuthenticated, function (req, res) {
   let sql =
     'INSERT INTO photo (photoName, photoThumbnail, photoCategory, photoCountry, photoPlace, photoComments, photoTags, photoPath) VALUES ("' +
     req.body.name +
@@ -285,7 +283,7 @@ app.post("/uploadphoto/:index", checkAuthenticated, function (req, res) {
     res.redirect("/");
   }
 });
-app.get("/uploadphotos/", checkAuthenticated, function (req, res) {
+app.get("/uploadphotos/", utils.checkAuthenticated, function (req, res) {
   for (i = 54; i < gallery.length; i++) {
     let photo = gallery[i];
     let sql =
@@ -380,7 +378,7 @@ app.get("/filterphotos", function (req, res) {
   });
 });
 
-app.get("/login", checkNotAuthenticated, (req, res) => {
+app.get("/login", utils.checkNotAuthenticated, (req, res) => {
   res.render("login", {
     //gallery: globalGallery,
   });
@@ -395,7 +393,7 @@ app.post(
   })
 );
 
-app.get("/register", checkNotAuthenticated, (req, res) => {
+app.get("/register", utils.checkNotAuthenticated, (req, res) => {
   res.render("register", {
     //gallery: globalGallery,
   });
@@ -436,19 +434,6 @@ app.get("/logout", (req, res) => {
   res.redirect("/gallery");
 });
 
-function checkAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.redirect("/login");
-}
-
-function checkNotAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return res.redirect("/");
-  }
-  next();
-}
 app.get("/uploadjson", function (req, res) {
   res.render("uploadjson", {
     root: VIEWS,
@@ -505,9 +490,22 @@ app.post("/updatedb", (req, res) => {
   });
 });
 
-app.get("/updatedb", checkAuthenticated, function (req, res) {
+app.get("/updatedb", utils.checkAuthenticated, function (req, res) {
   res.render("updatedb", {
     root: VIEWS,
+  });
+});
+app.get("/dbintojson", function (req, res) {
+  const fs = require("fs");
+  let sql = "select * FROM photo ORDER BY photoId DESC; ";
+  db.query(sql, async (err, gallery) => {
+    try {
+      if (err) throw err;
+      var data = JSON.stringify(gallery);
+      fs.writeFileSync("./models/data.json", data);
+    } catch (e) {
+      console.error(e);
+    }
   });
 });
 

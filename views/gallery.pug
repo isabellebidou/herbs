@@ -70,14 +70,15 @@ block content
                 button.searchbutton(type="submit") go     
           .grid-container
                 each photo in gallery
-                    - var text 
-                    - text =  photo.photoPlace? photo.photoPlace : text
-                    - text =  photo.photoCountry? text+" "+photo.photoCountry : text
-                    - text =  photo.photoComments? text+" "+photo.photoComments : text 
+                    - var text = ""
+                    - text =  photo.photoPlace && photo.photoPlace != " " ? photo.photoPlace : text
+                    - text =  photo.photoCountry && photo.photoCountry != " "? text+" "+photo.photoCountry : text
+                    - text =  photo.photoComments && photo.photoComments != " "? text+" "+photo.photoComments : text 
 
                     
                     a.div.tooltip(href='/displayphoto/'+photo.photoId)
                         img.photothumbnail(src="http://isabellebidou.com/images/"+photo.photoThumbnail, alt=photo.photoThumbnail)
-                        if text.length > 1 
-                         span.tooltiptext #{text}
-                         //https://coryrylan.com/blog/how-to-center-in-css-with-css-grid
+                        if text
+                            if text.length > 1 
+                                span.tooltiptext #{text}
+                                //https://coryrylan.com/blog/how-to-center-in-css-with-css-grid
