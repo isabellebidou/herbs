@@ -5,7 +5,6 @@ block content
           div  
           .grid-container
                 each category in categories
-
                     a.div.tooltip(href=category.url)
                         img.photothumbnail(src=category.photo, alt=category.name)
                         span.tooltiptext #{category.text}

@@ -34,26 +34,25 @@ block content
       - text =  photo.photoCountry? text+" "+photo.photoCountry : text
       - text =  photo.photoComments? text+" "+photo.photoComments : text 
 
-        unless filter
+        unless session.filter
           unless back > galleryLength
             a.back(href='/displayphoto/'+back) 
               p.direction back
               
         div.frame      
-          if text.length > 1
+          if text.length > 1 && text !== 'undefined'
           p#details #{text}
-            unless dbIsOffline
               if session
                 if session.user 
                   a.edit(href='/editphoto/'+photo.photoId) edit
           img.displayimage(src="http://isabellebidou.com/images/"+photo.photoName, alt="photo.photoName")
            
-        unless filter
+        unless session.filter
           unless next < 1
             a.next(href='/displayphoto/'+next) 
               p.direction next
               
-        if filter      
+        if session.filter      
          a.closeWindow(href='/filterphotos') x
         else
          a.closeWindow(href='/gallery') x

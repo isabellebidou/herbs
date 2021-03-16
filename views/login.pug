@@ -26,8 +26,9 @@ block navigation
 
 block content
       .maincontent
-       if messages.error
-        div #{messages.error}
+       if messages
+        if messages.error
+         div #{messages.error}
        form#login(action='/login', method='post')
         fieldset
                   legend login details

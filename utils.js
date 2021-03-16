@@ -42,9 +42,26 @@ function checkNotAuthenticated(req, res, next) {
   }
   next();
 }
+//https://stackoverflow.com/questions/50211006/how-to-validate-json-objects-without-using-any-external-libraries
+function isValidJSON(text){
+  try{
+      JSON.parse(text);
+      return true;
+  }
+  catch (error){
+      return false;
+  }
+}
+function log(text){
+  if (process.env.NODE_ENV !== "production") {
+    console.log(text);
+  }
+}
 
 module.exports = {
   findTagsList,
   checkAuthenticated,
   checkNotAuthenticated,
+  isValidJSON,
+  log
 };

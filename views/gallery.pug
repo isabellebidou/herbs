@@ -7,9 +7,10 @@ block navigation
             if session.user.userRole == 'admin'
              a.editgallery(href='/editgallery') edit gallery
            
-           unless session.user
-            a.loginbutton(href='/login') login 
-            a.registerbutton(href='/register') register
+           if  !session.user 
+
+                a.loginbutton(href='/login') login 
+                a.registerbutton(href='/register') register
            
            if session.user 
              if session.user.userRole == 'admin'
@@ -25,11 +26,12 @@ block navigation
                 ul#mobilemenuul
                     li
                     a.mobilemenuli(href='/') home
-                    unless session.user
-                        unless view == 'login'
+                    unless session.user 
+                     if session.dbIsOffline == false 
+                        unless view == 'login' 
                             li
                             a.mobilemenuli(href='/login') login 
-                        unless view == 'register'
+                        unless view == 'register' 
                             li
                             a.mobilemenuli(href='/register') register
                         
@@ -78,7 +80,7 @@ block content
                     
                     a.div.tooltip(href='/displayphoto/'+photo.photoId)
                         img.photothumbnail(src="http://isabellebidou.com/images/"+photo.photoThumbnail, alt=photo.photoThumbnail)
-                        if text
-                            if text.length > 1 
+                        unless text == undefined
+                            if text.length > 1 && text !== 'undefined'
                                 span.tooltiptext #{text}
                                 //https://coryrylan.com/blog/how-to-center-in-css-with-css-grid
