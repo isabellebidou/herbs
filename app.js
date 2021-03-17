@@ -4,6 +4,7 @@ if (process.env.NODE_ENV !== "production") {
 var express = require("express"); // call expresss to be used by application
 var app = express();
 const session = require("express-session");
+var MemoryStore = require('memorystore')(session)
 const path = require("path");
 const VIEWS = path.join(__dirname, "views");
 // routes
@@ -26,6 +27,11 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    store: new MemoryStore({
+      //https://github.com/HubSpot/oauth-quickstart-nodejs/issues/15
+      //https://www.npmjs.com/package/memorystore
+      checkPeriod: 86400000 // prune expired entries every 24h
+    }),
   })
 );
 app.set("view engine", "pug");
