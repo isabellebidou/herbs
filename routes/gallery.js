@@ -6,13 +6,14 @@ const utils = require("../utils");
 const secret = require("../secret");
 const getGallery = require("../getgallery");
 const db = secret.db;
-
+var searchItem = " ";
 //var dbIsOffline = false;
 const passport = require("passport");
 const initializePassport = require("../passport-config").initialize;
 const getUserByEmail = require("../passport-config").getUserByEmail;
 const getUserById = require("../passport-config").getUserbyId;
 const session = require("express-session");
+var MemoryStore = require('memorystore')(session)
 var bodyParser = require("body-parser");
 router.use(
   bodyParser.urlencoded({
@@ -24,6 +25,11 @@ router.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    store: new MemoryStore({
+      //https://github.com/HubSpot/oauth-quickstart-nodejs/issues/15
+      //https://www.npmjs.com/package/memorystore
+      checkPeriod: 86400000 // prune expired entries every 24h
+    }),
   })
 );
 router.use(passport.initialize());
@@ -42,16 +48,16 @@ router.get("/gallery", async (req, res, next) => {
     await getGallery
       .getGlobalGallery()
       .then((resolveGallery) => {
-        req.session.filter = false;
-        req.session.dbIsOffline = false;
+        session.filter = false;
+        session.dbIsOffline = false;
         globalGallery = resolveGallery;
-        utils.log(req.session);
+        utils.log(session);
       })
       .catch((error) => {
-        req.session.filter = false;
-        req.session.dbIsOffline = true;
+        session.filter = false;
+        session.dbIsOffline = true;
         globalGallery = error.rejectGallery;
-        utils.log(req.session);
+        utils.log(session);
       });
     const dataList = await utils.findTagsList(globalGallery);
     res.render("gallery", {
@@ -109,15 +115,15 @@ router.get("/gallery", async (req, res, next) => {
 router.get("/filterphotos", function (req, res) {
   let sql =
     'select * FROM photo WHERE photoTags LIKE  "%' +
-    req.session.lastSearchItem +
+    searchItem +
     '%" OR photoPlace LIKE "%' +
-    req.session.lastSearchItem +
+    searchItem +
     '%" OR photoCountry LIKE "%' +
-    req.session.lastSearchItem +
+    searchItem +
     '%" OR photoName LIKE "%' +
-    req.session.lastSearchItem +
+    searchItem +
     '%" OR photoCategory LIKE "%' +
-    req.session.lastSearchItem +
+    searchItem +
     '%" ORDER BY photoId DESC;';
   //console.log(sql);
 
@@ -133,7 +139,7 @@ router.get("/filterphotos", function (req, res) {
 });
 
 router.post("/filterphotos", function (req, res) {
-  req.session.filter = true;
+  session.filter = true;
   let sql =
     'select * FROM photo WHERE photoTags LIKE  "%' +
     req.body.search +
@@ -146,14 +152,14 @@ router.post("/filterphotos", function (req, res) {
     '%" OR photoCategory LIKE "%' +
     req.body.search +
     '%"  ORDER BY photoId DESC;';
-  req.session.lastSearchItem = req.body.search;
+    searchItem = req.body.search;
 
   db.query(sql, (err, gallery) => {
     if (err) throw err;
     globalGallery = gallery;
     res.render("filterphotos", {
       gallery: globalGallery,
-      searchItem: req.session.lastSearchItem,
+      searchItem: searchItem,
     });
   });
 });

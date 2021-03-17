@@ -8,6 +8,7 @@ block navigation
              a.editgallery(href='/editgallery') edit gallery
            
            if  !session.user 
+            if !session.dbIsOffline == true
 
                 a.loginbutton(href='/login') login 
                 a.registerbutton(href='/register') register
@@ -26,12 +27,13 @@ block navigation
                 ul#mobilemenuul
                     li
                     a.mobilemenuli(href='/') home
-                    unless session.user 
-                     if session.dbIsOffline == false 
-                        unless view == 'login' 
+                    if !session.user 
+                     
+                      if !session.dbIsOffline == true
+                        
                             li
                             a.mobilemenuli(href='/login') login 
-                        unless view == 'register' 
+                        
                             li
                             a.mobilemenuli(href='/register') register
                         
@@ -48,14 +50,14 @@ block navigation
               $("#menubutton").click(function(){
               $("#mobilemenu").slideToggle();
               });
-              });       
+              });
+                    
 
 
 
 block content
       .maincontent
           div
-          
 
           form.filterphotos(method="post" action="/filterphotos")
                 //input.search(name="search", onchange='{handleChange(event)}' ,list = 'tags', type="text", Placeholder="type 'ir' for example...")  

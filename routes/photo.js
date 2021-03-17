@@ -15,6 +15,7 @@ const initializePassport = require("../passport-config").initialize;
 const getUserByEmail = require("../passport-config").getUserByEmail;
 const getUserById = require("../passport-config").getUserbyId;
 const session = require("express-session");
+var MemoryStore = require('memorystore')(session)
 var bodyParser = require("body-parser");
 router.use(
   bodyParser.urlencoded({
@@ -26,6 +27,11 @@ router.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    store: new MemoryStore({
+      //https://github.com/HubSpot/oauth-quickstart-nodejs/issues/15
+      //https://www.npmjs.com/package/memorystore
+      checkPeriod: 86400000 // prune expired entries every 24h
+    }),
   })
 );
 
@@ -41,12 +47,12 @@ router.get("/displayphoto/:index", async function (req, res) {
   }
   try {
     await getGallery.getGlobalGallery().then(resolveGallery => {
-      req.session.filter = false;
-      req.session.dbIsOffline = false;
+      //session.filter = true;
+      session.dbIsOffline = false;
       globalGallery = resolveGallery;
     }).catch(error => {
-      req.session.filter = false;
-      req.session.dbIsOffline = true;
+      //session.filter = false;
+      session.dbIsOffline = true;
       globalGallery = error.rejectGallery;
     })
   } catch (e) {
@@ -69,7 +75,7 @@ router.get("/displayphoto/:index", async function (req, res) {
       galleryLength: globalGallery.length,
       session: session,
       //filter: filter,
-      dbIsOffline: dbIsOffline,
+      //dbIsOffline: dbIsOffline,
     });
   }
 });
@@ -100,7 +106,7 @@ router.get("/editphoto/:index", async function (req, res) {
   index = indOne.photoId;
   res.render("editphoto", {
     indOne: indOne,
-    session: session,
+    session: req.session,
   });
 });
 router.post("/editphoto/:index", utils.checkAuthenticated, function (req, res) {

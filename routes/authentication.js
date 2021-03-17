@@ -11,6 +11,7 @@ const getUserByEmail = require("../passport-config").getUserByEmail;
 const getUserById = require("../passport-config").getUserbyId;
 const flash = require("express-flash");
 const session = require("express-session");
+//var MemoryStore = require('memorystore')(session)
 var bodyParser = require("body-parser");
 //const { config } = require('dotenv/types');
 router.use(
@@ -23,6 +24,11 @@ router.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    // store: new MemoryStore({
+    //   //https://github.com/HubSpot/oauth-quickstart-nodejs/issues/15
+    //   //https://www.npmjs.com/package/memorystore
+    //   checkPeriod: 86400000 // prune expired entries every 24h
+    // }),
   })
 );
 
