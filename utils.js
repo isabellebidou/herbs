@@ -59,7 +59,7 @@ function log(text){
 }
 
 module.exports = {
-  findTagsList,
+  findTagsList : findTagsList,
   checkAuthenticated,
   checkNotAuthenticated,
   isValidJSON,
