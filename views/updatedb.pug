@@ -24,6 +24,8 @@ block navigation
               });
 block content
     .maincontent
+        if message
+            p #{message}
         form#updatedb(action='/updatedb', method='POST')
          fieldset
                 legend sql statement

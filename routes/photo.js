@@ -3,7 +3,8 @@ const express = require("express");
 
 const router = express.Router();
 //var globalGallery = require('./gallery.js');
-const getGallery = require("../getgallery")
+const getGallery = require("../getgallery");
+const getUserGallery = require("../getusergallery");
 var globalGallery = [];
 const utils = require("../utils");
 const secret = require("../secret");
@@ -15,7 +16,7 @@ const initializePassport = require("../passport-config").initialize;
 const getUserByEmail = require("../passport-config").getUserByEmail;
 const getUserById = require("../passport-config").getUserbyId;
 const session = require("express-session");
-var MemoryStore = require('memorystore')(session)
+var MemoryStore = require("memorystore")(session);
 var bodyParser = require("body-parser");
 router.use(
   bodyParser.urlencoded({
@@ -30,7 +31,7 @@ router.use(
     store: new MemoryStore({
       //https://github.com/HubSpot/oauth-quickstart-nodejs/issues/15
       //https://www.npmjs.com/package/memorystore
-      checkPeriod: 86400000 // prune expired entries every 24h
+      checkPeriod: 86400000, // prune expired entries every 24h
     }),
   })
 );
@@ -40,21 +41,21 @@ router.use(passport.session());
 
 initializePassport(passport, getUserByEmail, getUserById);
 
-
 router.get("/displayphoto/:index", async function (req, res) {
   function choosephoto(indOne) {
     return indOne.photoId === parseInt(req.params.index);
   }
   try {
-    await getGallery.getGlobalGallery().then(resolveGallery => {
-      //session.filter = true;
-      session.dbIsOffline = false;
-      globalGallery = resolveGallery;
-    }).catch(error => {
-      //session.filter = false;
-      session.dbIsOffline = true;
-      globalGallery = error.rejectGallery;
-    })
+    await getGallery
+      .getGlobalGallery()
+      .then((resolveGallery) => {
+        session.dbIsOffline = false;
+        globalGallery = resolveGallery;
+      })
+      .catch((error) => {
+        session.dbIsOffline = true;
+        globalGallery = error.rejectGallery;
+      });
   } catch (e) {
     console.error(e);
   }
@@ -86,27 +87,62 @@ router.get("/editphoto/:index", async function (req, res) {
   function choosephoto(indOne) {
     return indOne.photoId === parseInt(req.params.index);
   }
-  if (!globalGallery|| globalGallery ==[]|| globalGallery === undefined){
+  if (session.user.userRole == "standard") {
     try {
-      await getGallery.getGlobalGallery().then(resolveGallery => {
-        req.session.filter = false;
-        req.session.dbIsOffline = false;
-        globalGallery = resolveGallery;
-      }).catch(error => {
-        req.session.filter = false;
-        req.session.dbIsOffline = true;
-        globalGallery = error.rejectGallery;
-      })
+      await getUserGallery
+        .getUserGallery(session.user)
+        .then((resolveGallery) => {
+          req.session.filter = false;
+          req.session.dbIsOffline = false;
+          globalGallery = resolveGallery;
+        })
+        .catch((error) => {
+          req.session.filter = false;
+          req.session.dbIsOffline = true;
+        });
+    } catch (e) {
+      console.error(e);
+    }
+  } else {
+    try {
+      await getGallery
+        .getGlobalGallery()
+        .then((resolveGallery) => {
+          req.session.filter = false;
+          req.session.dbIsOffline = false;
+          globalGallery = resolveGallery;
+        })
+        .catch((error) => {
+          req.session.filter = false;
+          req.session.dbIsOffline = true;
+          globalGallery = error.rejectGallery;
+        });
     } catch (e) {
       console.error(e);
     }
   }
- //globalGallery = await getGlobalGallery();
-  var indOne = globalGallery.filter(choosephoto);
-  index = indOne.photoId;
+  var photo = utils.findPhotoInJsonArray(
+    parseInt(req.params.index),
+    globalGallery
+  );
+  if (photo == undefined) {
+    photo = utils.findPhotoInJsonArray2(
+      parseInt(req.params.index),
+      globalGallery
+    );
+  }
+
+  utils.log(photo);
+
+  var index = globalGallery.indexOf(photo);
+  var nextPhotoId =
+    index + 1 < globalGallery.length
+      ? globalGallery[index + 1].photoId
+      : globalGallery[0];
   res.render("editphoto", {
-    indOne: indOne,
-    session: req.session,
+    photo: photo,
+    session: session,
+    nextId: nextPhotoId,
   });
 });
 router.post("/editphoto/:index", utils.checkAuthenticated, function (req, res) {
@@ -132,40 +168,7 @@ router.post("/editphoto/:index", utils.checkAuthenticated, function (req, res) {
   });
   if (parseInt(req.params.index) - 1 > 1)
     res.redirect(`/editphoto/${parseInt(req.params.index) - 1}`);
-  //res.redirect("/uploadphoto/" + nextIndex);
   else res.redirect(`/gallery`);
 });
-
-async function getGlobalGallery (){
-  return new Promise((resolve, reject) => {
-  utils.log('getGlobalGallery shouldnt show .. oops');
-
-  try {
-  let sql = "select * FROM photo ORDER BY photoId DESC; ";
-  db.query(sql, async (err, gallery) => {
-    try {
-      if (err) throw err;
-      globalGallery = gallery;
-      dbIsOffline = false;
-      resolve(globalGallery);
-    } catch (e) {
-      console.error(e);
-      let jsonGallery = require("../models/data.json");
-      reject(jsonGallery);
-
-    }
-  });
-  
-} catch (error) {
-  next(error);
-  // there was an error retreiving data from the db, using JSON file instead
-  dbIsOffline = true;
-  globalGallery = require("../models/data.json");
-
-}
-//resolve (globalGallery);
-
-})
-}
 
 module.exports = router;

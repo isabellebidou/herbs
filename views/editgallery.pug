@@ -2,12 +2,11 @@ extends layout
 
 block content
       .maincontent
-          form(method="post" action="/searchphotos")
-              input(name="search", type="text", Placeholder="Search For a photo...") 
-              button.button(type="submit") Search     
+          div
+            
           .grid-container
                 each photo in gallery
 
-                    a.div.tooltip(href='/editphoto/'+photo.index)
-                        img.photothumbnail(src="http://isabellebidou.com/images/"+photo.thumbnail, alt=photo.thumbnail)
-                        span.tooltiptext #{photo.name}
+                    a.div.tooltip(href='/editphoto/'+photo.photoId)
+                        img.photothumbnail(src="http://isabellebidou.com/images/"+photo.photoThumbnail, alt=photo.photoThumbnail)
+                        span.tooltiptext #{photo.photoName}

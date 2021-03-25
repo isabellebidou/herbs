@@ -2,12 +2,14 @@ extends layout
 block navigation
             div.authentication
               a.home(href='/') home
-              a.togallerybutton(href='/gallery') to gallery
               if session.user 
                 if session.user.userRole == 'admin'
+                  a.togallerybutton(href='/gallery') to gallery
                   a.uploadjsonbutton(href='/uploadjson') upload JSON
                   a.updatedbbutton(href='/updatedb') update DB
-                  
+                if session.user.userRole == 'standard'
+                  a.togallerybutton(href='/editgallery') to editgallery
+
               if session.user
                 form(action="/logout?_method=DELETE" method="POST")
                 button.logoutbutton(type="submit") logout 
@@ -39,7 +41,7 @@ block navigation
 block content 
       
     .maincontent
-          each photo in indOne
+          
             img.detailimage(src="http://isabellebidou.com/images/"+photo.photoName, alt="photo.name")
             form.detailform(method = "post")
               
@@ -57,9 +59,9 @@ block content
                 input.detailinput(name= "newyear", type = "text", value = photo.photoYear) 
                 //label.detaillabel(for= "newcomments") comments:
                 //input.detailinput(name= "newcomments", type = "text", value = photo.photoComments) 
-                - var next = photo.photoId-1
+                //- var next = photo.photoId-1
                 div.buttonsidebyside
-                    button.buttonduo(href='/editphoto/'+next) skip 
+                    button.buttonduo(href='/editphoto/'+nextId) skip 
                     button.buttonduo(type="submit", class = "submit") update
                 
 

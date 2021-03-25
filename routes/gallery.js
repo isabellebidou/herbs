@@ -5,6 +5,7 @@ var globalGallery = [];
 const utils = require("../utils");
 const secret = require("../secret");
 const getGallery = require("../getgallery");
+const getUserGallery = require("../getusergallery");
 const db = secret.db;
 var searchItem = " ";
 //var dbIsOffline = false;
@@ -13,7 +14,7 @@ const initializePassport = require("../passport-config").initialize;
 const getUserByEmail = require("../passport-config").getUserByEmail;
 const getUserById = require("../passport-config").getUserbyId;
 const session = require("express-session");
-var MemoryStore = require('memorystore')(session)
+var MemoryStore = require("memorystore")(session);
 var bodyParser = require("body-parser");
 router.use(
   bodyParser.urlencoded({
@@ -28,7 +29,7 @@ router.use(
     store: new MemoryStore({
       //https://github.com/HubSpot/oauth-quickstart-nodejs/issues/15
       //https://www.npmjs.com/package/memorystore
-      checkPeriod: 86400000 // prune expired entries every 24h
+      checkPeriod: 86400000, // prune expired entries every 24h
     }),
   })
 );
@@ -43,6 +44,7 @@ initializePassport(passport, getUserByEmail, getUserById);
 //gallery page
 
 router.get("/gallery", async (req, res, next) => {
+  utils.log(session);
   req.session.dbIsOffline = false;
   try {
     await getGallery
@@ -51,13 +53,11 @@ router.get("/gallery", async (req, res, next) => {
         session.filter = false;
         session.dbIsOffline = false;
         globalGallery = resolveGallery;
-        utils.log(session);
       })
       .catch((error) => {
         session.filter = false;
         session.dbIsOffline = true;
         globalGallery = error.rejectGallery;
-        utils.log(session);
       });
     const dataList = await utils.findTagsList(globalGallery);
     res.render("gallery", {
@@ -70,46 +70,7 @@ router.get("/gallery", async (req, res, next) => {
   }
 });
 
-// router.get("/gallerys", async (req, res, next) => {
 //   //https://stackoverflow.com/questions/53940043/unhandledpromiserejectionwarning-this-error-originated-either-by-throwing-insid
-
-//   try {
-//     let sql = "select * FROM photo ORDER BY photoId DESC; ";
-//     db.query(sql, async (err, gallery) => {
-//       try {
-//         if (err) throw err;
-//         globalGallery = gallery;
-//         req.session.filter = false;
-//         const dataList = await utils.findTagsList(globalGallery);
-//         dbIsOffline = false;
-//         //localStorage.setItem('globalGallery', JSON.stringify(globalGallery));
-//         res.render("gallery", {
-//           gallery: globalGallery,
-//           session: session,
-//           datalist: dataList,
-//         });
-//       } catch (e) {
-//         console.error(e);
-//       }
-//     });
-//   } catch (error) {
-//     next(error);
-//     // there was an error retreiving data from the db, using JSON file instead
-//     dbIsOffline = true;
-//     globalGallery = require("./models/data.json");
-//     try {
-//       const dataList = await utils.findTagsList(globalGallery);
-//       //localStorage.setItem('globalGallery', JSON.stringify(globalGallery));
-//       res.render("gallery", {
-//         gallery: globalGallery,
-//         session: session,
-//         datalist: dataList,
-//       });
-//     } catch (e) {
-//       console.error(e);
-//     }
-//   }
-// });
 
 // filter
 router.get("/filterphotos", function (req, res) {
@@ -125,7 +86,6 @@ router.get("/filterphotos", function (req, res) {
     '%" OR photoCategory LIKE "%' +
     searchItem +
     '%" ORDER BY photoId DESC;';
-  //console.log(sql);
 
   db.query(sql, (err, gallery) => {
     if (err) throw err;
@@ -152,7 +112,7 @@ router.post("/filterphotos", function (req, res) {
     '%" OR photoCategory LIKE "%' +
     req.body.search +
     '%"  ORDER BY photoId DESC;';
-    searchItem = req.body.search;
+  searchItem = req.body.search;
 
   db.query(sql, (err, gallery) => {
     if (err) throw err;
@@ -162,6 +122,32 @@ router.post("/filterphotos", function (req, res) {
       searchItem: searchItem,
     });
   });
+});
+
+router.get("/editgallery", async (req, res, next) => {
+  req.session.dbIsOffline = false;
+  try {
+    await getUserGallery
+      .getUserGallery(session.user)
+      .then((resolveGallery) => {
+        session.filter = false;
+        session.dbIsOffline = false;
+        globalGallery = resolveGallery;
+      })
+      .catch((error) => {
+        session.filter = false;
+        session.dbIsOffline = true;
+        res.redirect("gallery");
+      });
+    const dataList = await utils.findTagsList(globalGallery);
+    res.render("editgallery", {
+      gallery: globalGallery,
+      session: session,
+      datalist: dataList,
+    });
+  } catch (e) {
+    console.error(e);
+  }
 });
 
 module.exports = router;

@@ -4,7 +4,7 @@ block navigation
     div.authentication
            a.home(href='/') home
            if session.user
-            if session.user.userRole == 'admin'
+            if session.user.userRole == 'standard'
              a.editgallery(href='/editgallery') edit gallery
            
            if  !session.user 
