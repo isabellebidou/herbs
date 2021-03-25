@@ -42,9 +42,9 @@ router.use(passport.session());
 initializePassport(passport, getUserByEmail, getUserById);
 
 router.get("/displayphoto/:index", async function (req, res) {
-  function choosephoto(indOne) {
-    return indOne.photoId === parseInt(req.params.index);
-  }
+  // function choosephoto(indOne) {
+  //   return indOne.photoId === parseInt(req.params.index);
+  // }
   try {
     await getGallery
       .getGlobalGallery()
@@ -60,25 +60,51 @@ router.get("/displayphoto/:index", async function (req, res) {
     console.error(e);
   }
   try {
-    if (globalGallery && Array.isArray(globalGallery))
-      var indOne = globalGallery.filter(choosephoto);
-    else res.redirect("/gallery");
+    if (globalGallery && Array.isArray(globalGallery)) {
+      //var indOne = globalGallery.filter(choosephoto);
+      var photo = utils.findPhotoInJsonArray(
+        parseInt(req.params.index),
+        globalGallery
+      );
+      if (photo == undefined) {
+        photo = utils.findPhotoInJsonArray2(
+          parseInt(req.params.index),
+          globalGallery
+        );
+      }
+
+      var index = globalGallery.indexOf(photo);
+      var nextPhotoId =
+        index + 1 < globalGallery.length
+          ? globalGallery[index + 1].photoId
+          : null;
+
+        var previousPhotoId =
+        index - 1 >= 0
+          ? globalGallery[index - 1].photoId
+          : null;
+      //var myIndex = getIndOnePhotoId(indOne);
+      res.render("displayphoto", {
+        //indOne: indOne,
+        photo: photo,
+        galleryLength: globalGallery.length,
+        session: session,
+        next: nextPhotoId,
+        back: previousPhotoId
+        //filter: filter,
+        //dbIsOffline: dbIsOffline,
+      });
+    } else res.redirect("/gallery");
   } catch (e) {
     console.error(e);
     res.redirect("/gallery");
   }
-  if (indOne == [] || indOne == undefined || !indOne) {
-    res.redirect("/gallery");
-  } else {
-    //var myIndex = getIndOnePhotoId(indOne);
-    res.render("displayphoto", {
-      indOne: indOne,
-      galleryLength: globalGallery.length,
-      session: session,
-      //filter: filter,
-      //dbIsOffline: dbIsOffline,
-    });
-  }
+  // if (indOne == [] || indOne == undefined || !indOne) {
+  //   res.redirect("/gallery");
+  // } else {
+
+
+  // }
 });
 
 //edit
