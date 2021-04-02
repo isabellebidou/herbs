@@ -3,8 +3,8 @@ const localStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcrypt");
 const session = require("express-session");
 const secret = require("./secret");
-const flash = require("express-flash");
 const db = secret.db;
+//applicationCache.use(flash);
 
 function getUserByEmail(email){
     return new Promise(async (resolve, reject) => {
@@ -79,7 +79,6 @@ function initialize( passport, getUserByEmail, getUserbyId) {
   passport.deserializeUser((id, done) => {
     return done(null, getUserbyId(id));
   });
-  //passport.use(flash);
 }
 
 module.exports = {

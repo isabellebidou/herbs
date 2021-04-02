@@ -3,6 +3,7 @@ const router = express.Router();
 const utils = require("../utils");
 const secret = require("../secret");
 const db = secret.db;
+const bcrypt = require("bcrypt")
 //const secret = require("../secret");
 const methodOverride = require("method-override");
 const passport = require("passport");

@@ -3,12 +3,12 @@ const router = express.Router();
 const upload = require("../storage-config");
 const utils = require("../utils");
 const secret = require("../secret");
-const getGallery = require("../getgallery");
-const getSetNames = require("../getsetnames");
+const getGallery = require("../get/getgallery");
+const getSetNames = require("../get/getsetnames");
 var message = "";
 // toggle to use
 // const { findPhotoSetValues } = require("../utils");
-const { insertSetNamesIntoSetNamesTable } = require("../insertsetnames");
+const { insertSetNamesIntoSetNamesTable } = require("../insert/insertsetnames");
 // const { getSetNames } = require("../getsetnames");
 // const { updateSetIdInPhotoTable  } = require("../updatesetId");
 const db = secret.db;

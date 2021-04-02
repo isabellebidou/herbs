@@ -3,8 +3,8 @@ const express = require("express");
 
 const router = express.Router();
 //var globalGallery = require('./gallery.js');
-const getGallery = require("../getgallery");
-const getUserGallery = require("../getusergallery");
+const getGallery = require("../get/getgallery");
+const getUserGallery = require("../get/getusergallery");
 var globalGallery = [];
 const utils = require("../utils");
 const secret = require("../secret");

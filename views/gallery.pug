@@ -20,6 +20,7 @@ block navigation
               a.updatedbbutton(href='/updatedb') update DB
               
            if session.user
+            a.myprofilebutton(href=`/userprofile/${user.userId}`) profile
             form(action="/logout?_method=DELETE" method="POST")
              button.logoutbutton(type="submit") logout
     button#menubutton

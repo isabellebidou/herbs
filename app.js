@@ -4,6 +4,8 @@ if (process.env.NODE_ENV !== "production") {
 //const getGallery = require("./getgallery")
 var express = require("express"); // call expresss to be used by application
 var app = express();
+const flash = require("express-flash");
+app.use(flash());
 const utils = require("./utils");
 const session = require("express-session");
 var MemoryStore = require("memorystore")(session);
@@ -16,12 +18,14 @@ const photoroutes = require("./routes/photo"); //edit, display photo
 const indexroute = require("./routes/index"); // index
 const galleryroutes = require("./routes/gallery"); //gallery, filterphotos
 const usersroutes = require("./routes/users"); //users
+const userprofile = require("./routes/userprofile"); //users
 app.use(authenticationroutes);
 app.use(dbroutes);
 app.use(photoroutes);
 app.use(indexroute);
 app.use(galleryroutes);
 app.use(usersroutes);
+app.use(userprofile);
 // end of routes
 app.use(express.static("scripts"));
 app.use(express.static("images"));

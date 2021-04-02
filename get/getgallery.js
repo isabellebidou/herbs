@@ -1,4 +1,4 @@
-const secret = require("./secret");
+const secret = require("../secret");
 const db = secret.db;
 
 async function getGlobalGallery() {

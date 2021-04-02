@@ -1,13 +1,13 @@
-const secret = require("./secret");
-const utils = require("./utils");
+const secret = require("../secret");
+const utils = require("../utils");
 const db = secret.db;
 
-async function insertSetNameById(setName, id) {
+async function deleteSetNameById(setName, id) {
   return new Promise((resolve, reject) => {
     try {
 
-        let sql =
-          'INSERT INTO userPhotoSet (userId, photoSetId) VALUES ("' + id + '", " '+setName+ '");';
+      let sql = "DELETE from userPhotoSet WHERE userId = "+
+      id+ " AND photoSetId = "+setName;
         utils.log(sql);
         db.query(sql, async (err) => {
           //try {
@@ -26,5 +26,5 @@ async function insertSetNameById(setName, id) {
 
 
 module.exports = {
-    insertSetNameById,
+    deleteSetNameById,
 };

@@ -1,15 +1,15 @@
-const secret = require("./secret");
+const secret = require("../secret");
 const db = secret.db;
 
-function getUsers() {
+function getUserDetails(id) {
 
     return new Promise((resolve, reject) => {
         // let sql = "select * FROM photoSet; ";
-        let sql = "SELECT * FROM user ORDER by userLastName ASC;";
-         db.query(sql, async (err, users) => {
+        let sql = "SELECT * FROM user WHERE user.userid = "+ id+ " ;";
+         db.query(sql, async (err, user) => {
            try {
              if (err) throw err;
-             resolve(users);
+             resolve(user);
            } catch (e) {
              console.error(e);
            }
@@ -19,5 +19,5 @@ function getUsers() {
 }
 
 module.exports = {
-  getUsers,
+    getUserDetails,
 };

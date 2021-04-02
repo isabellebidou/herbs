@@ -1,5 +1,5 @@
-const secret = require("./secret");
-const utils = require("./utils");
+const secret = require("../secret");
+const utils = require("../utils");
 const db = secret.db;
 
 function getSetNamesByUserId(userId) {
