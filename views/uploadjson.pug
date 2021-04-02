@@ -25,10 +25,27 @@ block navigation
 
 block content
     .maincontent
+        form#upload(action='/createsetname', method='POST' enctype='multipart/form-data')
+         fieldset
+                legend create new set name
+                ul
+                   li.div
+                    label new set name
+                    input.longInput(name= "newSetName", type = "text")
+                   li.div
+                    input(type="submit", value="create")
+                    
+
+    
         form#upload(action='/uploadjson', method='POST' enctype='multipart/form-data')
          fieldset
                 legend browse to json file
                 ul
+                   li.div
+                    label select existing set name:
+                    select.longInput(name= "set", type = "select")
+                     each element in setList
+                        option.option #{element.photoSetName} 
                    li.div
                     label select JSON file:
                     input.longInput(name= "json", type = "file" required) 

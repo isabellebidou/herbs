@@ -158,7 +158,7 @@ router.get("/editphoto/:index", async function (req, res) {
     );
   }
 
-  utils.log(photo);
+  //utils.log(photo);
 
   var index = globalGallery.indexOf(photo);
   var nextPhotoId =

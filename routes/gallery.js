@@ -44,7 +44,7 @@ initializePassport(passport, getUserByEmail, getUserById);
 //gallery page
 
 router.get("/gallery", async (req, res, next) => {
-  utils.log(session);
+  //utils.log(session);
   req.session.dbIsOffline = false;
   try {
     await getGallery

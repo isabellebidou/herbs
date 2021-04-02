@@ -19,6 +19,10 @@
     height: 2em;
     font-size: large;
   }
+   /* https://stackoverflow.com/questions/15901030/reset-remove-css-styles-for-element-only */
+ .usersetinput, .usersetlabel {
+  width: auto;
+}
   .authentication {
     display: none;
   }

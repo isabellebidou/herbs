@@ -1,6 +1,6 @@
 {
   "name": "isabellebidou.photos",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "photo website",
   "main": "app.js",
   "scripts": {

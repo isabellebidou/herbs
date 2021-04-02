@@ -15,7 +15,6 @@ block navigation
            
            if session.user 
              if session.user.userRole == 'admin'
-              a.usersbutton(href='/users') users
               a.uploadjsonbutton(href='/uploadjson') upload JSON
               a.updatedbbutton(href='/updatedb') update DB
               
@@ -58,32 +57,27 @@ block navigation
 
 block content
       .maincontent
-          div
+            div
+            table.usersTable
+                tr
+                    th Id
+                    th first name
+                    th last name
+                    th email
+                    th role
+                    th active
+                    th set names
+                    th edit
+            
+                for user in users
+                 tr
+                    td #{user.userId}
+                    td #{user.userFirstName}
+                    td #{user.userLastName}
+                    td #{user.userEmail}
+                    td #{user.userRole}
+                    td #{user.active}
+                    td #{user.userSetNames}
+                    td
+                     a(href='/edituser/'+user.userId) edit
 
-          form.filterphotos(method="post" action="/filterphotos")
-                //input.search(name="search", onchange='{handleChange(event)}' ,list = 'tags', type="text", Placeholder="type 'ir' for example...")  
-                input.search(name="search",list = 'tags', type="text", Placeholder="type 'ir' for example...")              
-                datalist#tags
-                    each element in datalist
-                        option.option #{element}
-                //script.
- 
-                    function handleChange(e){
-                    alert(e.target.value);
-                    res.redirect('/');
-                    } 
-                button.searchbutton(type="submit") go     
-          .grid-container
-                each photo in gallery
-                    - var text = ""
-                    - text =  photo.photoPlace && photo.photoPlace != " " ? photo.photoPlace : text
-                    - text =  photo.photoCountry && photo.photoCountry != " "? text+" "+photo.photoCountry : text
-                    - text =  photo.photoComments && photo.photoComments != " "? text+" "+photo.photoComments : text 
-
-                    
-                    a.div.tooltip(href='/displayphoto/'+photo.photoId)
-                        img.photothumbnail(src="http://isabellebidou.com/images/"+photo.photoThumbnail, alt=photo.photoThumbnail)
-                        unless text == undefined
-                            if text.length > 1 && text !== 'undefined'
-                                span.tooltiptext #{text}
-                                //https://coryrylan.com/blog/how-to-center-in-css-with-css-grid

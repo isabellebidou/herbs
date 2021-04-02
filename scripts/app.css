@@ -10,10 +10,13 @@
   top: 5%;
   right: 25%;
 }
+input,
+.submit {
+  width: 100%;
+}
 
 #login,
-#updatedb,
-#upload {
+#updatedb {
   position: absolute;
   width: 100%;
 }
@@ -38,6 +41,7 @@
 }
 .loginbutton,
 .registerbutton,
+.usersbutton,
 .uploadjsonbutton,
 .updatedbbutton,
 .togallerybutton,
@@ -54,14 +58,14 @@ div.form {
 li.div {
   list-style-type: none;
 }
-label {
+/* label {
   float: left;
   clear: both;
 }
 input {
   float: right;
   clear: both;
-}
+} */
 
 .photothumbnail {
   margin: 1em;
@@ -126,7 +130,7 @@ fieldset {
   -webkit-border-radius: 8px;
   border-radius: 8px;
   background-color: rgba(243, 236, 236, 0.4);
-  padding-top: 3em;
+  /* padding-top: 3em; */
 }
 legend {
   color: rgba(25, 98, 194, 0.356);
@@ -160,6 +164,28 @@ legend {
   top: 15%;
   vertical-align: top;
 }
+.editUserForm {
+  position: absolute;
+  width: 90%;
+  right: 5%;
+}
+/* https://stackoverflow.com/questions/15901030/reset-remove-css-styles-for-element-only */
+.usersetinput,
+.usersetlabel {
+  width: auto;
+}
+/* .userSets, .availableSets{
+   float: right;
+ } 
+ .userDetails{
+   float: left;
+ } */
+/* .setLabel {
+  text-align: right;
+  clear: both;
+  float:left;
+  margin-right:15px;
+} */
 .detailform {
   position: fixed;
   width: 30%;
@@ -374,6 +400,23 @@ h2 {
   font-size: 1em;
   font-style: oblique;
 }
+.usersTable {
+  position: absolute;
+  width: 90%;
+  right: 5%;
+  /* color: #b271c4; */
+  color: rgba(25, 98, 194, 0.356);
+
+  border: 1px solid #45a049;
+  border-radius: 4%;
+  border-width: thin;
+}
+.usersTable th,
+.usersTable td {
+  padding-top: 0.7em;
+  border-radius: 6%;
+  border: 1px dotted #45a049;
+}
 p {
   padding-top: 1em;
   padding-right: 2em;
@@ -389,6 +432,16 @@ p {
   align-content: center;
   grid-template-columns: auto auto auto;
   grid-gap: 5px;
+  /* background-color: #2196F3;  Comment this out later to remove the background color when not needed */
+  padding: 10px;
+}
+.sets-grid-container {
+  margin: auto;
+  color: rgba(248, 245, 245, 0.89);
+  display: grid;
+  align-content: center;
+  grid-template-columns: auto auto auto auto auto;
+  grid-gap: 10px;
   /* background-color: #2196F3;  Comment this out later to remove the background color when not needed */
   padding: 10px;
 }
@@ -459,10 +512,7 @@ select,
   border-radius: 4px;
   box-sizing: border-box;
 }
-input,
-.submit {
-  width: 100%;
-}
+
 .submit {
   background-color: #7f5f87;
   color: #fff;

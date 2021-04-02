@@ -1,0 +1,81 @@
+extends layout
+block navigation
+            div.authentication
+              a.home(href='/') home
+              if session.user 
+                if session.user.userRole == 'admin'
+                  a.togallerybutton(href='/gallery') to gallery
+                  a.uploadjsonbutton(href='/uploadjson') upload JSON
+                  a.updatedbbutton(href='/updatedb') update DB
+                if session.user.userRole == 'standard'
+                  a.togallerybutton(href='/editgallery') to editgallery
+
+              if session.user
+                form(action="/logout?_method=DELETE" method="POST")
+                button.logoutbutton(type="submit") logout 
+            button#menubutton
+              | menu
+              div#mobilemenu
+                  ul#mobilemenuul
+                        
+                    li
+                    a.mobilemenuli(href='/gallery') to gallery  
+
+                    if session.user
+                      if session.user.userRole == 'admin'
+                            li
+                            a.mobilemenuli(href='/uploadjson') upload JSON
+                            li
+                            a.mobilemenuli(href='/updatedb') update DB
+                    if session
+                        if session.user
+                          li
+                            a.mobilemenuli(href='/logout') logout
+                            
+            script.
+              $(document).ready(function() {
+              $("#menubutton").click(function(){
+              $("#mobilemenu").slideToggle();
+              });
+              });
+block content 
+      
+    .maincontent
+          
+          each user in users  
+            form.editUserForm(method = "post")
+              
+              fieldset.userDetails
+                legend user id:  #{user.userId}
+                label.setLabel(for= "newfirstname") first name:
+                input.detailinput(name= "newfirstname", id = "newfirstname",type = "text", value = user.userFirstName) 
+                label.setLabel(for= "newlastname") last name:
+                input.detailinput(name= "newlastname", id = "newlastname", type = "text", value = user.userLastName) 
+                label.setLabel(for= "newemail") email:
+                input.detailinput(name= "newemail", id= "newemail",type = "text", value = user.userEmail) 
+                label.setLabel(for= "newrole") role:
+                input.detailinput(name= "newrole", id= "newrole",type = "text", value = user.userRole) 
+                label.setLabel(for= "newactive") active:
+                input.detailinput(name= "newactive", id= "newactive",type = "text", value = user.active) 
+              fieldset.userSets
+                legend accessed sets
+                .sets-grid-container
+                  each name in userSetNames
+                    div
+                      input.usersetinput(name = name.photoSetId, id = name.photoSetId, type = "checkbox", value = name.photoSetName, checked )
+                      label.usersetlabel(for = name.photoSetName) #{name.photoSetName}
+              fieldset.availableSets
+                  legend available sets
+                  .sets-grid-container
+                      each name in remainingSetNames
+                        div 
+                          input.usersetinput(name = name.photoSetId, id = name.photoSetId, type = "checkbox", value = name.photoSetName)
+                          label.usersetlabel(for = name.photoSetName) #{name.photoSetName}
+ 
+
+
+              button.buttonduo(type="submit", class = "submit") update
+                
+
+   
+                

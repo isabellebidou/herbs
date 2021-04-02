@@ -4,17 +4,47 @@ const upload = require("../storage-config");
 const utils = require("../utils");
 const secret = require("../secret");
 const getGallery = require("../getgallery");
+const getSetNames = require("../getsetnames");
 var message = "";
 // toggle to use
 // const { findPhotoSetValues } = require("../utils");
-// const { insertSetNamesIntoSetNamesTable } = require("../insertsetnames");
+const { insertSetNamesIntoSetNamesTable } = require("../insertsetnames");
 // const { getSetNames } = require("../getsetnames");
 // const { updateSetIdInPhotoTable  } = require("../updatesetId");
 const db = secret.db;
 const fs = require("fs");
-//var bodyParser = require("body-parser");
-router.get("/uploadjson", function (req, res) {
-  res.render("uploadjson");
+var bodyParser = require("body-parser");
+//router.use(express.json());
+router.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
+
+router.get("/uploadjson", async function (req, res) {
+  try {
+    await getSetNames
+      .getSetNames()
+      .then((resolveSetNames) => {
+        //session.dbIsOffline = false;
+        res.render("uploadjson", {
+          setList: resolveSetNames,
+        //  session: session,
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  } catch (error) {
+    console.error(error);
+  }
+});
+router.post("/createsetname", (req, res) => {
+  var newSetNames = [];
+  //utils.log(req.body)
+  newSetNames.push(req.body.newSetName);
+  //utils.log(req.body.newSetName)
+  insertSetNamesIntoSetNamesTable(newSetNames);
 });
 
 router.post("/uploadjson", upload.single("json"), (req, res) => {
@@ -22,6 +52,7 @@ router.post("/uploadjson", upload.single("json"), (req, res) => {
   utils.log(req.file.filename);
   var newPhotos = require(`../models/${req.file.filename}`);
   var jsonIsValid = true;
+  var set;
   try {
     JSON.parse(newPhotos);
   } catch (e) {
@@ -214,8 +245,8 @@ router.get("/uploadphotos/", utils.checkAuthenticated, function (req, res) {
 //   // for each photo in gallery update photosetvalue
 
 // });
-let sql =
-  "CREATE TABLE userPhotoSet (userPhotoSet int NOT NULL AUTO_INCREMENT PRIMARY KEY, userId int(255),photoSetId int(255),FOREIGN KEY (userId) REFERENCES user(userId), FOREIGN KEY (photoSetId) REFERENCES photoSet(photoSetId))";
+//let sql =
+ // "CREATE TABLE userPhotoSet (userPhotoSet int NOT NULL AUTO_INCREMENT PRIMARY KEY, userId int(255),photoSetId int(255),FOREIGN KEY (userId) REFERENCES user(userId), FOREIGN KEY (photoSetId) REFERENCES photoSet(photoSetId))";
 
 router.get("/createphototable", function (req, res) {
   //name, thumbnail, category, country, place, comments, tags, path

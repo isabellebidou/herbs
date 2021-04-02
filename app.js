@@ -4,6 +4,7 @@ if (process.env.NODE_ENV !== "production") {
 //const getGallery = require("./getgallery")
 var express = require("express"); // call expresss to be used by application
 var app = express();
+const utils = require("./utils");
 const session = require("express-session");
 var MemoryStore = require("memorystore")(session);
 const path = require("path");
@@ -14,11 +15,13 @@ const dbroutes = require("./routes/db"); //create tables, update db, upload json
 const photoroutes = require("./routes/photo"); //edit, display photo
 const indexroute = require("./routes/index"); // index
 const galleryroutes = require("./routes/gallery"); //gallery, filterphotos
+const usersroutes = require("./routes/users"); //users
 app.use(authenticationroutes);
 app.use(dbroutes);
 app.use(photoroutes);
 app.use(indexroute);
 app.use(galleryroutes);
+app.use(usersroutes);
 // end of routes
 app.use(express.static("scripts"));
 app.use(express.static("images"));
@@ -39,7 +42,7 @@ app.use(
 app.set("view engine", "pug");
 //set up the environment for the app to run
 app.listen(process.env.PORT || 7000, process.env.IP || "0.0.0.0", function () {
-  if (!process.env.PORT) console.log("app is running on port 7000");
+  if (!process.env.PORT) utils.log("app is running on port 7000");
 });
 
 app.get("/", (req, res) => res.render("views/index"));
