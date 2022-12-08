@@ -14,15 +14,15 @@ const VIEWS = path.join(__dirname, "views");
 // routes
 const authenticationroutes = require("./routes/authentication"); // login, logout, register
 const dbroutes = require("./routes/db"); //create tables, update db, upload json, sql query
-const photoroutes = require("./routes/photo"); //edit, display photo
-const indexroute = require("./routes/index"); // index
-const galleryroutes = require("./routes/gallery"); //gallery, filterphotos
+const herbroutes = require("./routes/herb"); //edit, display herb
+//const indexroute = require("./routes/index"); // index
+const galleryroutes = require("./routes/gallery"); //gallery, filterherbs
 const usersroutes = require("./routes/users"); //users
 const userprofile = require("./routes/userprofile"); //users
 app.use(authenticationroutes);
 app.use(dbroutes);
-app.use(photoroutes);
-app.use(indexroute);
+app.use(herbroutes);
+//app.use(indexroute);
 app.use(galleryroutes);
 app.use(usersroutes);
 app.use(userprofile);

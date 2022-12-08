@@ -1,10 +1,95 @@
 extends layout
 
+block navigation
+    div.authentication
+            if  !session.user 
+                if !session.dbIsOffline == true
+                    a.loginbutton(href='/login') login 
+                    a.registerbutton(href='/register') register
+           
+            if session.user 
+                if session.user.userRole == 'admin'
+                    a.editgallery(href='/uploadherb') add herb
+                    a.updatedbbutton(href='/updatedb') update DB
+              
+            if session.user
+                a.myprofilebutton(href=`/userprofile/${user.userId}`) profile
+                    form(action="/logout?_method=DELETE" method="POST")
+                        button.logoutbutton(type="submit") logout
+                
+    button#menubutton
+        |   menu
+        div#mobilemenu
+                ul#mobilemenuul
+                    if !session.user 
+                     
+                        if !session.dbIsOffline == true
+                        
+                            li
+                            a.mobilemenuli(href='/login') login 
+                        
+                            li
+                            a.mobilemenuli(href='/register') register
+                        
+                    if session.user
+                        if session.user.userRole == 'admin'
+                            li
+                            a.mobilemenuli(href='/uploadherb') add herb 
+                            li
+                            a.mobilemenuli(href='/uploadjson') upload JSON
+                            li
+                            a.mobilemenuli(href='/updatedb') update DB
+  
+                        li
+                        a.mobilemenuli(href='/logout') logout                     
+    script.
+                $(document).ready(function() {
+                $("#menubutton").click(function(){
+                $("#mobilemenu").slideToggle();
+                });
+                });
+                    
+
+
+
 block content
-      .maincontent  
-          div  
-          .grid-container
-                each category in categories
-                    a.div.tooltip(href=category.url)
-                        img.photothumbnail(src=category.photo, alt=category.name)
-                        span.tooltiptext #{category.text}
+        .maincontent
+            
+
+                form.filterphotos(method="post" action="/filterherbs")
+                  
+                    input.search(name="search",list = 'tags', type="text", Placeholder="type 'schi' for example...")              
+                    datalist#tags
+                        each element in datalist
+                            option.option #{element}
+ 
+                    button.searchbutton(type="submit") go   
+                .grid-container
+                    each herb in gallery
+                        if session.user
+                            div.tooltip
+                                div.item.photoThumbnail
+                                    if session.user
+                                        a.h1.itemtitle(href='/displayherb/'+herb.herbId)  #{herb.herbName}
+                                    else
+                                        h1.itemtitle  #{herb.herbName}
+                                    if (herb.herbNameLatin && herb.herbNameLatin != " " && herb.herbNameLatin !== "null")
+                                    p.itemp latin: #{herb.herbNameLatin}
+                                    if (herb.herbNameFrench && herb.herbNameFrench!= " "&& herb.herbNameFrench !== "null")
+                                    p.itemp french: #{herb.herbNameFrench}  
+                                    if (herb.herbNameChinese && herb.herbNameChinese!= " "&& herb.herbNameChinese !== "null")
+                                    p.itemp chinese/ pinyin: #{herb.herbNameChinese} 
+                                    if (herb.herbCategory && herb.herbCategory!= " "&& herb.herbCategory !== "null")
+                                    p.itemp category: #{herb.herbCategory}                      
+                                    if (herb.herbProperties && herb.herbProperties!= " "&& herb.herbProperties !== "null")
+                                    h3.itemp may help with: #{herb.herbProperties}  
+                                    if (herb.herbComments && herb.herbComments!= " "&& herb.herbComments !== "null")
+                                    p.itemp remarks: #{herb.herbComments} 
+                                    if (herb.herbLinks && herb.herbLinks!= [])
+                                        |for further information 
+                                        each link in herb.herbLinks
+                                            a.itemp(href= link.url) #{link.domain} 
+                                    if (herb.herbProducts && herb.herbProducts!= [])
+                                        |find #{herb.herbName} products online
+                                        each link in herb.herbProducts
+                                            a.itemp(href= link.url) #{link.domain}      

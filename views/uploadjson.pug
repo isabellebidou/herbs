@@ -1,7 +1,7 @@
 extends layout
 block navigation
         div.authentication
-            a.togallerybutton(href='/gallery') to gallery 
+            a.togallerybutton(href='/') to gallery 
             div.result
             if status
             #{status}
@@ -11,7 +11,7 @@ block navigation
                 ul#mobilemenuul
                         
                     li
-                    a.mobilemenuli(href='/gallery') to gallery  
+                    a.mobilemenuli(href='/') to gallery  
                     if session
                       if session.user
                         li

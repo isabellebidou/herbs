@@ -11,6 +11,7 @@ if (process.env.NODE_ENV !== 'production') {
     database: process.env.DB_DB,
     port: process.env.DB_PORT,
   });
+
   module.exports = {
     db: db,
   };

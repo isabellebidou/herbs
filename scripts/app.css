@@ -1,15 +1,16 @@
-.maincontent
-  div:first-child
-  :not(.frame)
-  :not(.mobilemenuul)
-  :not(.mobilemenuli) {
+.maincontent div:first-child :not(.frame) :not(.mobilemenuul) :not(.mobilemenuli) {
   /* https://css-tricks.com/almanac/selectors/n/not/ */
   color: red;
-  position: absolute;
+  position: fixed;
   z-index: 1;
   top: 5%;
   right: 25%;
+  width: 100%;
+  height: 100%;
+  margin-top: 4%;
+
 }
+
 input,
 .submit {
   width: 100%;
@@ -20,6 +21,7 @@ input,
   position: absolute;
   width: 100%;
 }
+
 #login fieldset:first-child {
   width: 30%;
   padding: 2%;
@@ -33,19 +35,21 @@ input,
   padding: 2%;
   margin: auto;
 }
-.authentication {
+
+.authentication,
+.edit {
   position: fixed;
   z-index: 10;
   top: 5%;
   right: 1em;
 }
+
 .loginbutton,
 .registerbutton,
 .usersbutton,
 .uploadjsonbutton,
 .updatedbbutton,
 .togallerybutton,
-.editPhoto,
 .editgallery,
 .myprofilebutton,
 .home {
@@ -56,9 +60,11 @@ input,
 div.form {
   overflow: hidden;
 }
+
 li.div {
   list-style-type: none;
 }
+
 /* label {
   float: left;
   clear: both;
@@ -72,12 +78,16 @@ input {
   margin: 1em;
   height: 189px;
   width: 241px;
+
 }
+
 .tooltip {
   position: relative;
   display: inline-block;
   display: grid;
   justify-content: center;
+  text-decoration: none;
+  background-color: rgba(255, 255, 255, 0.6);
 }
 
 .tooltip .tooltiptext {
@@ -96,6 +106,7 @@ input {
   top: 40%;
   right: 40%;
 }
+
 .back {
   position: fixed;
   bottom: 10%;
@@ -104,6 +115,7 @@ input {
   visibility: visible;
   z-index: 2;
 }
+
 .next {
   position: fixed;
   bottom: 10%;
@@ -131,27 +143,43 @@ fieldset {
   -webkit-border-radius: 8px;
   border-radius: 8px;
   background-color: rgba(243, 236, 236, 0.4);
-  /* padding-top: 3em; */
+  margin-top: 3em;
 }
+
 legend {
-  color: rgba(25, 98, 194, 0.356);
+  color: rgba(193, 217, 188);
   font-size: 1.5em;
   z-index: 1.5;
   font-family: "Brush Script MT", "Lucida Console", Monaco, monospace;
 }
+
 .detailinput {
   display: inline-block;
-  *display: inline; /* for IE7*/
-  zoom: 1; /* for IE7*/
+  *display: inline;
+  /* for IE7*/
+  zoom: 1;
+  /* for IE7*/
   vertical-align: middle;
-
   width: 100%;
+}
+
+.detailinputThick {
+  display: inline-block;
+  *display: inline;
+  /* for IE7*/
+  zoom: 1;
+  /* for IE7*/
+  vertical-align: middle;
+  width: 100%;
+  line-height: 200%;
 }
 
 .detaillabel {
   display: inline-block;
-  *display: inline; /* for IE7*/
-  zoom: 1; /* for IE7*/
+  *display: inline;
+  /* for IE7*/
+  zoom: 1;
+  /* for IE7*/
   padding-top: 5px;
   text-align: left;
   width: 140px;
@@ -159,22 +187,26 @@ legend {
   margin: 0em;
   height: 2em;
 }
+
 .detailimage {
   position: fixed;
   left: 5%;
   top: 15%;
   vertical-align: top;
 }
+
 .editUserForm {
   position: absolute;
   width: 90%;
   right: 5%;
 }
+
 /* https://stackoverflow.com/questions/15901030/reset-remove-css-styles-for-element-only */
 .usersetinput,
 .usersetlabel {
   width: auto;
 }
+
 /* .userSets, .availableSets{
    float: right;
  } 
@@ -188,21 +220,11 @@ legend {
   margin-right:15px;
 } */
 .detailform {
-  position: fixed;
-  width: 30%;
-  right: 10%;
-  top: 14%;
-  bottom: 0%;
-  height: 95%;
-  overflow-y: scroll;
+  position: sticky;
+
+
 }
-.frame {
-  padding-top: 2em;
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  overflow-y: scroll;
-}
+
 /* https://stackoverflow.com/questions/9980531/center-image-in-div-horizontally */
 .displayimage {
   width: 700px;
@@ -223,6 +245,7 @@ legend {
 form {
   display: inline;
 }
+
 .closeWindow {
   position: fixed;
   top: 12%;
@@ -232,6 +255,7 @@ form {
   z-index: 2;
   text-decoration: none;
 }
+
 .logo {
   text-decoration: none;
 }
@@ -244,10 +268,11 @@ form {
   padding: 0em;
   height: 3em;
   z-index: 2;
-  color: rgba(25, 98, 194, 0.456);
+  color: rgba(193, 217, 188);
   font-size: 1.3em;
   font-family: "Brush Script MT", "Lucida Console", Monaco, monospace;
 }
+
 .search {
   position: fixed;
   background-color: rgba(243, 236, 236, 0.6);
@@ -276,23 +301,27 @@ form {
   -webkit-box-shadow: 8px 9px 6px -3px rgba(123, 112, 112, 0.93);
   -moz-box-shadow: 8px 9px 6px -3px rgba(123, 112, 112, 0.93);
 }
+
 .searchbutton:hover {
   border-color: #96ccba;
   color: blue;
 }
+
 .searchbutton:active {
   border-color: #96ccba;
   color: rgb(151, 206, 63);
 }
+
 .direction,
 .next,
 .back {
-  color: rgba(25, 98, 194, 0.656);
+  color: rgba(193, 217, 188);
   font-size: 1.5em;
   text-decoration: none;
   z-index: 1;
   font-family: "Brush Script MT", "Lucida Console", Monaco, monospace;
 }
+
 html {
   position: fixed;
   height: 100%;
@@ -307,34 +336,34 @@ html {
 	-o-background-size: cover;
 	background-size: cover;*/
 }
+
 #container {
   position: fixed;
   width: 100%;
   height: 95%;
-  bottom: 0%;
+  bottom: 5%;
 }
+
 h1,
 h2 {
   color: rgb(42, 97, 199);
 }
+
 .header {
   position: fixed;
   width: 100%;
-  height: 11%;
+  height: 10%;
   top: 0%;
   z-index: 1;
 
-  background: linear-gradient(
-    rgba(243, 236, 236, 0.9),
-    rgba(243, 236, 236, 0.6)
-  );
-  background: -webkit-linear-gradient(
-    rgba(243, 236, 236, 0.9),
-    rgba(243, 236, 236, 0.6)
-  );
+  background: linear-gradient(rgba(243, 236, 236, 0.9),
+      rgba(243, 236, 236, 0.6));
+  background: -webkit-linear-gradient(rgba(243, 236, 236, 0.9),
+      rgba(243, 236, 236, 0.6));
 }
+
 .headertitle {
-  color: rgba(25, 98, 194, 0.356);
+  color: rgba(193, 217, 188);
   position: absolute;
   width: 80%;
   left: 5%;
@@ -357,21 +386,21 @@ h2 {
 }
 
 .footer {
-  color: white;
+  color: rgba(193, 217, 188);
   position: absolute;
-  width: 15%;
+  width: 20%;
   height: 4%;
-  bottom: 1%;
+  bottom: 2%;
   left: 40%;
   text-align: center;
   margin: auto;
-  font-size: 0.5em;
+  font-size: 0.7em;
 }
 
 .maincontent {
   color: rgb(196, 17, 17);
   position: absolute;
-  height: 95%;
+  height: 94%;
   width: 100%;
   right: 0%;
   bottom: 0%;
@@ -379,6 +408,7 @@ h2 {
   padding: 0em;
   background-color: rgba(243, 236, 236, 0.9);
 }
+
 .userrole {
   position: absolute;
   top: 1em;
@@ -390,6 +420,7 @@ h2 {
   font-size: 1.5em;
   font-style: oblique;
 }
+
 .username {
   position: absolute;
   top: 0.5em;
@@ -401,6 +432,7 @@ h2 {
   font-size: 1em;
   font-style: oblique;
 }
+
 .usersTable {
   position: absolute;
   width: 90%;
@@ -412,12 +444,14 @@ h2 {
   border-radius: 4%;
   border-width: thin;
 }
+
 .usersTable th,
 .usersTable td {
   padding-top: 0.7em;
   border-radius: 6%;
   border: 1px dotted #45a049;
 }
+
 p {
   padding-top: 1em;
   padding-right: 2em;
@@ -428,7 +462,7 @@ p {
 
 .grid-container {
   margin: auto;
-  color: rgba(248, 245, 245, 0.89);
+  color: rgba(193, 217, 188);
   display: grid;
   align-content: center;
   grid-template-columns: auto auto auto;
@@ -436,6 +470,7 @@ p {
   /* background-color: #2196F3;  Comment this out later to remove the background color when not needed */
   padding: 10px;
 }
+
 .sets-grid-container {
   margin: auto;
   color: rgba(248, 245, 245, 0.89);
@@ -453,6 +488,7 @@ label {
   /*background-color: rgba(255, 255, 255, 0.4);*/
   border-radius: 1%;
 }
+
 .button,
 button {
   background-color: rgba(248, 245, 245, 0.89);
@@ -466,11 +502,13 @@ button {
 
   cursor: pointer;
 }
+
 a.button:hover {
   border: 0.2em;
   border-color: #96ccba;
   color: blue;
 }
+
 a.button:active {
   border: 0.2em;
   border-color: #96ccba;
@@ -490,21 +528,25 @@ a.button:active {
   margin: 0.1em;
   cursor: pointer;
 }
+
 a.deletebutton:hover {
   border: 0.2em;
   border-color: #96ccba;
   color: blue;
 }
+
 a.deletebutton:active {
   border: 0.2em;
   border-color: #96ccba;
   color: rgb(236, 226, 81);
 }
+
 /* Style for form */
 
 input,
 select,
 .submit,
+.skip,
 .searchbutton {
   /* padding: 0.3em;
   margin: 0.2em; */
@@ -514,33 +556,35 @@ select,
   box-sizing: border-box;
 }
 
-.submit {
+.submit,
+.skip {
+  position: fixed;
+  bottom: 12px;
   background-color: #7f5f87;
   color: #fff;
   padding-top: 1em;
   margin-top: 0.5em;
   height: 3em;
 }
+
+.submit {
+  width: 30%;
+  right: 15%;
+
+}
+
 .submit:hover {
   color: blue;
 }
+
+.skip {
+  right: 2%;
+  width: 10%;
+}
+
 .notify {
   color: red;
   padding: 14px 20px;
-}
-
-input[type="submit"] {
-  background-color: #b271c4;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-input[type="submit"]:hover {
-  background-color: #45a049;
 }
 
 .formHold {
@@ -559,6 +603,50 @@ input[type="submit"]:hover {
 #mobilemenu {
   display: none;
 }
+
 #menubutton {
   display: none;
+}
+
+
+.item {
+
+  text-align: center;
+  padding: 0.5em 0;
+  margin-right: 0.5em;
+  margin-left: 0.5em;
+  border-radius: 1%;
+}
+
+
+#itemsContainer {
+  width: 100%;
+  text-align: center;
+
+
+
+}
+
+
+.itemtitle {
+  display: block;
+  color: #7f5f87;
+  text-align: center;
+  padding: 10px 10px;
+  text-decoration: none;
+  font-size: 25px
+}
+
+
+.itemp {
+  display: block;
+  color: #7f5f87;
+  text-align: center;
+  padding: 4px 6px;
+  text-decoration: none;
+  font-size: 0.8 em;
+  font-style: italic;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 1%;
+
 }

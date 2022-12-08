@@ -1,0 +1,65 @@
+extends layout
+block navigation
+            div.authentication
+              
+              if session.user 
+                if session.user.userRole == 'admin'
+                  a.togallerybutton(href='/') to gallery
+                form(action="/logout?_method=DELETE" method="POST")
+                button.logoutbutton(type="submit") logout 
+            button#menubutton
+              | menu
+              div#mobilemenu
+                  ul#mobilemenuul
+                        
+                    li
+                    a.mobilemenuli(href='/') to gallery  
+
+                    if session.user
+                      a.mobilemenuli(href='/logout') logout
+                            
+            script.
+              $(document).ready(function() {
+              $("#menubutton").click(function(){
+              $("#mobilemenu").slideToggle();
+              });
+              });
+block content 
+      
+    .maincontent
+          
+            
+            form.detailform(method = "post")
+              
+              fieldset
+                legend #{herb.herbName}
+                label.detaillabel(for= "newName") name:
+                input.detailinput(name= "newName", type = "text", value = herb.herbName) 
+                label.detaillabel(for= "newNameLatin") latin name:
+                input.detailinput(name= "newNameLatin", type = "text", value = herb.herbNameLatin)  
+                label.detaillabel(for= "newNameFrench") french name:
+                input.detailinput(name= "newNameFrench", type = "text", value = herb.herbNameFrench) 
+                label.detaillabel(for= "newNameChinese") chinese name:
+                input.detailinput(name= "newNameChinese", type = "text", value = herb.herbNameChinese) 
+                label.detaillabel(for= "newTags") tags:
+                input.detailinputThick(name= "newTags", type = "text", value = herb.herbTags) 
+                label.detaillabel(for= "newCategory") category:
+                input.detailinput(name= "newCategory", type = "text", value = herb.herbCategory) 
+                label.detaillabel(for= "newProperties") properties:
+                input.detailinput(name= "newProperties", type = "text", value = herb.herbProperties)
+                label.detaillabel(for= "newLinks") links:
+                input.detailinputThick(name= "newLinks", type = "text", value = herb.herbLinks) 
+                label.detaillabel(for= "newProducts") products:
+                input.detailinputThick(name= "newProducts", type = "text", value = herb.herbProducts) 
+                label.detaillabel(for= "newComments") comments:
+                input.detailinput(name= "newComments", type = "text", value = herb.herbComments) 
+                a.closeWindow(href='/') x
+                //- var next = herb.herbId-1
+                div.buttonsidebyside
+                    button(type="submit", class = "submit") update
+                    button.skip(href='/displayherb/'+herb.herbId) cancel 
+                    
+                
+
+   
+                

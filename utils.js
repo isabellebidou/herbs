@@ -1,15 +1,13 @@
 function findTagsList(gallery) {
   return new Promise((resolve, reject) => {
     let result = [];
-    let places = [];
-    let countries = [];
+    let properties = [];
+    let names = [];
     for (i = 0; i < gallery.length; i++) {
-      var photo = gallery[i];
-      if (photo.photoCountry) {
-        countries.push(photo.photoCountry.trim().toLowerCase());
-      }
-      if (photo.photoTags && photo.photoTags != []) {
-        var tags = photo.photoTags;
+      var herb = gallery[i];
+
+      if (herb.herbTags && herb.herbTags != []) {
+        var tags = herb.herbTags;
         var values = tags.split(",");
         if (values) {
           for (j = 0; j < values.length; j++) {
@@ -18,17 +16,60 @@ function findTagsList(gallery) {
           }
         }
       }
-      if (photo.photoPlace) {
-        places.push(photo.photoPlace.trim().toLowerCase());
+      if (herb.herbProperties && herb.herbProperties != []) {
+        var herbProperties = herb.herbProperties;
+        var values = herbProperties.split(",");
+        if (values) {
+          for (j = 0; j < values.length; j++) {
+            if (values[j] && values[j] != "[]" && values[j] != "undefined")
+              properties.push(values[j].trim().toLowerCase());
+          }
+        }
+      }
+      if (herb.herbName) {
+        var herbProperties = herb.herbProperties;
+        var values = herbProperties.split(",");
+        if (values) {
+          for (j = 0; j < values.length; j++) {
+            if (values[j] && values[j] != "[]" && values[j] != "undefined")
+              names.push(values[j].trim().toLowerCase());
+          }
+        }
+      }
+      if (herb.herbNameLatin) {
+        names.push(herb.herbNameLatin.trim().toLowerCase());
+      }
+      if (herb.herbNameFrench) {
+        names.push(herb.herbNameLatin.trim().toLowerCase());
+      }
+      if (herb.herbNameChinese) {
+        names.push(herb.herbNameLatin.trim().toLowerCase());
       }
     }
-    result = [...result, ...places, ...countries];
+    result = [...result, ...names, ...properties];
     const uniqueResult = new Set(result);
     const finalResult = [...uniqueResult];
     if (finalResult) resolve(finalResult.sort());
   });
 }
+function stringToArray(str) {
+  var values = str.split(",");
+  var array = [];
+  if (values) {
+    for (j = 0; j < values.length; j++) {
+      if (values[j] && values[j] != "[]" && values[j] != "undefined") {
+        var url = values[j].trim().toLowerCase();
+        if (url !== null){
+          let domain = new URL(url);
+          domain = domain.hostname;
+          array.push({ url, domain });
 
+        } 
+      }
+    }
+  }
+  return array;
+}
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
@@ -56,14 +97,14 @@ function log(text) {
     console.log(text);
   }
 }
-function stripPhotoName(name) {
+function stripherbName(name) {
   return name.replace(/[0-9]/g, "").replace(/.jpg/g, "").trim().toLowerCase();
 }
-function findPhotoSetValues(gallery) {
+function findherbSetValues(gallery) {
   return new Promise((resolve, reject) => {
     var setNameArray = [];
     for (var i = 0; i < gallery.length; i++) {
-      var setName = stripPhotoName(gallery[i].photoName);
+      var setName = stripherbName(gallery[i].herbName);
       setNameArray.push(setName);
     }
     setNameArray = setNameArray.sort();
@@ -81,17 +122,40 @@ function getKey(val, map) {
 
   return invertedMap.get(val);
 }
-
-function findPhotoInJsonArray(id, gallery) {
-  return gallery.find((item) => item.photoId === id);
-}
-function findPhotoInJsonArray2(id, gallery) {
-  for (let index = 0; index < gallery.length; index++) {
-    const photo = gallery[index];
-    if (photo.photoId === id)
-    return photo  
+function makeSqlQuery(filtered, searchItem){
+  var sql = "";
+  if (filtered === true) {
+    sql =
+  'select * FROM herb WHERE herbTags LIKE  "%' +
+  searchItem +
+  '%" OR herbProperties LIKE "%' +
+  searchItem +
+  '%" OR herbName LIKE "%' +
+  searchItem +
+  '%" OR herbNameChinese LIKE "%' +
+  searchItem +
+  '%" OR herbNameFrench LIKE "%' +
+  searchItem +
+  '%" OR herbNameLatin LIKE "%' +
+  searchItem +
+  '%" OR herbCategory LIKE "%' +
+  searchItem +
+  '%" ORDER BY herbName;';
+  } else {
+    sql = "select * FROM herb ORDER BY herbName ASC; "
   }
 
+return sql;
+}
+
+function findherbInJsonArray(id, gallery) {
+  return gallery.find((item) => item.herbId === id);
+}
+function findherbInJsonArray2(id, gallery) {
+  for (let index = 0; index < gallery.length; index++) {
+    const herb = gallery[index];
+    if (herb.herbId === id) return herb;
+  }
 }
 
 module.exports = {
@@ -100,10 +164,11 @@ module.exports = {
   checkNotAuthenticated,
   isValidJSON,
   log,
-  findPhotoSetValues,
+  findherbSetValues,
   getKey,
-  stripPhotoName,
-  findPhotoInJsonArray,
-  findPhotoInJsonArray2
-  
+  stripherbName,
+  findherbInJsonArray,
+  findherbInJsonArray2,
+  stringToArray,
+  makeSqlQuery,
 };

@@ -5,10 +5,8 @@ var globalGallery = [];
 const utils = require("../utils");
 const secret = require("../secret");
 const getGallery = require("../get/getgallery");
-const getUserGallery = require("../get/getusergallery");
 const db = secret.db;
 var searchItem = " ";
-//var dbIsOffline = false;
 const passport = require("passport");
 const initializePassport = require("../passport-config").initialize;
 const getUserByEmail = require("../passport-config").getUserByEmail;
@@ -43,16 +41,17 @@ initializePassport(passport, getUserByEmail, getUserById);
 //   }
 //gallery page
 
-router.get("/gallery", async (req, res, next) => {
-  //utils.log(session);
+router.get("/", async (req, res, next) => {
+
   req.session.dbIsOffline = false;
   try {
     await getGallery
-      .getGlobalGallery()
+      .getGlobalGallery(true)
       .then((resolveGallery) => {
         session.filter = false;
         session.dbIsOffline = false;
         globalGallery = resolveGallery;
+        
       })
       .catch((error) => {
         session.filter = false;
@@ -60,7 +59,7 @@ router.get("/gallery", async (req, res, next) => {
         globalGallery = error.rejectGallery;
       });
     const dataList = await utils.findTagsList(globalGallery);
-    res.render("gallery", {
+    res.render("index", {
       gallery: globalGallery,
       session: session,
       datalist: dataList,
@@ -73,81 +72,76 @@ router.get("/gallery", async (req, res, next) => {
 //   //https://stackoverflow.com/questions/53940043/unhandledpromiserejectionwarning-this-error-originated-either-by-throwing-insid
 
 // filter
-router.get("/filterphotos", function (req, res) {
-  let sql =
-    'select * FROM photo WHERE photoTags LIKE  "%' +
-    searchItem +
-    '%" OR photoPlace LIKE "%' +
-    searchItem +
-    '%" OR photoCountry LIKE "%' +
-    searchItem +
-    '%" OR photoName LIKE "%' +
-    searchItem +
-    '%" OR photoCategory LIKE "%' +
-    searchItem +
-    '%" ORDER BY photoId DESC;';
+/*router.get("/filterherbs", async function (req, res) {
+  utils.log("*** get filterherbs  ");
 
-  db.query(sql, (err, gallery) => {
+  let sql =
+    'select * FROM herb WHERE herbTags LIKE  "%' +
+    searchItem +
+    '%" OR herbProperties LIKE "%' +
+    searchItem +
+    '%" OR herbName LIKE "%' +
+    searchItem +
+    '%" OR herbNameChinese LIKE "%' +
+    searchItem +
+    '%" OR herbNameFrench LIKE "%' +
+    searchItem +
+    '%" OR herbNameLatin LIKE "%' +
+    searchItem +
+    '%" OR herbCategory LIKE "%' +
+    searchItem +
+    '%" ORDER BY herbName asc;';
+
+   db.query(sql, async (err, gallery) => {
     if (err) throw err;
     console.error(err);
-    globalGallery = gallery;
-    res.render("filterphotos", {
+    gallery.forEach(async (herb) => {
+      herb.herbLinks = await utils.stringToArray(herb.herbLinks);
+      herb.herbProducts = await utils.stringToArray(herb.herbProducts);
+    });
+    globalGallery =  gallery;
+    res.render("filterherbs", {
       gallery: globalGallery,
-      searchItem: req.session.lastSearchItem,
+      searchItem: req.session.lastSearchItem
     });
   });
-});
+});*/
 
-router.post("/filterphotos", function (req, res) {
+router.post("/filterherbs", function (req, res) {
   session.filter = true;
-  let sql =
-    'select * FROM photo WHERE photoTags LIKE  "%' +
-    req.body.search +
-    '%" OR photoPlace LIKE "%' +
-    req.body.search +
-    '%" OR photoCountry LIKE "%' +
-    req.body.search +
-    '%" OR photoName LIKE "%' +
-    req.body.search +
-    '%" OR photoCategory LIKE "%' +
-    req.body.search +
-    '%"  ORDER BY photoId DESC;';
   searchItem = req.body.search;
+  let sql =
+  'select * FROM herb WHERE herbTags LIKE  "%' +
+  searchItem +
+  '%" OR herbProperties LIKE "%' +
+  searchItem +
+  '%" OR herbName LIKE "%' +
+  searchItem +
+  '%" OR herbNameChinese LIKE "%' +
+  searchItem +
+  '%" OR herbNameFrench LIKE "%' +
+  searchItem +
+  '%" OR herbNameLatin LIKE "%' +
+  searchItem +
+  '%" OR herbCategory LIKE "%' +
+  searchItem +
+  '%" ORDER BY herbName;';
+  
 
-  db.query(sql, (err, gallery) => {
+  db.query(sql, async (err, gallery) => {
     if (err) throw err;
-    globalGallery = gallery;
-    res.render("filterphotos", {
-      gallery: globalGallery,
+    console.error(err);
+    await gallery.forEach(async (herb) => {
+      herb.herbLinks = utils.stringToArray(herb.herbLinks);
+      herb.herbProducts = utils.stringToArray(herb.herbProducts);
+    });
+    res.render("filterherbs", {
+      gallery: await gallery,
       searchItem: searchItem,
     });
   });
 });
 
-router.get("/editgallery", async (req, res, next) => {
-  req.session.dbIsOffline = false;
-  try {
-    await getUserGallery
-      .getUserGallery(session.user)
-      .then((resolveGallery) => {
-        session.filter = false;
-        session.dbIsOffline = false;
-        globalGallery = resolveGallery;
-      })
-      .catch((error) => {
-        session.filter = false;
-        session.dbIsOffline = true;
-        res.redirect("gallery");
-      });
-    const dataList = await utils.findTagsList(globalGallery);
-    res.render("editgallery", {
-      gallery: globalGallery,
-      session: session,
-      datalist: dataList,
-    });
-  } catch (e) {
-    console.error(e);
-  }
-});
+
 
 module.exports = router;

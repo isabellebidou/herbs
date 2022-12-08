@@ -3,14 +3,14 @@ const router = express.Router();
 const upload = require("../storage-config");
 const utils = require("../utils");
 const secret = require("../secret");
-const getGallery = require("../get/getgallery");
-const getSetNames = require("../get/getsetnames");
+//const getGallery = require("../get/getgallery");
+//const getSetNames = require("../get/getsetnames");
 var message = "";
 // toggle to use
-// const { findPhotoSetValues } = require("../utils");
+// const { findherbSetValues } = require("../utils");
 const { insertSetNamesIntoSetNamesTable } = require("../insert/insertsetnames");
 // const { getSetNames } = require("../getsetnames");
-// const { updateSetIdInPhotoTable  } = require("../updatesetId");
+// const { updateSetIdInherbTable  } = require("../updatesetId");
 const db = secret.db;
 const fs = require("fs");
 var bodyParser = require("body-parser");
@@ -29,7 +29,7 @@ router.get("/uploadjson", async function (req, res) {
         //session.dbIsOffline = false;
         res.render("uploadjson", {
           setList: resolveSetNames,
-        //  session: session,
+          //  session: session,
         });
       })
       .catch((error) => {
@@ -41,48 +41,96 @@ router.get("/uploadjson", async function (req, res) {
 });
 router.post("/createsetname", (req, res) => {
   var newSetNames = [];
-  //utils.log(req.body)
   newSetNames.push(req.body.newSetName);
-  //utils.log(req.body.newSetName)
   insertSetNamesIntoSetNamesTable(newSetNames);
 });
-
-router.post("/uploadjson", upload.single("json"), (req, res) => {
-  utils.log(req.file.originalname);
-  utils.log(req.file.filename);
-  var newPhotos = require(`../models/${req.file.filename}`);
+/*router.get("/uploadherbsjson", upload.single("json"), (req, res) => {
+  var newherbs = require(`../models/gallery.json`);
   var jsonIsValid = true;
   var set;
   try {
-    JSON.parse(newPhotos);
+    JSON.parse(newherbs);
+  } catch (e) {
+    jsonIsValid = false;
+    // res.render(`${e} : ${req.file.filename} is not valid`);
+    utils.log(`file is not valid`);
+  }
+
+  //if (jsonIsValid) {
+  for (i = 0; i < newherbs.length; i++) {
+    let herb = newherbs[i];
+    let sql =
+      'INSERT INTO herb (herbName, herbNameFrench, herbNameLatin, herbNameChinese, herbCategory, herbLinks,herbProducts, herbComments, herbProperties, herbTags) VALUES ("' +
+      herb.herbName +
+      '","' +
+      herb.herbNameFrench +
+      '","' +
+      herb.herbNameLatin +
+      '","' +
+      herb.herbNameChinese +
+      '","' +
+      herb.herbCategory +
+      '","' +
+      herb.herbLinks +
+      '","' +
+      herb.herbProducts +
+      '","' +
+      herb.herbComments +
+      '","' +
+      herb.herbProperties +
+      '","' +
+      herb.herbTags +
+      '");';
+    db.query(sql, (err, res1) => {
+      if (err) throw err;
+      console.error(res1);
+    });
+  }
+  //}
+  try {
+    fs.unlinkSync(`../models/models/.json`);
+  } catch (error) {
+    console.error(error);
+  }
+
+  res.redirect("/");
+  //return res.json({ status: 'OK' });
+});*/
+
+router.post("/uploadjson", upload.single("json"), (req, res) => {
+  var newherbs = require(`../models/${req.file.filename}`);
+  var jsonIsValid = true;
+  var set;
+  try {
+    JSON.parse(newherbs);
   } catch (e) {
     jsonIsValid = false;
     // res.render(`${e} : ${req.file.filename} is not valid`);
     utils.log(`${req.file.filename} is not valid`);
   }
   //if (jsonIsValid) {
-  for (i = 0; i < newPhotos.length; i++) {
-    let photo = newPhotos[i];
+  for (i = 0; i < newherbs.length; i++) {
+    let herb = newherbs[i];
     let sql =
-      'INSERT INTO photo (photoName, photoThumbnail, photoCategory, photoCountry, photoPlace, photoYear,photoComments, photoTags, photoPath) VALUES ("' +
-      photo.name +
+      'INSERT INTO herb (herbName, herbThumbnail, herbCategory, herbCountry, herbPlace, herbYear,herbComments, herbTags, herbPath) VALUES ("' +
+      herb.name +
       '","' +
-      photo.thumbnail +
+      herb.thumbnail +
       '","' +
-      photo.category +
+      herb.category +
       '","' +
-      photo.country +
+      herb.country +
       '","' +
-      photo.place +
+      herb.place +
       '","' +
-      photo.year +
+      herb.year +
       '","' +
-      photo.comments +
+      herb.comments +
       '","' +
-      photo.tags +
+      herb.tags +
       '","' +
       "http://isabellebidou.com/images/" +
-      photo.name +
+      herb.name +
       '");';
     db.query(sql, (err, res1) => {
       if (err) throw err;
@@ -96,7 +144,7 @@ router.post("/uploadjson", upload.single("json"), (req, res) => {
     console.error(error);
   }
 
-  res.redirect("/gallery");
+  res.redirect("/");
   //return res.json({ status: 'OK' });
 });
 
@@ -112,8 +160,6 @@ router.post("/updatedb", async (req, res) => {
           message: message,
         });
       }
-      utils.log(sql);
-      utils.log(res1);
     });
   } catch (error) {
     res.render(error);
@@ -127,7 +173,7 @@ router.get("/updatedb", function (req, res) {
 });
 router.get("/dbintojson", function (req, res) {
   const fs = require("fs");
-  let sql = "select * FROM photo ORDER BY photoId DESC; ";
+  let sql = "select * FROM herb ORDER BY herbName; ";
   db.query(sql, async (err, gallery) => {
     try {
       if (err) throw err;
@@ -138,56 +184,42 @@ router.get("/dbintojson", function (req, res) {
     }
   });
 });
-// no longer used
-router.get("/uploadphotos/", utils.checkAuthenticated, function (req, res) {
-  for (i = 54; i < gallery.length; i++) {
-    let photo = gallery[i];
-    let sql =
-      'INSERT INTO photo (photoName, photoThumbnail, photoCategory, photoCountry, photoPlace, photoYear,photoComments, photoTags, photoPath) VALUES ("' +
-      photo.name +
-      '","' +
-      photo.thumbnail +
-      '","' +
-      photo.category +
-      '","' +
-      photo.country +
-      '","' +
-      photo.place +
-      '","' +
-      photo.year +
-      '","' +
-      photo.comments +
-      '","' +
-      photo.tags +
-      '","' +
-      "http://isabellebidou.com/images/" +
-      photo.name +
-      '");';
-    db.query(sql, (err, res1) => {
+router.get("/dbintojsonflag", function (req, res) {
+  const fs = require("fs");
+  let sql = "select * FROM herb ORDER BY herbName; ";
+  db.query(sql, async (err, gallery) => {
+    try {
       if (err) throw err;
-      console.error(res1);
-    });
-  }
-  res.redirect("/");
+      gallery.forEach((herb) => {
+        herb.herbLinks = utils.stringToArray(herb.herbLinks);
+        herb.herbProducts = utils.stringToArray(herb.herbProducts);
+      });
+      var data = JSON.stringify(gallery);
+      fs.writeFileSync("./models/dataflag.json", data);
+    } catch (e) {
+      console.error(e);
+    }
+  });
 });
+
 // this is used  exceptionally
 // router.get("/creategrouptable", function (req, res) {
 //   let sql =
-//     "CREATE TABLE photoSet (photoSetId int NOT NULL AUTO_INCREMENT PRIMARY KEY, photoSetName varchar(255)";
+//     "CREATE TABLE herbSet (herbSetId int NOT NULL AUTO_INCREMENT PRIMARY KEY, herbSetName varchar(255)";
 //   let query = db.query(sql, (err, res) => {
 //     if (err) throw err;
 //   });
 // });
 
-// router.get("/insertphotosetvalues/", async function (req, res) {
+// router.get("/insertherbsetvalues/", async function (req, res) {
 //   // get gallery
 //   try {
 //     await getGallery
 //       .getGlobalGallery()
 //       .then(async (resolveGallery) => {
 //         try {
-//           // get photoset names
-//           await findPhotoSetValues(resolveGallery).then(
+//           // get herbset names
+//           await findherbSetValues(resolveGallery).then(
 //             async (resolveSetNames) => {
 //               utils.log(resolveSetNames);
 //               insertSetNamesIntoSetNamesTable(resolveSetNames);
@@ -206,8 +238,8 @@ router.get("/uploadphotos/", utils.checkAuthenticated, function (req, res) {
 //   }
 // });
 
-// insert names for each existing photo in photo table
-// router.get( "/updatephotosetvalues", async (req,res) => {
+// insert names for each existing herb in herb table
+// router.get( "/updateherbsetvalues", async (req,res) => {
 //   var gallery = [];
 
 //    // get gallery
@@ -220,14 +252,14 @@ router.get("/uploadphotos/", utils.checkAuthenticated, function (req, res) {
 //           async (resolveSetNames) => {
 //             try {
 //               const setNamesArray = resolveSetNames
-//               var setNamesMap = new Map(setNamesArray.map(j => [j.photoSetId, j.photoSetName]));
+//               var setNamesMap = new Map(setNamesArray.map(j => [j.herbSetId, j.herbSetName]));
 //               //utils.log(setNamesMap)
 //               //for (var i = 0; i < 5; i++ ){
 //               for (var i = 0; i < gallery.length; i++ ){
-//                 const photo = gallery[i]
-//                 const setNameId = utils.getKey(utils.stripPhotoName(photo.photoName), setNamesMap)
+//                 const herb = gallery[i]
+//                 const setNameId = utils.getKey(utils.stripherbName(herb.herbName), setNamesMap)
 //                 //utils.log(setNameId)
-//                 updateSetIdInPhotoTable(photo.photoId, setNameId)
+//                 updateSetIdInherbTable(herb.herbId, setNameId)
 //               }
 //             } catch (error) {
 //               console.error(error);
@@ -242,20 +274,32 @@ router.get("/uploadphotos/", utils.checkAuthenticated, function (req, res) {
 //     console.error(e);
 //   }
 
-//   // for each photo in gallery update photosetvalue
+//   // for each herb in gallery update herbsetvalue
 
 // });
 //let sql =
- // "CREATE TABLE userPhotoSet (userPhotoSet int NOT NULL AUTO_INCREMENT PRIMARY KEY, userId int(255),photoSetId int(255),FOREIGN KEY (userId) REFERENCES user(userId), FOREIGN KEY (photoSetId) REFERENCES photoSet(photoSetId))";
-
-router.get("/createphototable", function (req, res) {
-  //name, thumbnail, category, country, place, comments, tags, path
+// "CREATE TABLE userherbSet (userherbSet int NOT NULL AUTO_INCREMENT PRIMARY KEY, userId int(255),herbSetId int(255),FOREIGN KEY (userId) REFERENCES user(userId), FOREIGN KEY (herbSetId) REFERENCES herbSet(herbSetId))";
+/*
+"herbId": 3,
+        "herbName": "Ashwaganda",
+        "herbNameFrench": "Ginseng Indien",
+        "herbNameLatin": "Withania somnifera",
+        "herbNameChinese": "",
+        "herbCategory": "ayurveda",
+        "herbLinks": "",
+        "herbProducts": "",
+        "herbComments": " ",
+        "herbProperties": "",
+        "herbTags": " "
+*/
+/*router.get("/createherbtable", function (req, res) {
+  
   let sql =
-    "CREATE TABLE photo (photoId int NOT NULL AUTO_INCREMENT PRIMARY KEY, photoName varchar(255), photoThumbnail varchar(255), photoCategory varchar(255),  photoCountry varchar(255),  photoPlace varchar(255), photoComments varchar(255), photoTags varchar(255), photoPath varchar(255));";
+    "CREATE TABLE herb (herbId int NOT NULL AUTO_INCREMENT PRIMARY KEY, herbName varchar(255), herbNameFrench varchar(255), herbNameLatin varchar(255),  herbNameChinese varchar(255), herbCategory varchar(255),herbLinks varchar(255),  herbProducts varchar(255), herbComments varchar(255),herbProperties varchar(255),herbTags varchar(255));";
   let query = db.query(sql, (err, res) => {
     if (err) throw err;
   });
-});
+});*/
 router.get("/createusertable", function (req, res) {
   let sql =
     "CREATE TABLE user (userId int NOT NULL AUTO_INCREMENT PRIMARY KEY, userFirstName varchar(255), userLastName varchar(255),userEmail varchar(255), userPassword varchar(255));";
@@ -263,40 +307,59 @@ router.get("/createusertable", function (req, res) {
     if (err) throw err;
   });
 });
-router.post(
-  "/uploadphoto/:index",
+
+router.get(
+  "/uploadherb",
   utils.checkAuthenticated,
-  function (req, res) {
+  function (
+req,
+    res
+  ) {
+    
+    res.render('uploadherb');
+  }
+);
+
+router.post(
+  "/uploadherb",
+  utils.checkAuthenticated,
+  function (
+    /*{
+      newCategory,
+      newName,
+      newProperties,
+      newLinks,
+      newTags,
+      newNameLatin,
+      newNameChinese,
+      newNameFrench,
+      newProducts,
+      newComments,
+    }*/req,
+    res
+  ) {
     let sql =
-      'INSERT INTO photo (photoName, photoThumbnail, photoCategory, photoCountry, photoPlace, photoComments, photoTags, photoPath) VALUES ("' +
-      req.body.name +
-      '","' +
-      req.body.thumbnail +
-      '","' +
-      req.body.category +
-      '","' +
-      req.body.country +
-      '","' +
-      req.body.place +
-      '","' +
-      req.body.comments +
-      '","' +
-      req.body.tags +
-      '","' +
-      "http://isabellebidou.com/images/" +
-      req.body.name +
-      '");';
+      'INSERT INTO herb (herbName,herbCategory,herbProperties, herbLinks,herbNameLatin,herbNameChinese, herbNameFrench, herbProducts, herbComments,herbTags) VALUES ("';
+      
+      
+       
+      req.body.newName? sql += req.body.newName+'","':sql +='null", "' ;
+      req.body.newCategory?  sql+= req.body.newCategory+'","':sql +='null", "';
+      req.body.newProperties? sql+= req.body.newProperties+'","':sql +='null", "';
+      req.body.newLinks? sql+= req.body.newLinks+'","':sql +='null", "';
+      req.body.newNameLatin? sql += req.body.newNameLatin+'","':sql +='null", "';
+      req.body.newNameChinese? sql += req.body.newNameChinese+'","': sql +='null", "';
+      req.body.newNameFrench? sql += req.body.newNameFrench+'","': sql +='null", "';
+      req.body.newProducts? sql+= req.body.newProducts+'","': sql +='null", "';
+      req.body.newComments? sql+= req.body.newComments+'","': sql +='null", "';
+      req.body.newTags? sql += req.body.newTags+'"' :sql +='null", "';
+      sql+=");";
+
     db.query(sql, (err, res1) => {
       if (err) throw err;
       console.error(res1);
     });
-    if (req.params.index <= gallery.length) {
-      let index = parseInt(req.params.index);
-      let nextIndex = index + 1;
-      res.redirect("/uploadphoto/" + nextIndex);
-    } else {
-      res.redirect("/");
-    }
+    res.redirect("/uploadherb");
   }
 );
 module.exports = router;

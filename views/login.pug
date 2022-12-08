@@ -3,7 +3,7 @@ block navigation
        div.authentication
         a.home(href='/') home
         a.registerbutton(href='/register') register
-        a.togallerybutton(href='/gallery') to gallery 
+        a.togallerybutton(href='/') to gallery 
        button#menubutton
             | menu
             div#mobilemenu
@@ -14,7 +14,7 @@ block navigation
                     a.mobilemenuli(href='/register') register
                         
                     li
-                    a.mobilemenuli(href='/gallery') to gallery         
+                    a.mobilemenuli(href='/') to gallery         
                         
                      
        script.
@@ -40,4 +40,4 @@ block content
                     label Password:
                     input(type='password', name='password')
                    li.div
-                    input(type='submit', value='Log In')
+                    input.submit(type='submit', value='Log In')

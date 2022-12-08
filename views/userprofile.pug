@@ -2,7 +2,7 @@ extends layout
 block navigation
             div.authentication
               a.home(href='/') home
-              a.togallerybutton(href='/gallery') to gallery
+              a.togallerybutton(href='/') to gallery
               if session.user 
                 if session.user.userRole == 'admin'
                   a.uploadjsonbutton(href='/uploadjson') upload JSON
@@ -19,7 +19,7 @@ block navigation
                   ul#mobilemenuul
                         
                     li
-                    a.mobilemenuli(href='/gallery') to gallery  
+                    a.mobilemenuli(href='/') to gallery  
 
                     if session.user
                       if session.user.userRole == 'admin'

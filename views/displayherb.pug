@@ -1,0 +1,51 @@
+extends layout
+block navigation
+        div
+          if session.user
+            if session.user.userRole == 'admin'
+              a.edit(href='/editherb/'+herb.herbId) edit
+      
+              
+block content
+
+  .maincontent
+
+    fieldset
+      
+      p.itemp name: #{herb.herbName}   
+      p.itemp latin: #{herb.herbNameLatin}                      
+      p.itemp french: #{herb.herbNameFrench}  
+      p.itemp chinese: #{herb.herbNameChinese}                     
+      p.itemp properties: #{herb.herbProperties}                       
+      p.itemp remarks: #{herb.herbComments} 
+      p.itemp category: #{herb.herbCategory}                   
+      p.itemp links:
+        if (herb.herbLinks && herb.herbLinks!= [])                      
+          each link in herb.herbLinks
+            a.itemp(href= link.url) #{link.url} 
+      p.itemp products:
+        if (herb.herbProducts && herb.herbProducts!= [])
+          each link in herb.herbProducts
+            a.itemp(href= link.url) #{link.url} 
+      p.itemp tags: #{herb.herbTags}
+      
+      
+    unless session.filter
+          unless back == null
+            a.back(href='/displayherb/'+back) 
+              p.direction back
+          
+           
+    unless session.filter
+          unless next == null
+            a.next(href='/displayherb/'+next) 
+              p.direction next
+              
+    if session.filter      
+         a.closeWindow(href='/filterherbs') x
+    else
+         a.closeWindow(href='/') x
+        
+
+        
+

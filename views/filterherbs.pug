@@ -1,0 +1,53 @@
+extends layout
+block navigation
+          div.authentication
+            a.home(href = '/') home
+            a.togallerybutton(href='/') to gallery   
+          button#menubutton
+            | menu
+            div#mobilemenu
+                ul#mobilemenuul
+                    li
+                    a.mobilemenuli(href='/') home
+                    li
+                    a.mobilemenuli(href='/') to gallery  
+                    li
+                    a.mobilemenuli(href='/logout') logout
+          script.
+                $(document).ready(function() {
+                $("#menubutton").click(function(){
+                $("#mobilemenu").slideToggle();
+                });
+                });
+
+block content
+      .maincontent
+          a.searchItem(href='/')
+           |remove filter "#{searchItem}"     
+          .grid-container
+                each herb in gallery
+                    
+                    div.tooltip
+                        .item.photoThumbnail
+                            if session
+                                if session.user
+                                    if session.user.userRole == 'admin'
+                                        a.h1.itemtitle(href='/displayherb/'+herb.herbId)  #{herb.herbName}
+                            else
+                                h1.itemtitle  #{herb.herbName}
+                        if (herb.herbNameLatin && herb.herbNameLatin != " ")
+                         p.itemp latin: #{herb.herbNameLatin}
+                        if (herb.herbNameFrench && herb.herbNameFrench!= " ")
+                         p.itemp french: #{herb.herbNameFrench}  
+                        if (herb.herbProperties && herb.herbProperties!= " ")
+                         p.itemp may help in case of / for: #{herb.herbProperties}  
+                        if (herb.herbComments && herb.herbComments!= " ")
+                         p.itemp remarks: #{herb.herbComments} 
+                        if (herb.herbLinks && herb.herbLinks!= [])
+                            |for further information 
+                            each link in herb.herbLinks
+                                a.itemp(href= link.url) #{link.domain} 
+                        if (herb.herbProducts && herb.herbProducts!= [])
+                            |find #{herb.herbName} products online
+                            each link in herb.herbProducts
+                                a.itemp(href= link.url) #{link.domain}
