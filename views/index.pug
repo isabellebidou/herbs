@@ -66,25 +66,30 @@ block content
                     button.searchbutton(type="submit") go   
                 .grid-container
                     each herb in gallery
-                        if session.user
+                        
                             div.tooltip
                                 div.item.photoThumbnail
                                     if session.user
                                         a.h1.itemtitle(href='/displayherb/'+herb.herbId)  #{herb.herbName}
                                     else
                                         h1.itemtitle  #{herb.herbName}
-                                    if (herb.herbNameLatin && herb.herbNameLatin != " " && herb.herbNameLatin !== "null")
-                                    p.itemp latin: #{herb.herbNameLatin}
-                                    if (herb.herbNameFrench && herb.herbNameFrench!= " "&& herb.herbNameFrench !== "null")
-                                    p.itemp french: #{herb.herbNameFrench}  
-                                    if (herb.herbNameChinese && herb.herbNameChinese!= " "&& herb.herbNameChinese !== "null")
-                                    p.itemp chinese/ pinyin: #{herb.herbNameChinese} 
-                                    if (herb.herbCategory && herb.herbCategory!= " "&& herb.herbCategory !== "null")
-                                    p.itemp category: #{herb.herbCategory}                      
-                                    if (herb.herbProperties && herb.herbProperties!= " "&& herb.herbProperties !== "null")
+                                    
+                                    - var nameCat=''
+                                    - nameCat =  herb.herbNameLatin? nameCat+" latin:  "+herb.herbNameLatin : nameCat
+                                    - nameCat =  herb.herbCategory? nameCat+", category:  "+herb.herbCategory : nameCat 
+                                    if nameCat.length > 1 && cat !== 'undefined'
+                                    p.itemp #{nameCat}
+                                    -nameCat ='';
+                                    - var names =''
+                                    - names =  herb.herbNameFrench != 'undefined'? herb.herbNameFrench : names
+                                    - names =  herb.herbNameChinese? names+", "+herb.herbNameChinese : names
+                                    if names.length > 1 && names !== 'undefined'
+                                    p.itemp other names: #{names}
+                                    -names = '';                 
+                                    if (herb.herbProperties && herb.herbProperties!= "" && herb.herbProperties !== "null")
                                     h3.itemp may help with: #{herb.herbProperties}  
-                                    if (herb.herbComments && herb.herbComments!= " "&& herb.herbComments !== "null")
-                                    p.itemp remarks: #{herb.herbComments} 
+                                    if (herb.herbComments && herb.herbComments!= "" && herb.herbComments !== "null")
+                                        p.itemp remarks: #{herb.herbComments} 
                                     if (herb.herbLinks && herb.herbLinks!= [])
                                         |for further information 
                                         each link in herb.herbLinks

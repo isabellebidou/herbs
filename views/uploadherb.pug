@@ -2,9 +2,10 @@ extends layout
 block content
       
     .maincontent
-      form.detailform(method = "post")
+      
               
         fieldset
+          form.detailform(method = "post")
                 legend upload new herb
                 label.detaillabel(for= "newName") name:
                 input.detailinput(name= "newName", type = "text") 

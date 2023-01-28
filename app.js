@@ -45,8 +45,8 @@ app.use(
 
 app.set("view engine", "pug");
 //set up the environment for the app to run
-app.listen(process.env.PORT || 7000, process.env.IP || "0.0.0.0", function () {
-  if (!process.env.PORT) utils.log("app is running on port 7000");
+app.listen(process.env.PORT || 3500, process.env.IP || "0.0.0.0", function () {
+  if (!process.env.PORT) utils.log("app is running on port 3500");
 });
 
 app.get("/", (req, res) => res.render("views/index"));
