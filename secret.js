@@ -14,4 +14,5 @@ if (process.env.NODE_ENV !== 'production') {
 
   module.exports = {
     db: db,
+    mongoURI: process.env.MONGO_URI
   };

@@ -6,7 +6,10 @@ var express = require("express"); // call expresss to be used by application
 var app = express();
 const flash = require("express-flash");
 app.use(flash());
+const mongoose = require('mongoose');
 const utils = require("./utils");
+//require('./models/HerbPic');
+mongoose.set('strictQuery', false);
 const session = require("express-session");
 var MemoryStore = require("memorystore")(session);
 const path = require("path");
@@ -19,6 +22,8 @@ const herbroutes = require("./routes/herb"); //edit, display herb
 const galleryroutes = require("./routes/gallery"); //gallery, filterherbs
 const usersroutes = require("./routes/users"); //users
 const userprofile = require("./routes/userprofile"); //users
+const uploadherbpics = require("./routes/herbpic"); //users
+const secret = require("./secret");
 app.use(authenticationroutes);
 app.use(dbroutes);
 app.use(herbroutes);
@@ -26,9 +31,12 @@ app.use(herbroutes);
 app.use(galleryroutes);
 app.use(usersroutes);
 app.use(userprofile);
+app.use(uploadherbpics);
 // end of routes
 app.use(express.static("scripts"));
 app.use(express.static("images"));
+app.use(express.static("models"));
+//app.use(express.static(path.join(__dirname, '/models')));
 app.use(express.urlencoded({ extended: false }));
 app.use(
   session({
@@ -42,6 +50,12 @@ app.use(
     }),
   })
 );
+/*mongoose.connect(secret.mongoURI,
+  { useNewUrlParser: true, useUnifiedTopology: true },
+  () => {
+    console.log('Connected to MongoDB');
+  }
+  );*/
 
 app.set("view engine", "pug");
 //set up the environment for the app to run

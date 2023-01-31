@@ -11,7 +11,11 @@ block content
   .maincontent
 
     fieldset
+
       
+      //img(src=`data:${'image/png'};base64,${herb.herbPicPath}`, alt="herb pic")
+      
+      img(src= herb.herbPicPath, alt="herb pic")
       p.itemp name: #{herb.herbName}   
       p.itemp latin: #{herb.herbNameLatin}                      
       p.itemp french: #{herb.herbNameFrench}  

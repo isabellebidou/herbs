@@ -52,6 +52,7 @@ router.get("/", async (req, res, next) => {
         session.dbIsOffline = false;
         globalGallery = resolveGallery;
         
+        
       })
       .catch((error) => {
         session.filter = false;
@@ -59,6 +60,7 @@ router.get("/", async (req, res, next) => {
         globalGallery = error.rejectGallery;
       });
     const dataList = await utils.findTagsList(globalGallery);
+
     res.render("index", {
       gallery: globalGallery,
       session: session,

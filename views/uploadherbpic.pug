@@ -1,0 +1,23 @@
+extends layout
+block content
+      
+    .maincontent
+
+
+
+        form#upload(action='/api/herbpic', method='POST' enctype='multipart/form-data')
+            fieldset
+                legend upload plant pic in png format
+                ul
+                   li.div
+                    label select plant name:
+                    select.longInput(name= "plant", type = "select")
+                     each element in setList
+                        option.option #{element.herbName} 
+                        option.value #{element} 
+                   li.div
+                    label select file:
+                    input.longInput(name= "testImage", type = "file" required) 
+                   li.div
+                    input(type='submit', value='upload')
+                    

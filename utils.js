@@ -1,3 +1,5 @@
+
+
 function findTagsList(gallery) {
   return new Promise((resolve, reject) => {
     let result = [];
@@ -158,6 +160,7 @@ function findherbInJsonArray2(id, gallery) {
   }
 }
 
+
 module.exports = {
   findTagsList: findTagsList,
   checkAuthenticated,
@@ -170,5 +173,5 @@ module.exports = {
   findherbInJsonArray,
   findherbInJsonArray2,
   stringToArray,
-  makeSqlQuery,
+  makeSqlQuery
 };

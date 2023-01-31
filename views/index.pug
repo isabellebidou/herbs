@@ -69,6 +69,13 @@ block content
                         
                             div.tooltip
                                 div.item.photoThumbnail
+  
+                                    
+                                    //img(src=`data:${'image/png'};base64,${herb.herbPicPath}`, alt="herb pic")
+                                    img.image(src='/' +herb.herbPicPath, alt=herb.herbPicPath)
+                                    
+                                    
+                                    
                                     if session.user
                                         a.h1.itemtitle(href='/displayherb/'+herb.herbId)  #{herb.herbName}
                                     else
