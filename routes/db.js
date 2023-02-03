@@ -312,10 +312,10 @@ router.get(
   "/uploadherb",
   utils.checkAuthenticated,
   function (
-req,
+    req,
     res
   ) {
-    
+
     res.render('uploadherb');
   }
 );
@@ -338,28 +338,31 @@ router.post(
     }*/req,
     res
   ) {
-    let sql =
-      'INSERT INTO herb (herbName,herbCategory,herbProperties, herbLinks,herbNameLatin,herbNameChinese, herbNameFrench, herbProducts, herbComments,herbTags) VALUES ("';
-      
-      
-       
-      req.body.newName? sql += req.body.newName+'","':sql +='null", "' ;
-      req.body.newCategory?  sql+= req.body.newCategory+'","':sql +='null", "';
-      req.body.newProperties? sql+= req.body.newProperties+'","':sql +='null", "';
-      req.body.newLinks? sql+= req.body.newLinks+'","':sql +='null", "';
-      req.body.newNameLatin? sql += req.body.newNameLatin+'","':sql +='null", "';
-      req.body.newNameChinese? sql += req.body.newNameChinese+'","': sql +='null", "';
-      req.body.newNameFrench? sql += req.body.newNameFrench+'","': sql +='null", "';
-      req.body.newProducts? sql+= req.body.newProducts+'","': sql +='null", "';
-      req.body.newComments? sql+= req.body.newComments+'","': sql +='null", "';
-      req.body.newTags? sql += req.body.newTags+'"' :sql +='null", "';
-      sql+=");";
+    let sqlStart = 'INSERT INTO herb (';
+    let sqlValues = ') VALUES ("';
+
+    if (req.body.newName) { sqlStart += 'herbName,'; sqlValues += req.body.newName + '","'; }
+    if (req.body.newCategory) { sqlStart += 'herbCategory,'; sqlValues += req.body.newCategory + '","'; }
+    if (req.body.newProperties) { sqlStart += 'herbProperties,'; sqlValues += req.body.newProperties + '","'; }
+    if (req.body.newLinks) { sqlStart += 'herbLinks,'; sqlValues += req.body.newLinks + '","'; }
+    if (req.body.newNameLatin) { sqlStart += 'herbNameLatin,'; sqlValues += req.body.newNameLatin + '","'; }
+    if (req.body.newNameChinese) { sqlStart += 'herbNameChinese,'; sqlValues += req.body.newNameChinese + '","'; }
+    if (req.body.newNameFrench) { sqlStart += 'herbNameFrench,'; sqlValues += req.body.newNameFrench + '","'; }
+    if (req.body.newProducts) { sqlStart += 'herbProducts,'; sqlValues += req.body.newProducts + '","'; }
+    if (req.body.newComments) { sqlStart += 'herbComments,'; sqlValues += req.body.newComments + '","'; }
+    if (req.body.newTags) { sqlStart += 'herbTags,'; sqlValues += req.body.newTags + '"'; }
+    if (req.body.newText) { sqlStart += 'herbText,'; sqlValues += req.body.newText + '"'; }
+    sqlStart = sqlStart.substring(0, sqlStart.length - 1);
+    sqlValues = sqlValues.substring(0, sqlValues.length - 1);
+    const sql = sqlStart += sqlValues += '");';
+    utils.log(sql)
+
 
     db.query(sql, (err, res1) => {
       if (err) throw err;
       console.error(res1);
     });
-    res.redirect("/uploadherb");
+    res.redirect(`/api/herbpic`);
   }
 );
 module.exports = router;

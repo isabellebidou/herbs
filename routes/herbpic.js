@@ -73,9 +73,7 @@ initializePassport(passport, getUserByEmail, getUserById);
       var string=JSON.stringify(resolvePlant);
       var json =  JSON.parse(string);
       const id = json[0].herbId;
-      insertPicPath.insertHerbPicPath(req.file.filename, id).then(()=> {
-        res.redirect("/");
-      });
+      insertPicPath.insertHerbPicPath(req.file.filename, id);
       /*const pic = new Pic({
         plantId: id,
         dateSent: Date.now(),
@@ -97,6 +95,7 @@ initializePassport(passport, getUserByEmail, getUserById);
 
       
       });
+      res.redirect("/");
     });
     
  

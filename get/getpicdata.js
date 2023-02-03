@@ -14,8 +14,6 @@ const Pic = mongoose.model('herbpics');
         picData.map( async (pic) => {
           const data = pic.pic.data;
           const b64str= await makeBase64String(data);
-          //console.log('b64str')
-          //console.log(b64str)
           result = b64str;
 
   
@@ -67,7 +65,6 @@ async function getHerbPic2(id) {
         hpdata.map( async (pic) => {
             const data = pic.pic.data;
             const b64str= await makeBase64String(data);
-          // console.log(b64str)
     
             return b64str;
         });
@@ -79,9 +76,6 @@ async function getHerbPic2(id) {
               return data + String.fromCharCode(byte);
             }, "")
           );
-          //console.log('***') 
-          //console.log('b64') 
-          //console.log(b64)
           return b64
 
     }

@@ -32,6 +32,7 @@ async function getGlobalGallery(flag) {
           }
           herb.herbTags = herb.herbTags === "null" ? "" : herb.herbTags;
           herb.herbPicPath = herb.herbPicPath === "null" ? "" : herb.herbPicPath;
+          herb.herbText = herb.herbText === "null" ? "" : herb.herbText;
 
         });
 

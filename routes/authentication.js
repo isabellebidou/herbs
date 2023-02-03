@@ -100,14 +100,22 @@ router.post("/register", async (req, res) => {
 });
 router.delete("/logout", (req, res) => {
   session.user = null;
-  req.logOut();
-  res.redirect("/");
+  req.logout(function(err) {
+    if (err) { return next(err); }
+    res.redirect('/');
+  });
 });
 
 router.get("/logout", (req, res) => {
   session.user = null;
   req.logOut();
   res.redirect("/");
+});
+router.post('/logout', function(req, res, next) {
+  req.logout(function(err) {
+    if (err) { return next(err); }
+    res.redirect('/');
+  });
 });
 
 module.exports = router;

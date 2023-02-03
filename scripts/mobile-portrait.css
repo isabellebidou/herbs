@@ -96,12 +96,11 @@
   }
   .tooltip {
     position: static;
-    width: 350px;
-    height: 310px;
+    
   }
   .back {
     position: absolute;
-    bottom: 1em;
+    bottom: 0em;
     left: 1em;
     font-size: 1em;
     visibility: visible;
@@ -109,7 +108,7 @@
   }
   .next {
     position: absolute;
-    bottom: 1em;
+    bottom: 0em;
     right: 1em;
     font-size: 1em;
     visibility: visible;
@@ -270,5 +269,43 @@
     z-index: 50;
     padding: 0.7em;
     border-radius: 10%;
+  }
+  .left {
+    position: fixed;
+    width: 100%;
+    height: 20%;
+    padding: 5%;
+    opacity: 50%;
+    top: 0%;
+  
+  
+  }
+
+  .right {
+    position: absolute;
+    width: 100%;
+    padding: 5%;
+    top:40% ;
+    height: 200%;
+  
+    overflow-y: auto;
+  
+  }
+  
+  .imgcontainer {
+    width: 100%;
+    height: 100%;
+  
+    display: flex;
+    justify-content: center;
+  
+  }
+  
+  .diplayplant {
+    position: relative;
+    width: 100%;
+    margin: auto;
+    display: block;
+  
   }
 }

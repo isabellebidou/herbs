@@ -28,7 +28,7 @@ block content
       
     .maincontent
           
-            
+           if herb 
             form.detailform(method = "post")
               
               fieldset
@@ -53,6 +53,8 @@ block content
                 input.detailinputThick(name= "newProducts", type = "text", value = herb.herbProducts) 
                 label.detaillabel(for= "newComments") comments:
                 input.detailinput(name= "newComments", type = "text", value = herb.herbComments) 
+                label.detaillabel(for= "newText") description:
+                input.textarea(name= "newText", type = "text", value = herb.herbText)
                 a.closeWindow(href='/') x
                 //- var next = herb.herbId-1
                 div.buttonsidebyside

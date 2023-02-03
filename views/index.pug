@@ -65,6 +65,7 @@ block content
  
                     button.searchbutton(type="submit") go   
                 .grid-container
+                    
                     each herb in gallery
                         
                             div.tooltip
@@ -72,36 +73,37 @@ block content
   
                                     
                                     //img(src=`data:${'image/png'};base64,${herb.herbPicPath}`, alt="herb pic")
-                                    img.image(src='/' +herb.herbPicPath, alt=herb.herbPicPath)
+                                    if herb.herbPicPath
+                                        img.image(src='/' +herb.herbPicPath, alt=herb.herbName)
                                     
                                     
                                     
-                                    if session.user
-                                        a.h1.itemtitle(href='/displayherb/'+herb.herbId)  #{herb.herbName}
-                                    else
-                                        h1.itemtitle  #{herb.herbName}
+                                    a.h1.itemtitle(href='/displayherb/'+herb.herbId)  #{herb.herbName} 
+                                    a.threedots(href='/displayherb/'+herb.herbId) more ...
+                                        
+                                    
+                                    
                                     
                                     - var nameCat=''
-                                    - nameCat =  herb.herbNameLatin? nameCat+" latin:  "+herb.herbNameLatin : nameCat
-                                    - nameCat =  herb.herbCategory? nameCat+", category:  "+herb.herbCategory : nameCat 
+                                    - nameCat =  herb.herbNameLatin!= ''? nameCat+" latin:  "+herb.herbNameLatin : nameCat
+                                    - nameCat =  herb.herbCategory? nameCat+" category:  "+herb.herbCategory : nameCat 
                                     if nameCat.length > 1 && cat !== 'undefined'
-                                    p.itemp #{nameCat}
+                                        h3.itemp #{nameCat}
                                     -nameCat ='';
                                     - var names =''
                                     - names =  herb.herbNameFrench != 'undefined'? herb.herbNameFrench : names
-                                    - names =  herb.herbNameChinese? names+", "+herb.herbNameChinese : names
+                                    - names =  herb.herbNameChinese? names+" "+herb.herbNameChinese : names
                                     if names.length > 1 && names !== 'undefined'
-                                    p.itemp other names: #{names}
+                                        p.itemp other names: #{names}
                                     -names = '';                 
-                                    if (herb.herbProperties && herb.herbProperties!= "" && herb.herbProperties !== "null")
-                                    h3.itemp may help with: #{herb.herbProperties}  
-                                    if (herb.herbComments && herb.herbComments!= "" && herb.herbComments !== "null")
-                                        p.itemp remarks: #{herb.herbComments} 
-                                    if (herb.herbLinks && herb.herbLinks!= [])
-                                        |for further information 
-                                        each link in herb.herbLinks
-                                            a.itemp(href= link.url) #{link.domain} 
-                                    if (herb.herbProducts && herb.herbProducts!= [])
-                                        |find #{herb.herbName} products online
+                                    if herb.herbProperties && herb.herbProperties!= "" && herb.herbProperties !== "null"
+                                    h2.itemp may help with: #{herb.herbProperties} 
+                                    p.disclaimerp  benefits traditionally associated with #{herb.herbName}. Consult a healthcare professional before taking, respect recommended dosage and again, less is more!.  
+                                    if herb.herbComments && herb.herbComments!= "" && herb.herbComments !== "null"
+                                        p.itemp contraindications: #{herb.herbComments} 
+                                    
+                                    
+                                    if herb.herbProducts && herb.herbProducts!= []
+                                        
                                         each link in herb.herbProducts
-                                            a.itemp(href= link.url) #{link.domain}      
+                                            a.itemp(href= link.url) find #{herb.herbName} products online: #{link.domain}      

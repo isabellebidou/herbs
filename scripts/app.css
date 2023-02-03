@@ -8,6 +8,8 @@
   width: 100%;
   height: 100%;
   margin-top: 4%;
+  overflow-y: scroll;
+  background-color: rgba(243, 236, 236, 0.9);
 
 }
 
@@ -109,19 +111,21 @@ input {
 
 .back {
   position: fixed;
-  bottom: 10%;
+  bottom: 2%;
   left: 10%;
-  font-size: 1em;
+  font-size: 1.500em;
   visibility: visible;
+  text-shadow: 2px 4px 2px rgba(160,160,160,0.79);
   z-index: 2;
 }
 
 .next {
   position: fixed;
-  bottom: 10%;
+  bottom: 2%;
   right: 10%;
-  font-size: 1em;
+  font-size: 1.500em;
   visibility: visible;
+  text-shadow: 2px 4px 2px rgba(160,160,160,0.79);
   z-index: 2;
 }
 
@@ -138,6 +142,7 @@ input {
   visibility: visible;
 } */
 fieldset {
+
   border: 1px dotted green;
   -moz-border-radius: 8px;
   -webkit-border-radius: 8px;
@@ -220,9 +225,24 @@ legend {
   margin-right:15px;
 } */
 .detailform {
-  position: sticky;
+  position: absolute;
+  overflow-y: scroll;
+  height: 120%;
 
 
+}
+.textarea {
+  border: 2px solid;
+  display: inline-block;
+  *display: inline;
+  /* for IE7*/
+  zoom: 1;
+  /* for IE7*/
+  vertical-align: middle;
+  width: 100%;
+  line-height: 200%;
+  resize: both;
+  overflow: auto;
 }
 
 /* https://stackoverflow.com/questions/9980531/center-image-in-div-horizontally */
@@ -254,6 +274,9 @@ form {
   height: 10%;
   z-index: 2;
   text-decoration: none;
+  font-size: 1.500em;
+  visibility: visible;
+  text-shadow: 2px 4px 2px rgba(160,160,160,0.79);
 }
 
 .logo {
@@ -343,10 +366,15 @@ html {
   height: 95%;
   bottom: 5%;
 }
-
+h1 {
+  font-size:x-large;
+}
 h1,
 h2 {
   color: rgb(42, 97, 199);
+}
+h2,h3 {
+  font-size:larger;
 }
 
 .header {
@@ -514,6 +542,12 @@ a.button:active {
   border-color: #96ccba;
   color: rgb(236, 226, 81);
 }
+.threedots {
+  text-decoration: none;
+  font-style: oblique;
+  font-size: 0.555em;
+  padding:1em;
+}
 
 .deletebutton {
   background-color: rgba(127, 95, 135, 0.2);
@@ -646,7 +680,71 @@ select,
   text-decoration: none;
   font-size: 0.8 em;
   font-style: italic;
-  background-color: rgba(255, 255, 255, 0.6);
-  border-radius: 1%;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 2%;
+
+}
+.descriptionp {
+  display: block;
+  color: #7f5f87;
+  text-align: justify;
+  text-decoration: none;
+  font-size: 1.175em;
+  font-weight: bold;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 2%;
+
+
+
+}
+.disclaimerp {
+  display: block;
+  color: #7f5f87;
+  text-align: justify;
+  font-style: italic;
+  text-decoration: none;
+  font-size: 0.675em;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 2%;
+
+
+
+}
+
+.left {
+  position: fixed;
+  width: 30%;
+  height: 100%;
+  padding: 5%;
+  left: 0;
+  bottom: 4%;
+
+
+}
+
+.right {
+  position: absolute;
+  width: 60%;
+  padding: 5%;
+  right: 0;
+  height: 120%;
+  overflow-y: auto;
+
+}
+
+.imgcontainer {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+
+}
+
+.diplayplant {
+  position: relative;
+  width: 100%;
+  margin: auto;
+  display: block;
 
 }

@@ -14,6 +14,7 @@ const getUserById = require("../passport-config").getUserbyId;
 const session = require("express-session");
 var MemoryStore = require("memorystore")(session);
 var bodyParser = require("body-parser");
+const fs = require("fs");
 router.use(
   bodyParser.urlencoded({
     extended: true,
@@ -59,7 +60,10 @@ router.get("/", async (req, res, next) => {
         session.dbIsOffline = true;
         globalGallery = error.rejectGallery;
       });
-    const dataList = await utils.findTagsList(globalGallery);
+    const dataList =  await utils.findTagsList(globalGallery);
+    //console.log(dataList)
+    //fs.writeFileSync("./models/tags.js", dataList.toString());
+    
 
     res.render("index", {
       gallery: globalGallery,
@@ -74,9 +78,7 @@ router.get("/", async (req, res, next) => {
 //   //https://stackoverflow.com/questions/53940043/unhandledpromiserejectionwarning-this-error-originated-either-by-throwing-insid
 
 // filter
-/*router.get("/filterherbs", async function (req, res) {
-  utils.log("*** get filterherbs  ");
-
+router.get("/filterherbs", async function (req, res) {
   let sql =
     'select * FROM herb WHERE herbTags LIKE  "%' +
     searchItem +
@@ -98,16 +100,19 @@ router.get("/", async (req, res, next) => {
     if (err) throw err;
     console.error(err);
     gallery.forEach(async (herb) => {
-      herb.herbLinks = await utils.stringToArray(herb.herbLinks);
-      herb.herbProducts = await utils.stringToArray(herb.herbProducts);
+
+      herb.herbLinks = herb.herbLinks === "null" ? "" : utils.stringToArray(herb.herbLinks);
+      herb.herbProducts = herb.herbProducts === "null" ? "" : utils.stringToArray(herb.herbProducts);
     });
     globalGallery =  gallery;
     res.render("filterherbs", {
       gallery: globalGallery,
-      searchItem: req.session.lastSearchItem
+      session: session,
+      //searchItem: req.session.lastSearchItem
+      searchItem: searchItem
     });
   });
-});*/
+});
 
 router.post("/filterherbs", function (req, res) {
   session.filter = true;
@@ -139,6 +144,7 @@ router.post("/filterherbs", function (req, res) {
     });
     res.render("filterherbs", {
       gallery: await gallery,
+      session: session,
       searchItem: searchItem,
     });
   });

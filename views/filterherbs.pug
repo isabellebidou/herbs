@@ -28,35 +28,30 @@ block content
                 each herb in gallery
                     
                     div.tooltip
-                        .item.photoThumbnail
-                            if session
-                                if session.user
-                                    if session.user.userRole == 'admin'
-                                        a.h1.itemtitle(href='/displayherb/'+herb.herbId)  #{herb.herbName}
-                            else
-                                h1.itemtitle  #{herb.herbName}
-                        
-                        - var nameCat=''
-                        - nameCat =  herb.herbNameLatin? nameCat+" latin:  "+herb.herbNameLatin : nameCat
-                        - nameCat =  herb.herbCategory? nameCat+", category:  "+herb.herbCategory : nameCat 
-                        if nameCat.length > 1 && cat !== 'undefined'
-                        p.itemp #{nameCat}
-                        -nameCat ='';
-                        - var names =''
-                        - names =  herb.herbNameFrench != 'undefined'? herb.herbNameFrench : names
-                        - names =  herb.herbNameChinese? names+", "+herb.herbNameChinese : names
-                        if names.length > 1 && names !== 'undefined'
-                        p.itemp other names: #{names}
-                        -names = '';                 
-                        if (herb.herbProperties && herb.herbProperties!= "" && herb.herbProperties !== "null")
-                        h3.itemp may help with: #{herb.herbProperties}  
-                        if (herb.herbComments && herb.herbComments!= "" && herb.herbComments !== "null")
-                            p.itemp remarks: #{herb.herbComments} 
-                        if (herb.herbLinks && herb.herbLinks!= [])
-                            |for further information 
-                            each link in herb.herbLinks
-                                a.itemp(href= link.url) #{link.domain} 
-                        if (herb.herbProducts && herb.herbProducts!= [])
-                            |find #{herb.herbName} products online
-                            each link in herb.herbProducts
-                                a.itemp(href= link.url) #{link.domain}  
+                        div.item.photoThumbnail
+  
+                                    
+
+                            if herb.herbPicPath
+                                img.image(src='/' +herb.herbPicPath, alt=herb.herbPicPath)
+                            a.h1.itemtitle(href='/displayherb/'+herb.herbId)  #{herb.herbName}
+                            a.threedots(href='/displayherb/'+herb.herbId) ...
+                            - var nameCat=''
+                            - nameCat =  herb.herbNameLatin? nameCat+" latin:  "+herb.herbNameLatin : nameCat
+                            - nameCat =  herb.herbCategory? nameCat+", category:  "+herb.herbCategory : nameCat 
+                            if nameCat.length > 1 && cat !== 'undefined'
+                                p.itemp #{nameCat}
+                            -nameCat ='';
+                            - var names =''
+                            - names =  herb.herbNameFrench != 'undefined'? herb.herbNameFrench : names
+                            - names =  herb.herbNameChinese? names+", "+herb.herbNameChinese : names
+                            if names.length > 1 && names !== 'undefined'
+                                p.itemp other names: #{names}
+                            -names = '';                 
+                            if herb.herbProperties && herb.herbProperties!= "" && herb.herbProperties !== "null"
+                                h3.itemp may help with: #{herb.herbProperties}  
+                            if herb.herbComments && herb.herbComments!= "" && herb.herbComments !== "null"
+                                p.itemp remarks: #{herb.herbComments}           
+                            if herb.herbProducts && herb.herbProducts!= [] 
+                                each link in herb.herbProducts
+                                    a.itemp(href= link.url) find #{herb.herbName} products online #{link.domain}  

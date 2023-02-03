@@ -1,54 +1,68 @@
 extends layout
 block navigation
-        div
-          if session.user
-            if session.user.userRole == 'admin'
-              a.edit(href='/editherb/'+herb.herbId) edit
+          div.authentication
+            a.togallerybutton(href='/') to gallery   
+          
+            if session.user && herb
+                if session.user.userRole == 'admin'
+                  a(href='/editherb/'+herb.herbId) edit
       
               
 block content
 
   .maincontent
 
-    fieldset
-
-      
-      //img(src=`data:${'image/png'};base64,${herb.herbPicPath}`, alt="herb pic")
-      
-      img(src= herb.herbPicPath, alt="herb pic")
-      p.itemp name: #{herb.herbName}   
-      p.itemp latin: #{herb.herbNameLatin}                      
-      p.itemp french: #{herb.herbNameFrench}  
-      p.itemp chinese: #{herb.herbNameChinese}                     
-      p.itemp properties: #{herb.herbProperties}                       
-      p.itemp remarks: #{herb.herbComments} 
-      p.itemp category: #{herb.herbCategory}                   
-      p.itemp links:
-        if (herb.herbLinks && herb.herbLinks!= [])                      
+    if herb
+      if herb.herbPicPath
+        div.left
+          div.imgcontainer
+            img.diplayplant(src='/' +herb.herbPicPath, alt=herb.herbName)
+      div.right
+        h1.itemp #{herb.herbName} 
+        h2.itemp properties: #{herb.herbProperties}
+        if herb.herbNameChinese && herb.herbCategory     
+          p.itemp latin: #{herb.herbNameLatin}   * french: #{herb.herbNameFrench} * chinese: #{herb.herbNameChinese}  * category: #{herb.herbCategory} 
+        else if herb.herbNameChinese
+          p.itemp latin: #{herb.herbNameLatin}   * french: #{herb.herbNameFrench}  * chinese: #{herb.herbNameChinese}     
+        else if herb.herbCategory  
+          p.itemp latin: #{herb.herbNameLatin}   * french: #{herb.herbNameFrench}  * category: #{herb.herbCategory}  
+        else
+          p.itemp latin: #{herb.herbNameLatin}   * french: #{herb.herbNameFrench}
+        
+        - const description = herb.herbText.split('   ')
+        each line in description
+          p.descriptionp #{line} 
+                              
+        
+        p.itemp It is important to note that while these benefits have been traditionally associated with #{herb.herbName} , more research is needed to fully understand its efficacy and safety. The information shared on this website, may or may not have been backed by science and comes from tradition and what is widely shared online. It is recommended to consult a healthcare professional before taking #{herb.herbName} or any other supplement for these purposes.                       
+        p.itemp contraindications: #{herb.herbComments} 
+        if herb.herbLinks && herb.herbLinks!= [] && herb.herbLinks!= undefined                  
           each link in herb.herbLinks
-            a.itemp(href= link.url) #{link.url} 
-      p.itemp products:
-        if (herb.herbProducts && herb.herbProducts!= [])
-          each link in herb.herbProducts
-            a.itemp(href= link.url) #{link.url} 
-      p.itemp tags: #{herb.herbTags}
+              .itemp(href= link.url) #{link.url} 
+        p.itemp products:
+          if herb.herbProducts && herb.herbProducts!= []
+            each link in herb.herbProducts
+              a.itemp(href= link.url) #{link.url} 
+        p.itemp tags: #{herb.herbTags}
+           
       
       
-    unless session.filter
+    
+              
+  if session.filter      
+        a.closeWindow(href='/filterherbs') x
+  else
+        a.closeWindow(href='/') x
+  unless session.filter
           unless back == null
             a.back(href='/displayherb/'+back) 
-              p.direction back
+              p.direction <
           
            
-    unless session.filter
+  unless session.filter
           unless next == null
             a.next(href='/displayherb/'+next) 
-              p.direction next
-              
-    if session.filter      
-         a.closeWindow(href='/filterherbs') x
-    else
-         a.closeWindow(href='/') x
+              p.direction >
         
 
         

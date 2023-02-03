@@ -77,6 +77,7 @@ router.get("/displayherb/:index", async function (req, res) {
         index - 1 >= 0
           ? globalGallery[index - 1].herbId
           : null;
+        
       res.render("displayherb", {
         herb: herb,
         galleryLength: globalGallery.length,
@@ -167,9 +168,13 @@ router.post("/editherb/:index", utils.checkAuthenticated, function (req, res) {
     req.body.newNameChinese +
     '", herbComments = "' +
     req.body.newComments +
+    '", herbText = "' +
+    req.body.newText +
     '" WHERE herbId = "' +
     req.params.index +
     '" ;';
+
+    
 
   db.query(sql, (err, res1) => {
     if (err) throw err;

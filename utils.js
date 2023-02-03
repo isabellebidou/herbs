@@ -61,7 +61,7 @@ function stringToArray(str) {
     for (j = 0; j < values.length; j++) {
       if (values[j] && values[j] != "[]" && values[j] != "undefined") {
         var url = values[j].trim().toLowerCase();
-        if (url !== null){
+        if (url && url !== null){
           let domain = new URL(url);
           domain = domain.hostname;
           array.push({ url, domain });
