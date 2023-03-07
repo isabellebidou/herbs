@@ -21,8 +21,10 @@ const herbroutes = require("./routes/herb"); //edit, display herb
 //const indexroute = require("./routes/index"); // index
 const galleryroutes = require("./routes/gallery"); //gallery, filterherbs
 const usersroutes = require("./routes/users"); //users
-const userprofile = require("./routes/userprofile"); //users
-const uploadherbpics = require("./routes/herbpic"); //users
+const userprofile = require("./routes/userprofile"); 
+const mentionslegales = require("./routes/mentionslegales"); 
+const legalnotice = require("./routes/legalnotice"); 
+const uploadherbpics = require("./routes/herbpic"); 
 const secret = require("./secret");
 app.use(authenticationroutes);
 app.use(dbroutes);
@@ -32,6 +34,8 @@ app.use(galleryroutes);
 app.use(usersroutes);
 app.use(userprofile);
 app.use(uploadherbpics);
+app.use(mentionslegales);
+app.use(legalnotice);
 // end of routes
 app.use(express.static("scripts"));
 app.use(express.static("images"));

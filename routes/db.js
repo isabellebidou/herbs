@@ -33,10 +33,10 @@ router.get("/uploadjson", async function (req, res) {
         });
       })
       .catch((error) => {
-        console.error(error);
+        utils.log(error)
       });
   } catch (error) {
-    console.error(error);
+    utils.log(error)
   }
 });
 router.post("/createsetname", (req, res) => {
@@ -134,14 +134,14 @@ router.post("/uploadjson", upload.single("json"), (req, res) => {
       '");';
     db.query(sql, (err, res1) => {
       if (err) throw err;
-      console.error(res1);
+      utils.log(res1)
     });
   }
   //}
   try {
     fs.unlinkSync(`../models/${req.file.filename}`);
   } catch (error) {
-    console.error(error);
+    utils.log(error)
   }
 
   res.redirect("/");
@@ -181,6 +181,7 @@ router.get("/dbintojson", function (req, res) {
       fs.writeFileSync("./models/data.json", data);
     } catch (e) {
       console.error(e);
+      res1
     }
   });
 });
@@ -197,7 +198,7 @@ router.get("/dbintojsonflag", function (req, res) {
       var data = JSON.stringify(gallery);
       fs.writeFileSync("./models/dataflag.json", data);
     } catch (e) {
-      console.error(e);
+      utils.log(e)
     }
   });
 });
@@ -360,7 +361,7 @@ router.post(
 
     db.query(sql, (err, res1) => {
       if (err) throw err;
-      console.error(res1);
+      utils.log(res1)
     });
     res.redirect(`/api/herbpic`);
   }

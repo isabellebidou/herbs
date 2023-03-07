@@ -16,7 +16,7 @@ async function deleteSetNameById(setName, id) {
         });
 
     } catch (e) {
-      console.error(e);
+      utils.log(e)
       reject({
         rejectMessage: "failure: " + sql,
       });

@@ -35,6 +35,7 @@ router.use(passport.session());
 initializePassport(passport, getUserByEmail, getUserById);
 
 router.get("/userprofile/:index", utils.checkAuthenticated, async (req, res) => {
+
     try {
       await getUserDetails(req.params.index)
         .then(async (resolveUser) => {
@@ -47,10 +48,10 @@ router.get("/userprofile/:index", utils.checkAuthenticated, async (req, res) => 
              
         })
         .catch((error) => {
-          console.error(error);
+          utils.log(error);
         });
     } catch (e) {
-      console.error(e);
+      utils.log(error);
     }
   });
   router.post("/userprofile/:index", async (req, res) => {
@@ -79,7 +80,7 @@ router.get("/userprofile/:index", utils.checkAuthenticated, async (req, res) => 
 
   router.get("/resetpassword/:index", utils.checkAuthenticated, async (req, res) => {
     try {
-      await getUserDetails(req.params.index)
+      await getUserDetails(req.params.userId)
         .then(async (resolveUser) => {
           user = resolveUser;
           utils.log(user);

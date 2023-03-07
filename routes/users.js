@@ -57,7 +57,7 @@ router.get("/users", utils.checkAuthenticated, async (req, res) => {
               //utils.log(user);
             })
             .catch((error) => {
-              console.error(error);
+              utils.log(error);
             });
         }
         res.render("users", {
@@ -66,10 +66,10 @@ router.get("/users", utils.checkAuthenticated, async (req, res) => {
         });
       })
       .catch((error) => {
-        console.error(error);
+        utils.log(error);
       });
   } catch (e) {
-    console.error(e);
+    utils.log(error);
   }
 });
 router.get("/edituser/:index", utils.checkAuthenticated, async (req, res) => {
@@ -113,14 +113,14 @@ router.get("/edituser/:index", utils.checkAuthenticated, async (req, res) => {
             });
           })
           .catch((error) => {
-            console.error(error);
+            utils.log(error);
           });
       })
       .catch((error) => {
-        console.error(error);
+        utils.log(error);
       });
   } catch (e) {
-    console.error(e);
+    utils.log(error);
   }
 });
 router.post("/edituser/:index", async (req, res) => {
@@ -169,7 +169,7 @@ router.post("/edituser/:index", async (req, res) => {
       );
     })
     .catch((error) => {
-      console.error(error);
+      utils.log(error);
     });
 
   let sql =

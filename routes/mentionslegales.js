@@ -42,74 +42,18 @@ router.use(passport.initialize());
 router.use(passport.session());
 
 initializePassport(passport, getUserByEmail, getUserById);
-  router.get("/api/herbpic",  async(req, res) => {
-    try {
-        await getGallery
-        .getGlobalGallery(false, false)
-          .then((resolveGallery) => {
-            //session.dbIsOffline = false;
-            res.render("uploadherbpic", {
-              setList: resolveGallery,
-            //  session: session,
-            });
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      } catch (error) {
-        console.error(error);
-      }
-    });
-
-
-  
-
-//https://www.youtube.com/watch?v=NzROCbkvIE0
-  router.post("/api/herbpic", utils.checkAuthenticated,upload.single("testImage"), async (req, res) => {
-    const {  herbPic } = req.body;
-    await getHerbByName.getHerbIdByname(req.body.plant)
-    .then((resolvePlant) => {
-      var string=JSON.stringify(resolvePlant);
-      var json =  JSON.parse(string);
-      const id = json[0].herbId;
-      insertPicPath.insertHerbPicPath(req.file.filename, id);
-      /*const pic = new Pic({
-        plantId: id,
-        dateSent: Date.now(),
-        pic: {
-          data: fs.readFileSync('models/'+req.file.filename),
-          contentType:'image/png'
-      }
-      });*/
-  
-      /*pic.save().then(async (res) => {
-        utils.log('image is saved');
-        await insertPic.insertHerbPic(res._id, id).then(()=> {
-          res.redirect("/");
-        });
-        
-
-
-       }).catch((err) => {console.error(err)});*/
-
-      
-      });
-      res.redirect("/");
-    });
-    
- 
-
-    
-
-
-    
- 
-
-  
 
 
 
+router.get("/mentionslegales", async (req, res, next) => {
+
+  try {
 
 
 
+    res.render("mentionslegales")
+  } catch (e) {
+    utils.log(e)
+  }
+});
 module.exports = router;

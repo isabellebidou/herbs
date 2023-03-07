@@ -1,5 +1,6 @@
 const secret = require("../secret");
 const db = secret.db;
+const utils = require("../utils");
 
 function getHerbById(id) {
 
@@ -10,7 +11,7 @@ function getHerbById(id) {
              if (err) throw err;
              resolve(herb);
            } catch (e) {
-             console.error(e);
+             utils.log(e)
            }
          });
        });

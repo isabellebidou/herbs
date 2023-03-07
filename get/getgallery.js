@@ -41,7 +41,7 @@ async function getGlobalGallery(flag) {
         resolve(gallery);
 
       } catch (e) {
-        console.error(e);
+        utils.log(e)
         if (flag === true)
           reject({
             rejectGallery: dataflag,

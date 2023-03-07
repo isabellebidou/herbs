@@ -53,7 +53,7 @@ router.get("/displayherb/:index", async function (req, res) {
         globalGallery = error.rejectGallery;
       });
   } catch (e) {
-    console.error(e);
+    utils.log(e)
   }
   try {
     if (globalGallery && Array.isArray(globalGallery)) {
@@ -87,7 +87,7 @@ router.get("/displayherb/:index", async function (req, res) {
       });
     } else res.redirect("/");
   } catch (e) {
-    console.error(e);
+    utils.log(e)
     res.redirect("/");
   }
 });
@@ -114,7 +114,7 @@ router.get("/editherb/:index", async function (req, res) {
           globalGallery = error.rejectGallery;
         });
     } catch (e) {
-      console.error(e);
+      utils.log(e)
     }
   
   var herb = utils.findherbInJsonArray(

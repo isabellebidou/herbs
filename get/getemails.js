@@ -1,5 +1,6 @@
 const secret = require("../secret");
 const db = secret.db;
+const utils = require("../utils");
 
 async function getEmails(email) {
   return new Promise((resolve, reject) => {
@@ -12,7 +13,8 @@ async function getEmails(email) {
         else reject(false);
       });
     } catch (e) {
-      console.error(e);
+      utils.log(e)
+      
     }
   });
 }

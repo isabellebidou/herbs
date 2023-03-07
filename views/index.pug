@@ -4,12 +4,13 @@ block navigation
     div.authentication
             if  !session.user 
                 if !session.dbIsOffline == true
-                    a.loginbutton(href='/login') login 
-                    a.registerbutton(href='/register') register
+                    a.loginbutton(href='/login') admin login 
+                    // a.registerbutton(href='/register') register
            
             if session.user 
                 if session.user.userRole == 'admin'
                     a.editgallery(href='/uploadherb') add herb
+                    a.editgallery(href='/api/herbpic') add herb pic
                     a.updatedbbutton(href='/updatedb') update DB
               
             if session.user
@@ -26,15 +27,17 @@ block navigation
                         if !session.dbIsOffline == true
                         
                             li
-                            a.mobilemenuli(href='/login') login 
+                            a.mobilemenuli(href='/login') admin login 
                         
-                            li
-                            a.mobilemenuli(href='/register') register
+                            //li
+                            //a.mobilemenuli(href='/register') register
                         
                     if session.user
                         if session.user.userRole == 'admin'
                             li
                             a.mobilemenuli(href='/uploadherb') add herb 
+                            li
+                            a.editgallery(href='/api/herbpic') add herb pic
                             li
                             a.mobilemenuli(href='/uploadjson') upload JSON
                             li

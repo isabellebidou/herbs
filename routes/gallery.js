@@ -52,18 +52,18 @@ router.get("/", async (req, res, next) => {
         session.filter = false;
         session.dbIsOffline = false;
         globalGallery = resolveGallery;
-        
-        
+
+
       })
       .catch((error) => {
         session.filter = false;
         session.dbIsOffline = true;
         globalGallery = error.rejectGallery;
       });
-    const dataList =  await utils.findTagsList(globalGallery);
+    const dataList = await utils.findTagsList(globalGallery);
     //console.log(dataList)
     //fs.writeFileSync("./models/tags.js", dataList.toString());
-    
+
 
     res.render("index", {
       gallery: globalGallery,
@@ -71,7 +71,7 @@ router.get("/", async (req, res, next) => {
       datalist: dataList,
     });
   } catch (e) {
-    console.error(e);
+    utils.log(e)
   }
 });
 
@@ -96,15 +96,15 @@ router.get("/filterherbs", async function (req, res) {
     searchItem +
     '%" ORDER BY herbName asc;';
 
-   db.query(sql, async (err, gallery) => {
+  db.query(sql, async (err, gallery) => {
     if (err) throw err;
-    console.error(err);
+    utils.log(err)
     gallery.forEach(async (herb) => {
 
       herb.herbLinks = herb.herbLinks === "null" ? "" : utils.stringToArray(herb.herbLinks);
       herb.herbProducts = herb.herbProducts === "null" ? "" : utils.stringToArray(herb.herbProducts);
     });
-    globalGallery =  gallery;
+    globalGallery = gallery;
     res.render("filterherbs", {
       gallery: globalGallery,
       session: session,
@@ -118,22 +118,22 @@ router.post("/filterherbs", function (req, res) {
   session.filter = true;
   searchItem = req.body.search;
   let sql =
-  'select * FROM herb WHERE herbTags LIKE  "%' +
-  searchItem +
-  '%" OR herbProperties LIKE "%' +
-  searchItem +
-  '%" OR herbName LIKE "%' +
-  searchItem +
-  '%" OR herbNameChinese LIKE "%' +
-  searchItem +
-  '%" OR herbNameFrench LIKE "%' +
-  searchItem +
-  '%" OR herbNameLatin LIKE "%' +
-  searchItem +
-  '%" OR herbCategory LIKE "%' +
-  searchItem +
-  '%" ORDER BY herbName;';
-  
+    'select * FROM herb WHERE herbTags LIKE  "%' +
+    searchItem +
+    '%" OR herbProperties LIKE "%' +
+    searchItem +
+    '%" OR herbName LIKE "%' +
+    searchItem +
+    '%" OR herbNameChinese LIKE "%' +
+    searchItem +
+    '%" OR herbNameFrench LIKE "%' +
+    searchItem +
+    '%" OR herbNameLatin LIKE "%' +
+    searchItem +
+    '%" OR herbCategory LIKE "%' +
+    searchItem +
+    '%" ORDER BY herbName;';
+
 
   db.query(sql, async (err, gallery) => {
     if (err) throw err;
