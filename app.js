@@ -42,11 +42,12 @@ app.use(express.static("images"));
 app.use(express.static("models"));
 //app.use(express.static(path.join(__dirname, '/models')));
 app.use(express.urlencoded({ extended: false }));
+app.set('trust proxy', 1);
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
+    saveUninitialized: true,
     resave: false,
-    saveUninitialized: false,
     store: new MemoryStore({
       //https://github.com/HubSpot/oauth-quickstart-nodejs/issues/15
       //https://www.npmjs.com/package/memorystore
