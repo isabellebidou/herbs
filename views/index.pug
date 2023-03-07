@@ -2,6 +2,7 @@ extends layout
 
 block navigation
     div.authentication
+            a.editgallery(href='https://iridology.herokuapp.com/') iridology  
             if  !session.user 
                 if !session.dbIsOffline == true
                     a.loginbutton(href='/login') admin login 
@@ -22,6 +23,8 @@ block navigation
         |   menu
         div#mobilemenu
                 ul#mobilemenuul
+                    li
+                    a.mobilemenuli(href='/https://iridology.herokuapp.com/') iridology  
                     if !session.user 
                      
                         if !session.dbIsOffline == true
@@ -37,12 +40,12 @@ block navigation
                             li
                             a.mobilemenuli(href='/uploadherb') add herb 
                             li
-                            a.editgallery(href='/api/herbpic') add herb pic
+                            a.mobilemenuli(href='/api/herbpic') add herb pic
                             li
                             a.mobilemenuli(href='/uploadjson') upload JSON
                             li
                             a.mobilemenuli(href='/updatedb') update DB
-  
+                        
                         li
                         a.mobilemenuli(href='/logout') logout                     
     script.

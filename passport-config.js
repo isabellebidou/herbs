@@ -55,7 +55,7 @@ function initialize( passport, getUserByEmail, getUserbyId) {
         if (user.active) {
           session.user = user;
           if (process.env.NODE_ENV !== "production") {
-            console.log(session.user);
+            //console.log(session.user);
           }
           //console.log(session.user);
           return done(null, user);
