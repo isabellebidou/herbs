@@ -2,7 +2,7 @@ extends layout
 
 block navigation
     div.authentication
-            a.editgallery(href='https://iridology.herokuapp.com/') iridology  
+            a.editgallery(href='https://iridologyreadings.com/') iridology  
             if  !session.user 
                 if !session.dbIsOffline == true
                     a.loginbutton(href='/login') admin login 
@@ -24,7 +24,7 @@ block navigation
         div#mobilemenu
                 ul#mobilemenuul
                     li
-                    a.mobilemenuli(href='/https://iridology.herokuapp.com/') iridology  
+                    a.mobilemenuli(href='https://iridologyreadings.com/') iridology  
                     if !session.user 
                      
                         if !session.dbIsOffline == true
