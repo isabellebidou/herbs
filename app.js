@@ -6,7 +6,8 @@ var express = require("express"); // call expresss to be used by application
 var app = express();
 const flash = require("express-flash");
 app.use(flash());
-const mongoose = require('mongoose');
+//const mongoose = require('mongoose');
+const compression = require ("compression");
 const utils = require("./utils");
 //require('./models/HerbPic');
 //mongoose.set('strictQuery', false);
@@ -26,6 +27,10 @@ const mentionslegales = require("./routes/mentionslegales");
 const legalnotice = require("./routes/legalnotice"); 
 const uploadherbpics = require("./routes/herbpic"); 
 const secret = require("./secret");
+//https://youtu.be/jZ6x5Ab7Bgc
+app.use(compression({
+  level:6
+}))
 app.use(authenticationroutes);
 app.use(dbroutes);
 app.use(herbroutes);
