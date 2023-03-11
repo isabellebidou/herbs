@@ -11,12 +11,14 @@ block navigation
 block content
 
   .maincontent
+    .page
 
     if herb
       if herb.herbPicPath
         div.left
           div.imgcontainer
-            img.diplayplant(src='/' +herb.herbPicPath, alt=herb.herbName)
+            img.diplayplant(src="https://isabelles3.s3.eu-west-1.amazonaws.com/plantpics/"+herb.herbPicPath, alt=herb.herbName)
+            //img.diplayplant(src='/' +herb.herbPicPath, alt=herb.herbName)
       div.right
         h1.itemp #{herb.herbName} 
         h2.itemp properties: #{herb.herbProperties}

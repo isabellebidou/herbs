@@ -22,6 +22,7 @@ block navigation
 
 block content
       .maincontent
+        .page
           a.searchItem(href='/')
            |remove filter "#{searchItem}"     
           .grid-container
@@ -33,7 +34,8 @@ block content
                                     
 
                             if herb.herbPicPath
-                                img.image(src='/' +herb.herbPicPath, alt=herb.herbPicPath)
+                                img.image(src=`https://isabelles3.s3.eu-west-1.amazonaws.com/plantpics/`+herb.herbPicPath, alt=herb.herbName)
+                                //img.image(src='/' +herb.herbPicPath, alt=herb.herbPicPath)
                             a.h1.itemtitle(href='/displayherb/'+herb.herbId)  #{herb.herbName}
                             a.threedots(href='/displayherb/'+herb.herbId) ...
                             - var nameCat=''

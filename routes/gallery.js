@@ -14,6 +14,9 @@ const getUserById = require("../passport-config").getUserbyId;
 const session = require("express-session");
 var MemoryStore = require("memorystore")(session);
 var bodyParser = require("body-parser");
+
+
+const AWS = require("aws-sdk");
 const fs = require("fs");
 router.use(
   bodyParser.urlencoded({
@@ -63,6 +66,8 @@ router.get("/", async (req, res, next) => {
     const dataList = await utils.findTagsList(globalGallery);
     //console.log(dataList)
     //fs.writeFileSync("./models/tags.js", dataList.toString());
+
+    
 
 
     res.render("index", {

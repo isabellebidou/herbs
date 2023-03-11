@@ -9,7 +9,7 @@ app.use(flash());
 const mongoose = require('mongoose');
 const utils = require("./utils");
 //require('./models/HerbPic');
-mongoose.set('strictQuery', false);
+//mongoose.set('strictQuery', false);
 const session = require("express-session");
 var MemoryStore = require("memorystore")(session);
 const path = require("path");

@@ -3,31 +3,32 @@ block content
       
     .maincontent
       
+        .page
               
-        fieldset
-          form.detailform(method = "post")
-                legend upload new herb
-                label.detaillabel(for= "newName") name:
-                input.detailinput(name= "newName", type = "text") 
-                label.detaillabel(for= "newNameLatin") latin name:
-                input.detailinput(name= "newNameLatin", type = "text")  
-                label.detaillabel(for= "newNameFrench") french name:
-                input.detailinput(name= "newNameFrench", type = "text") 
-                label.detaillabel(for= "newNameChinese") chinese name:
-                input.detailinput(name= "newNameChinese", type = "text")
-                label.detaillabel(for= "newCategory") category:
-                input.detailinput(name= "newCategory", type = "text") 
-                label.detaillabel(for= "newProperties") properties:
-                input.detailinput(name= "newProperties", type = "text")
-                label.detaillabel(for= "newLinks") links:
-                input.detailinputThick(name= "newLinks", type = "text") 
-                label.detaillabel(for= "newProducts") products:
-                input.detailinputThick(name= "newProducts", type = "text") 
-                label.detaillabel(for= "newComments") comments:
-                input.detailinput(name= "newComments", type = "text") 
-                label.detaillabel(for= "newTags") tags:
-                input.detailinputThick(name= "newTags", type = "text") 
-                a.closeWindow(href='/') x
- 
+            fieldset
+                form.detailform(method = "post")
+                    legend upload new herb
+                    label.detaillabel(for= "newName") name:
+                    input.detailinput(name= "newName", type = "text") 
+                    label.detaillabel(for= "newNameLatin") latin name:
+                    input.detailinput(name= "newNameLatin", type = "text")  
+                    label.detaillabel(for= "newNameFrench") french name:
+                    input.detailinput(name= "newNameFrench", type = "text") 
+                    label.detaillabel(for= "newNameChinese") chinese name:
+                    input.detailinput(name= "newNameChinese", type = "text")
+                    label.detaillabel(for= "newCategory") category:
+                    input.detailinput(name= "newCategory", type = "text") 
+                    label.detaillabel(for= "newProperties") properties:
+                    input.detailinput(name= "newProperties", type = "text")
+                    label.detaillabel(for= "newLinks") links:
+                    input.detailinputThick(name= "newLinks", type = "text") 
+                    label.detaillabel(for= "newProducts") products:
+                    input.detailinputThick(name= "newProducts", type = "text") 
+                    label.detaillabel(for= "newComments") comments:
+                    input.detailinput(name= "newComments", type = "text") 
+                    label.detaillabel(for= "newTags") tags:
+                    input.detailinputThick(name= "newTags", type = "text") 
+                    a.closeWindow(href='/') x
+    
                     button(type="submit", class = "submit") upload
                 

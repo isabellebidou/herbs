@@ -19,6 +19,9 @@ const session = require("express-session");
 const insertPic = require("../insert/insertherbpic");
 const insertPicPath = require("../insert/insertherbpicpath");
 var MemoryStore = require("memorystore")(session);
+const S3_BUCKET = process.env.BUCKET_NAME;
+const aws = require('aws-sdk');
+const {uploadFile} = require("../scripts/s3")
 router.use(
   bodyParser.urlencoded({
     extended: true,
@@ -60,42 +63,55 @@ initializePassport(passport, getUserByEmail, getUserById);
         console.error(error);
       }
     });
-
+    router.get("/api/herbpictobucket",  async(req, res) => {
+      try {
+          await getGallery
+          .getGlobalGallery(false, false)
+            .then((resolveGallery) => {
+              //session.dbIsOffline = false;
+              res.render("uploadherbpictobucket", {
+                setList: resolveGallery,
+              //  session: session,
+              });
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        } catch (error) {
+          console.error(error);
+        }
+      });
 
   
 
 //https://www.youtube.com/watch?v=NzROCbkvIE0
   router.post("/api/herbpic", utils.checkAuthenticated,upload.single("testImage"), async (req, res) => {
-    const {  herbPic } = req.body;
-    await getHerbByName.getHerbIdByname(req.body.plant)
-    .then((resolvePlant) => {
+    const {  herbPic, plant } = req.body;
+    const file = req.file;
+    const filename = req.file.filename;
+    await getHerbByName.getHerbIdByname(plant)
+    .then(async (resolvePlant) => {
       var string=JSON.stringify(resolvePlant);
       var json =  JSON.parse(string);
       const id = json[0].herbId;
-      insertPicPath.insertHerbPicPath(req.file.filename, id);
-      /*const pic = new Pic({
-        plantId: id,
-        dateSent: Date.now(),
-        pic: {
-          data: fs.readFileSync('models/'+req.file.filename),
-          contentType:'image/png'
+      const name = plant+ '.png';
+      //https://youtu.be/NZElg91l_ms
+      const result = await uploadFile(file, name)
+      //console.log(result)
+      insertPicPath.insertHerbPicPath(name, id);
+      try {
+        if (result)fs.unlinkSync('models/' + filename)
+      } catch (error) {
+        console.log(error)
       }
-      });*/
-  
-      /*pic.save().then(async (res) => {
-        utils.log('image is saved');
-        await insertPic.insertHerbPic(res._id, id).then(()=> {
-          res.redirect("/");
-        });
-        
-
-
-       }).catch((err) => {console.error(err)});*/
 
       
       });
       res.redirect("/");
     });
+
+    
+      
     
  
 

@@ -59,7 +59,9 @@ block navigation
 
 
 block content
+    
         .maincontent
+            .page
             
 
                 form.filterphotos(method="post" action="/filterherbs")
@@ -80,8 +82,10 @@ block content
                                     
                                     //img(src=`data:${'image/png'};base64,${herb.herbPicPath}`, alt="herb pic")
                                     if herb.herbPicPath
-                                        img.image(src='/' +herb.herbPicPath, alt=herb.herbName)
-                                    
+                                        //img.image(src='/' +herb.herbPicPath, alt=herb.herbName)
+                                        img.image(src=`https://isabelles3.s3.eu-west-1.amazonaws.com/plantpics/`+herb.herbPicPath, alt=herb.herbName)
+                                        //s3://isabelles3/plantpics/
+                                        //https://isabelles3.s3.eu-west-1.amazonaws.com/plantpics/artemisiaannua.png
                                     
                                     
                                     a.h1.itemtitle(href='/displayherb/'+herb.herbId)  #{herb.herbName} 
