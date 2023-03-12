@@ -14,6 +14,7 @@ const getUserById = require("../passport-config").getUserbyId;
 const session = require("express-session");
 var MemoryStore = require("memorystore")(session);
 var bodyParser = require("body-parser");
+var timeout = require('connect-timeout')
 
 
 const AWS = require("aws-sdk");
@@ -45,8 +46,8 @@ initializePassport(passport, getUserByEmail, getUserById);
 //   }
 //gallery page
 
-router.get("/", async (req, res, next) => {
-
+router.get("/", timeout('20s'), bodyParser.json(), haltOnTimedout, async (req, res, next) => {
+  saveGet(req.body, async function (err, id) {
   req.session.dbIsOffline = false;
   try {
     await getGallery
@@ -78,7 +79,22 @@ router.get("/", async (req, res, next) => {
   } catch (e) {
     utils.log(e)
   }
+ 
+})
+
+
+  
 });
+
+function haltOnTimedout (req, res, next) {
+  if (!req.timedout) next()
+}
+
+function saveGet (get, cb) {
+  setTimeout(function () {
+    cb(null, ((Math.random() * 40000) >>> 0))
+  }, (Math.random() * 7000) >>> 0)
+}
 
 //   //https://stackoverflow.com/questions/53940043/unhandledpromiserejectionwarning-this-error-originated-either-by-throwing-insid
 

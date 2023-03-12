@@ -12,7 +12,7 @@ const utils = require("./utils");
 //require('./models/HerbPic');
 //mongoose.set('strictQuery', false);
 const session = require("express-session");
-var MemoryStore = require("memorystore")(session);
+const MemoryStore = require("memorystore")(session);
 const path = require("path");
 const VIEWS = path.join(__dirname, "views");
 // routes
@@ -48,7 +48,7 @@ app.use(express.static("models"));
 //app.use(express.static(path.join(__dirname, '/models')));
 app.use(express.urlencoded({ extended: false }));
 app.set('trust proxy', 1);
-app.use(
+/*app.use(
   session({
     secret: process.env.SESSION_SECRET,
     saveUninitialized: true,
@@ -60,7 +60,21 @@ app.use(
       checkPeriod: 86400000, // prune expired entries every 24h
     }),
   })
-);
+);*/
+
+
+
+app.use(session({
+    cookie: { maxAge: 86400000 },
+    saveUninitialized: true,
+    store: new MemoryStore({
+      checkPeriod: 86400000 // prune expired entries every 24h
+    }),
+    resave: false,
+    secret: process.env.SESSION_SECRET
+}))
+
+
 /*mongoose.connect(secret.mongoURI,
   { useNewUrlParser: true, useUnifiedTopology: true },
   () => {
