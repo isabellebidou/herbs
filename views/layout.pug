@@ -1,6 +1,13 @@
 doctype html
 html
   head
+    // Google Analytics tracking code
+    script(async='', src='https://www.googletagmanager.com/gtag/js?id=G-YKYCPDL3YL')
+    script.
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-G7V5M6RTZV');
     title isabelle Bidou -  
     meta(charset='UTF-8')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
@@ -34,7 +41,7 @@ html
  
       block content
              
-    .footer
+  .footer
       p.item   Isabelle Bidou - copyright #{new Date().getFullYear()}
           br
           - if (countryCode !== 'FR' && countryCode !== 'fr')
