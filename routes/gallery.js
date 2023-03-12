@@ -46,7 +46,7 @@ initializePassport(passport, getUserByEmail, getUserById);
 //   }
 //gallery page
 
-router.get("/", timeout('20s'), bodyParser.json(), haltOnTimedout, async (req, res, next) => {
+router.get("/", timeout('10s'), bodyParser.json(), haltOnTimedout, async (req, res, next) => {
   saveGet(req.body, async function (err, id) {
   req.session.dbIsOffline = false;
   try {
