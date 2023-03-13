@@ -1,20 +1,21 @@
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
-//const getGallery = require("./getgallery")
 var express = require("express"); // call expresss to be used by application
 var app = express();
 const flash = require("express-flash");
 app.use(flash());
-//const mongoose = require('mongoose');
 const compression = require ("compression");
 const utils = require("./utils");
-//require('./models/HerbPic');
-//mongoose.set('strictQuery', false);
+
 const session = require("express-session");
 const MemoryStore = require("memorystore")(session);
+const favicon = require('serve-favicon')
 const path = require("path");
 const VIEWS = path.join(__dirname, "views");
+
+
+//app.use(favicon(path.join(__dirname, 'images', 'flower.png')))
 // routes
 const authenticationroutes = require("./routes/authentication"); // login, logout, register
 const dbroutes = require("./routes/db"); //create tables, update db, upload json, sql query
@@ -43,8 +44,9 @@ app.use(mentionslegales);
 app.use(legalnotice);
 // end of routes
 app.use(express.static("scripts"));
-app.use(express.static("images"));
 app.use(express.static("models"));
+app.use(express.static('public'))
+app.use('/favicon.ico', express.static('./public/favicon.ico'));
 //app.use(express.static(path.join(__dirname, '/models')));
 app.use(express.urlencoded({ extended: false }));
 app.set('trust proxy', 1);

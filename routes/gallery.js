@@ -2,9 +2,12 @@ const express = require("express");
 
 const router = express.Router();
 var globalGallery = [];
+var filteredGallery = [];
+var dataList= [];
 const utils = require("../utils");
 const secret = require("../secret");
 const getGallery = require("../get/getgallery");
+const getTags = require("../get/getTagsList");
 const db = secret.db;
 var searchItem = " ";
 const passport = require("passport");
@@ -49,14 +52,18 @@ initializePassport(passport, getUserByEmail, getUserById);
 router.get("/", timeout('10s'), bodyParser.json(), haltOnTimedout, async (req, res, next) => {
   saveGet(req.body, async function (err, id) {
   req.session.dbIsOffline = false;
+  if (globalGallery.length === 0)
   try {
-    await getGallery
+    globalGallery  = await getGallery
       .getGlobalGallery(true)
-      .then((resolveGallery) => {
+      .then(async (resolveGallery) => {
         session.filter = false;
         session.dbIsOffline = false;
-        globalGallery = resolveGallery;
+      
+        return resolveGallery;
 
+        
+        
 
       })
       .catch((error) => {
@@ -64,16 +71,30 @@ router.get("/", timeout('10s'), bodyParser.json(), haltOnTimedout, async (req, r
         session.dbIsOffline = true;
         globalGallery = error.rejectGallery;
       });
-    const dataList = await utils.findTagsList(globalGallery);
 
+      
+        
 
+  } catch (e) {
+    utils.log(e)
+  }
+
+  if ( dataList.length === 0){
+    try {
+      dataList = await utils.findTagsList(globalGallery);
+    } catch (error) {
+      utils.log(error)
+    }
+  }
+
+  try {
     res.render("index", {
       gallery: globalGallery,
       session: session,
       datalist: dataList,
     });
-  } catch (e) {
-    utils.log(e)
+  } catch (error) {
+    utils.log(error)
   }
  
 })
@@ -121,9 +142,9 @@ router.get("/filterherbs", async function (req, res) {
       herb.herbLinks = herb.herbLinks === "null" ? "" : utils.stringToArray(herb.herbLinks);
       herb.herbProducts = herb.herbProducts === "null" ? "" : utils.stringToArray(herb.herbProducts);
     });
-    globalGallery = gallery;
+    filteredGallery = gallery;
     res.render("filterherbs", {
-      gallery: globalGallery,
+      gallery: filteredGallery,
       session: session,
       //searchItem: req.session.lastSearchItem
       searchItem: searchItem

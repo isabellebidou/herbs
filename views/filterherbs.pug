@@ -54,6 +54,3 @@ block content
                                 h3.itemp may help with: #{herb.herbProperties}  
                             if herb.herbComments && herb.herbComments!= "" && herb.herbComments !== "null"
                                 p.itemp remarks: #{herb.herbComments}           
-                            if herb.herbProducts && herb.herbProducts!= [] 
-                                each link in herb.herbProducts
-                                    a.itemp(href= link.url) find #{herb.herbName} products online #{link.domain}  

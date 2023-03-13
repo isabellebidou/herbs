@@ -40,7 +40,7 @@ router.get("/userprofile/:index", utils.checkAuthenticated, async (req, res) => 
       await getUserDetails(req.params.index)
         .then(async (resolveUser) => {
           user = resolveUser;
-          utils.log(user);
+          utils.log('user: '+user);
                 res.render("userprofile", {
                   users: user,
                   session: session,

@@ -2,13 +2,15 @@ const secret = require("../secret");
 const db = secret.db;
 const utils = require("../utils");
 
-function getHerbById(id) {
+function getTagsList() {
+
     return new Promise((resolve, reject) => {
-        let sql = "SELECT * FROM herb WHERE herbId = "+id+";";
-         db.query(sql, async (err, herb) => {
+        let sql = "SELECT distinct herbTags, herbName, herbNameFrench, herbNameChinese from herb";
+         db.query(sql, async (err, list) => {
            try {
              if (err) throw err;
-             resolve(herb);
+             const dataList = await utils.findTagsList(list);
+             resolve(dataList);
            } catch (e) {
              utils.log(e)
            }
@@ -18,5 +20,5 @@ function getHerbById(id) {
 }
 
 module.exports = {
-    getHerbById,
+    getTagsList,
 };

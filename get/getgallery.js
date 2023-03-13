@@ -8,12 +8,12 @@ const dataflag = require("../models/dataflag.json");
 
 async function getGlobalGallery(flag) {
   return new Promise((resolve, reject) => {
-    let sql = "select * FROM herb ORDER BY herbName ASC; "
+    let sql = "select herbId, herbName, herbNameFrench, herbNameLatin, herbNameChinese,herbCategory, herbProperties, herbTags , herbPicPath FROM herb ORDER BY herbName ASC; "
     db.query(sql, async (err, gallery) => {
       try {
         if (err) throw err;
 
-
+/*
         await gallery.forEach(async (herb) => {
           herb.herbName = herb.herbName === "null" ? "" : herb.herbName;
           herb.herbCategory = herb.herbCategory === "null" ? "" : herb.herbCategory;
@@ -34,7 +34,7 @@ async function getGlobalGallery(flag) {
           herb.herbPicPath = herb.herbPicPath === "null" ? "" : herb.herbPicPath;
           herb.herbText = herb.herbText === "null" ? "" : herb.herbText;
 
-        });
+        });*/
 
         //await mapPic(gallery);
 
@@ -57,20 +57,6 @@ async function getGlobalGallery(flag) {
   });
 }
 
-//not used
-async function mapPic(g) {
-  return new Promise((resolve, reject) => {
-    g.map(async (herb) => {
-      await getHerbPic.getHerbPic(herb.herbId).then(async (resolvePicData) => {
-        herb.herbPicData = resolvePicData;
-      })
-    });
-
-    resolve(g)
-
-  });
-
-}
 
 
 

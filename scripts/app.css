@@ -267,6 +267,8 @@ form {
   font-size: 1.500em;
   visibility: visible;
   text-shadow: 2px 4px 2px rgba(160,160,160,0.79);
+  background: none;
+  padding: 5px;
 }
 
 .logo {
