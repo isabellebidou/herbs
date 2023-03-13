@@ -65,10 +65,6 @@ router.get("/", timeout('10s'), bodyParser.json(), haltOnTimedout, async (req, r
         globalGallery = error.rejectGallery;
       });
     const dataList = await utils.findTagsList(globalGallery);
-    //console.log(dataList)
-    //fs.writeFileSync("./models/tags.js", dataList.toString());
-
-    
 
 
     res.render("index", {

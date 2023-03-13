@@ -1,5 +1,5 @@
 {
-  "name": "isabellebidou.herbs",
+  "name": "herb",
   "version": "1.0.3",
   "description": "herb website",
   "main": "app.js",
@@ -25,6 +25,7 @@
     "method-override": "^3.0.0",
     "multer": "^1.4.5-lts.1",
     "mysql": "^2.18.1",
+    "newrelic": "^9.11.0",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "path": "^0.12.7",
