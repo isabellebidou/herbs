@@ -1,7 +1,7 @@
 extends layout
 block navigation
           div.authentication
-            button(onclick="history.back()") Go Back
+            button.goback(onclick="history.back()") <
    
           
             if session.user && herb
@@ -18,6 +18,7 @@ block content
       if herb.herbPicPath
         div.left
           div.imgcontainer
+            //img.diplayplant(src=herb.imageUrl, alt=herb.herbName)
             img.diplayplant(src="https://isabelles3.s3.eu-west-1.amazonaws.com/plantpics/"+herb.herbPicPath, alt=herb.herbName)
             //img.diplayplant(src='/' +herb.herbPicPath, alt=herb.herbName)
       div.right

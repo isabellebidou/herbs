@@ -79,9 +79,11 @@ block content
                             div.tooltip
                                 div.item.photoThumbnail
                                     if herb.herbPicPath
-                                        img.image(src=`https://isabelles3.s3.eu-west-1.amazonaws.com/plantpics/`+herb.herbPicPath, alt=herb.herbName)
-                                        //s3://isabelles3/plantpics/
-                                        //https://isabelles3.s3.eu-west-1.amazonaws.com/plantpics/artemisiaannua.png
+                                        a(href=`/displayherb/${herb.herbId}`) 
+                                            img.diplayplant(src=herb.imageUrl, alt=herb.herbName)
+                                            //img.image(src="https://isabelles3.s3.eu-west-1.amazonaws.com/plantpics/"+herb.herbPicPath, alt=herb.herbName)
+                                            //s3://isabelles3/plantpics/
+                                            //https://isabelles3.s3.eu-west-1.amazonaws.com/plantpics/artemisiaannua.png
                                     
                                     
                                     a.h1.itemtitle(href=`/displayherb/${herb.herbId}`)  #{herb.herbName} 
@@ -96,7 +98,7 @@ block content
                                     - var names =''
                                     - names =  herb.herbNameFrench != 'undefined'? herb.herbNameFrench : names
                                     - names =  herb.herbNameChinese? names+" "+herb.herbNameChinese : names
-                                    if names.length > 1 && names !== 'undefined'
+                                    if names && names !== 'undefined'
                                         p.itemp other names: #{names}
                                     -names = '';                 
                                     if herb.herbProperties && herb.herbProperties!= "" && herb.herbProperties !== "null"

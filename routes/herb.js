@@ -40,57 +40,6 @@ router.use(passport.session());
 
 initializePassport(passport, getUserByEmail, getUserById);
 
-/*router.get("/displayherb/:index", async function (req, res) {
-  try {
-    await getGallery
-      .getGlobalGallery(true, false)
-      .then((resolveGallery) => {
-        session.dbIsOffline = false;
-        globalGallery = resolveGallery;
-      })
-      .catch((error) => {
-        session.dbIsOffline = true;
-        globalGallery = error.rejectGallery;
-      });
-  } catch (e) {
-    utils.log(e)
-  }
-  try {
-    if (globalGallery && Array.isArray(globalGallery)) {
-      var herb = utils.findherbInJsonArray(
-        parseInt(req.params.index),
-        globalGallery
-      );
-      if (herb == undefined) {
-        herb = utils.findherbInJsonArray2(
-          parseInt(req.params.index),
-          globalGallery
-        );
-      }
-
-      var index = globalGallery.indexOf(herb);
-      var nextherbId =
-        index + 1 < globalGallery.length
-          ? globalGallery[index + 1].herbId
-          : null;
-        var previousherbId =
-        index - 1 >= 0
-          ? globalGallery[index - 1].herbId
-          : null;
-        
-      res.render("displayherb", {
-        herb: herb,
-        galleryLength: globalGallery.length,
-        session: session,
-        next: nextherbId,
-        back: previousherbId
-      });
-    } else res.redirect("/");
-  } catch (e) {
-    utils.log(e)
-    res.redirect("/");
-  }
-});*/
 
 router.get("/displayherb/:index", async function (req, res) {
 

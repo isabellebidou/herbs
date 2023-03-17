@@ -2,7 +2,7 @@ const secret = require("../secret");
 const db = secret.db;
 const utils = require("../utils");
 const dataflag = require("../models/dataflag.json");
-//const getHerbPic = require("./getpicdata");
+const { getObjectSignedUrl } = require("../scripts/s3")
 
 
 
@@ -12,32 +12,9 @@ async function getGlobalGallery(flag) {
     db.query(sql, async (err, gallery) => {
       try {
         if (err) throw err;
-
-/*
-        await gallery.forEach(async (herb) => {
-          herb.herbName = herb.herbName === "null" ? "" : herb.herbName;
-          herb.herbCategory = herb.herbCategory === "null" ? "" : herb.herbCategory;
-          herb.herbProperties = herb.herbProperties === "null" ? "" : herb.herbProperties;
-          herb.herbNameLatin = herb.herbNameLatin === "null" ? "" : herb.herbNameLatin;
-          herb.herbNameFrench = herb.herbNameFrench === "null" ? "" : herb.herbNameFrench;
-          herb.herbNameChinese = herb.herbNameChinese === "null" ? "" : herb.herbNameChinese;
-          herb.herbComments = herb.herbComments === "null" ? "" : herb.herbComments;
-          if (flag === true) {
-            herb.herbLinks = herb.herbLinks === "null" ? "" : utils.stringToArray(herb.herbLinks);
-            herb.herbProducts = herb.herbProducts === "null" ? "" : utils.stringToArray(herb.herbProducts);
-          } else {
-            herb.herbLinks = herb.herbLinks === "null" ? "" : herb.herbLinks;
-            herb.herbProducts = herb.herbProducts === "null" ? "" : herb.herbProducts;
-
-          }
-          herb.herbTags = herb.herbTags === "null" ? "" : herb.herbTags;
-          herb.herbPicPath = herb.herbPicPath === "null" ? "" : herb.herbPicPath;
-          herb.herbText = herb.herbText === "null" ? "" : herb.herbText;
-
-        });*/
-
-        //await mapPic(gallery);
-
+        for (let pic of gallery) {
+          pic.imageUrl = await getObjectSignedUrl("plantpics/" + pic.herbPicPath )
+        }
         resolve(gallery);
 
       } catch (e) {
@@ -56,7 +33,6 @@ async function getGlobalGallery(flag) {
     });
   });
 }
-
 
 
 
