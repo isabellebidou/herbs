@@ -1,10 +1,15 @@
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
+const enforce = require('express-sslify');
 var express = require("express"); // call expresss to be used by application
 var app = express();
+// Use enforce.HTTPS({ trustProtoHeader: true }) in case you are behind
+// a load balancer (e.g. Heroku). See further comments below
+app.use(enforce.HTTPS({ trustProtoHeader: true }));
 const flash = require("express-flash");
 app.use(flash());
+
 const compression = require ("compression");
 const utils = require("./utils");
 
