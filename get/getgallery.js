@@ -12,9 +12,9 @@ async function getGlobalGallery(flag) {
     db.query(sql, async (err, gallery) => {
       try {
         if (err) throw err;
-        for (let pic of gallery) {
+        /*for (let pic of gallery) {
           pic.imageUrl = await getObjectSignedUrl("plantpics/" + pic.herbPicPath )
-        }
+        }*/
         resolve(gallery);
 
       } catch (e) {
