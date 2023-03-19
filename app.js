@@ -1,7 +1,7 @@
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
-//const enforce = require('express-sslify');
+const enforce = require('express-sslify');
 var express = require("express"); // call expresss to be used by application
 var app = express();
 // Use enforce.HTTPS({ trustProtoHeader: true }) in case you are behind

@@ -19,7 +19,7 @@ block content
         div.left
           div.imgcontainer
             //img.diplayplant(src=herb.imageUrl, alt=herb.herbName)
-            img.diplayplant(src="https://isabelles3.s3.eu-west-1.amazonaws.com/plantpics/"+herb.herbPicPath, alt=herb.herbName)
+            img.diplayplant(src="https://isabelles3.s3.eu-west-1.amazonaws.com/plantpics/"+herb.herbPicPath, alt=herb.herbName title= herb.herbName loading= "lazy" width= "375" height= "375")
             //img.diplayplant(src='/' +herb.herbPicPath, alt=herb.herbName)
       div.right
         h1.itemp #{herb.herbName} 

@@ -52,15 +52,14 @@ initializePassport(passport, getUserByEmail, getUserById);
 router.get("/", timeout('10s'), bodyParser.json(), haltOnTimedout, async (req, res, next) => {
   saveGet(req.body, async function (err, id) {
   req.session.dbIsOffline = false;
-  if (globalGallery.length === 0)
+  if (globalGallery && globalGallery.length === 0)
   try {
-    globalGallery  = await getGallery
+    await getGallery
       .getGlobalGallery(true)
-      .then(async (resolveGallery) => {
+      .then((resolveGallery) => {
         session.filter = false;
         session.dbIsOffline = false;
-      
-        return resolveGallery;
+        globalGallery = resolveGallery;
 
         
         
