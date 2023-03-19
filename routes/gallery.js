@@ -115,7 +115,8 @@ function saveGet (get, cb) {
 //   //https://stackoverflow.com/questions/53940043/unhandledpromiserejectionwarning-this-error-originated-either-by-throwing-insid
 
 // filter
-router.get("/filterherbs", async function (req, res) {
+router.get("/filterherbs", timeout('10s'), bodyParser.json(), haltOnTimedout, async (req, res, next) => {
+  saveGet(req.body, async function (err, id) {
   let sql =
     'select * FROM herb WHERE herbTags LIKE  "%' +
     searchItem +
@@ -149,6 +150,7 @@ router.get("/filterherbs", async function (req, res) {
       searchItem: searchItem
     });
   });
+  })
 });
 
 router.post("/filterherbs", function (req, res) {

@@ -17,6 +17,7 @@ const getUserById = require("../passport-config").getUserbyId;
 const session = require("express-session");
 var MemoryStore = require("memorystore")(session);
 var bodyParser = require("body-parser");
+var timeout = require('connect-timeout')
 router.use(
   bodyParser.urlencoded({
     extended: true,
@@ -39,10 +40,19 @@ router.use(passport.initialize());
 router.use(passport.session());
 
 initializePassport(passport, getUserByEmail, getUserById);
+function haltOnTimedout (req, res, next) {
+  if (!req.timedout) next()
+}
+
+function saveGet (get, cb) {
+  setTimeout(function () {
+    cb(null, ((Math.random() * 40000) >>> 0))
+  }, (Math.random() * 7000) >>> 0)
+}
 
 
-router.get("/displayherb/:index", async function (req, res) {
-
+router.get("/displayherb/:index", timeout('10s'), bodyParser.json(), haltOnTimedout,async function (req, res) {
+  saveGet(req.body, async function (err, id) {
   try {
       await getHerbById
       .getHerbById(req.params.index)
@@ -69,6 +79,7 @@ router.get("/displayherb/:index", async function (req, res) {
     utils.log(e)
     res.redirect("/");
   }
+})
 });
 
 //edit

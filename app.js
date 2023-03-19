@@ -6,7 +6,10 @@ var express = require("express"); // call expresss to be used by application
 var app = express();
 // Use enforce.HTTPS({ trustProtoHeader: true }) in case you are behind
 // a load balancer (e.g. Heroku). See further comments below
-app.use(enforce.HTTPS({ trustProtoHeader: true }));
+if (process.env.NODE_ENV === "production") {
+  app.use(enforce.HTTPS({ trustProtoHeader: true }));
+}
+
 const flash = require("express-flash");
 app.use(flash());
 
