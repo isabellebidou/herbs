@@ -17,13 +17,25 @@ const compression = require ("compression");
 const utils = require("./utils");
 
 const session = require("express-session");
-const MemoryStore = require("memorystore")(session);
-const favicon = require('serve-favicon')
+const RedisStore = require("connect-redis").default
+const {createClient} = require( "redis")
+//const MemoryStore = require("memorystore")(session);
+
+// Initialize client.
+let redisClient = createClient()
+redisClient.connect().catch(console.error)
+
+// Initialize store.
+let redisStore = new RedisStore({
+  client: redisClient,
+  prefix: "myapp:",
+})
+
 const path = require("path");
 const VIEWS = path.join(__dirname, "views");
 
 
-//app.use(favicon(path.join(__dirname, 'images', 'flower.png')))
+
 // routes
 const authenticationroutes = require("./routes/authentication"); // login, logout, register
 const dbroutes = require("./routes/db"); //create tables, update db, upload json, sql query
@@ -72,8 +84,17 @@ app.set('trust proxy', 1);
   })
 );*/
 
-
-
+// Initialize sesssion storage.
+app.use(
+  session({
+    store: redisStore,
+    resave: false, // required: force lightweight session keep alive (touch)
+    saveUninitialized: false, // recommended: only save session when data exists
+    resave: false,
+    secret: process.env.SESSION_SECRET,
+  })
+)
+/*
 app.use(session({
     cookie: { maxAge: 86400000 },
     saveUninitialized: true,
@@ -82,15 +103,9 @@ app.use(session({
     }),
     resave: false,
     secret: process.env.SESSION_SECRET
-}))
+}))*/
 
 
-/*mongoose.connect(secret.mongoURI,
-  { useNewUrlParser: true, useUnifiedTopology: true },
-  () => {
-    console.log('Connected to MongoDB');
-  }
-  );*/
 
 app.set("view engine", "pug");
 //set up the environment for the app to run
