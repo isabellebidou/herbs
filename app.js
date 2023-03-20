@@ -4,7 +4,6 @@ if (process.env.NODE_ENV !== "production") {
 const enforce = require('express-sslify');
 var express = require("express"); // call expresss to be used by application
 var app = express();
-// Use enforce.HTTPS({ trustProtoHeader: true }) in case you are behind
 // a load balancer (e.g. Heroku). See further comments below
 if (process.env.NODE_ENV === "production") {
   app.use(enforce.HTTPS({ trustProtoHeader: true }));
@@ -19,7 +18,7 @@ const utils = require("./utils");
 const session = require("express-session");
 const RedisStore = require("connect-redis").default
 const {createClient} = require( "redis")
-//const MemoryStore = require("memorystore")(session);
+
 
 // Initialize client.
 let redisClient = createClient()
@@ -70,19 +69,7 @@ app.use('/favicon.ico', express.static('./public/favicon.ico'));
 //app.use(express.static(path.join(__dirname, '/models')));
 app.use(express.urlencoded({ extended: false }));
 app.set('trust proxy', 1);
-/*app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    saveUninitialized: true,
-    resave: false,
-    store: new MemoryStore({
-      
-      //https://github.com/HubSpot/oauth-quickstart-nodejs/issues/15
-      //https://www.npmjs.com/package/memorystore
-      checkPeriod: 86400000, // prune expired entries every 24h
-    }),
-  })
-);*/
+
 
 // Initialize sesssion storage.
 app.use(
@@ -94,16 +81,7 @@ app.use(
     secret: process.env.SESSION_SECRET,
   })
 )
-/*
-app.use(session({
-    cookie: { maxAge: 86400000 },
-    saveUninitialized: true,
-    store: new MemoryStore({
-      checkPeriod: 86400000 // prune expired entries every 24h
-    }),
-    resave: false,
-    secret: process.env.SESSION_SECRET
-}))*/
+
 
 
 
@@ -115,5 +93,4 @@ app.listen(process.env.PORT || 3500, process.env.IP || "0.0.0.0", function () {
 
 app.get("/", (req, res) => res.render("views/index"));
 ////https://nodejs.dev/learn/update-all-the-nodejs-dependencies-to-their-latest-version
-//if(process.env.NODE_ENV != 'production'){
-// }
+

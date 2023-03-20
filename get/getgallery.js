@@ -2,7 +2,7 @@ const secret = require("../secret");
 const db = secret.db;
 const utils = require("../utils");
 const dataflag = require("../models/dataflag.json");
-const { getObjectSignedUrl } = require("../scripts/s3")
+
 
 
 
