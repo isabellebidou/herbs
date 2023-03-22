@@ -4,6 +4,7 @@ const express = require("express");
 const router = express.Router();
 const getGallery = require("../get/getgallery");
 const getHerbById = require("../get/getherbbyid");
+const getHerbByName = require("../get/getherbbyName");
 var globalGallery = [];
 const utils = require("../utils");
 const secret = require("../secret");
@@ -54,8 +55,8 @@ function saveGet (get, cb) {
 router.get("/displayherb/:index", timeout('10s'), bodyParser.json(), haltOnTimedout,async function (req, res) {
   saveGet(req.body, async function (err, id) {
   try {
-      await getHerbById
-      .getHerbById(req.params.index)
+      await getHerbByName
+      .getHerbByName(req.params.index)
       .then(async (resolveHerb) => {
         herb = resolveHerb[0];
         herb.herbLinks = herb.herbLinks === "null" ? "" : utils.stringToArray(herb.herbLinks);
@@ -86,52 +87,41 @@ router.get("/displayherb/:index", timeout('10s'), bodyParser.json(), haltOnTimed
 
 router.get("/editherb/:index", async function (req, res) {
   function chooseherb(indOne) {
-    return indOne.herbId === parseInt(req.params.index);
+    return indOne.herName === req.params.index;
   }
   
 
-    try {
-      await getGallery
-        .getGlobalGallery(false, false)
-        .then((resolveGallery) => {
-          req.session.filter = false;
-          req.session.dbIsOffline = false;
-          globalGallery = resolveGallery;
-        })
-        .catch((error) => {
-          req.session.filter = false;
-          req.session.dbIsOffline = true;
-          globalGallery = error.rejectGallery;
-        });
-    } catch (e) {
-      utils.log(e)
-    }
+
   
-  var herb = utils.findherbInJsonArray(
-    parseInt(req.params.index),
-    globalGallery
-  );
-  if (herb == undefined) {
-    herb = utils.findherbInJsonArray2(
-      parseInt(req.params.index),
-      globalGallery
-    );
-  }
+  try {
+    await getHerbByName
+    .getHerbByName(req.params.index)
+    .then(async (resolveHerb) => {
+      herb = resolveHerb[0];
+      herb.herbLinks = herb.herbLinks === "null" ? "" : utils.stringToArray(herb.herbLinks);
+      herb.herbProducts = herb.herbProducts === "null" ? "" : utils.stringToArray(herb.herbProducts);
+      res.render("editherb", {
+        herb: herb,
+        session: session,
+    
+      
+      });    
+
+    })
+    .catch((error) => {
+      session.filter = false;
+      session.dbIsOffline = true;
+      globalGallery = error.rejectGallery;
+    });
+   
+
+} catch (e) {
+  utils.log(e)
+  res.redirect("/");
+}
 
 
 
-      try{
-        res.render("editherb", {
-          herb: herb,
-          session: session,
-
-        });
-
-      }catch (e){
-        console.error(e);
-        res.redirect("/");
-
-      }
 
 
 });
@@ -160,7 +150,7 @@ router.post("/editherb/:index", utils.checkAuthenticated, function (req, res) {
     req.body.newComments +
     '", herbText = "' +
     req.body.newText +
-    '" WHERE herbId = "' +
+    '" WHERE herbName = "' +
     req.params.index +
     '" ;';
 
@@ -170,7 +160,7 @@ router.post("/editherb/:index", utils.checkAuthenticated, function (req, res) {
     if (err) throw err;
   });
   
-    res.redirect(`/displayherb/${parseInt(req.params.index)}`);
+    res.redirect(`/displayherb/${(req.params.index)}`);
  
 });
 

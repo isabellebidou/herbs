@@ -13,6 +13,8 @@ const flash = require("express-flash");
 app.use(flash());
 
 const compression = require ("compression");
+const mongoose = require('mongoose');
+mongoose.set('strictQuery', false);
 const utils = require("./utils");
 
 const session = require("express-session");
@@ -82,7 +84,12 @@ app.use(
   })
 )
 
-
+/*mongoose.connect(secret.mongoURI,
+  { useNewUrlParser: true, useUnifiedTopology: true },
+  () => {
+    console.log('Connected to MongoDB');
+  }
+  );*/
 
 
 app.set("view engine", "pug");

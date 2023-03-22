@@ -8,7 +8,7 @@ const secret = require("../secret");
 var message = "";
 // toggle to use
 // const { findherbSetValues } = require("../utils");
-const { insertSetNamesIntoSetNamesTable } = require("../insert/insertsetnames");
+
 // const { getSetNames } = require("../getsetnames");
 // const { updateSetIdInherbTable  } = require("../updatesetId");
 const db = secret.db;
@@ -39,11 +39,7 @@ router.get("/uploadjson", async function (req, res) {
     utils.log(error)
   }
 });
-router.post("/createsetname", (req, res) => {
-  var newSetNames = [];
-  newSetNames.push(req.body.newSetName);
-  insertSetNamesIntoSetNamesTable(newSetNames);
-});
+
 /*router.get("/uploadherbsjson", upload.single("json"), (req, res) => {
   var newherbs = require(`../models/gallery.json`);
   var jsonIsValid = true;
@@ -363,6 +359,20 @@ router.post(
       if (err) throw err;
       utils.log(res1)
     });
+
+   /* db.herbs.insertOne({
+      herbName: req.body.newName,
+      herbCategory: req.body.newCategory,
+      herbProperties: req.body.newProperties,
+      herbLinks: req.body.newLinks,
+      herbNameLatin: req.body.newNameLatin,
+      herbNameChinese: req.body.newNameChinese,
+      herbNameFrench: req.body.newNameFrench,
+      herbProducts: req.body.newProducts,
+      herbComments: req.body.newComments,
+      herbTags: req.body.newTags,
+      herbText: req.body.newText
+    });*/
     res.redirect(`/api/herbpic`);
   }
 );

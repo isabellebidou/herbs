@@ -7,8 +7,8 @@ const utils = require("../utils");
 const secret = require("../secret");
 const { getUsers } = require("../get/getusers");
 const { getUserDetails } = require("../get/getuserdetailsbyid");
-const { deleteSetNameById } = require("../delete/deletesetnamebyid");
-const { insertSetNameById } = require("../insert/insertsetnamebyid");
+
+
 const db = secret.db;
 var searchItem = " ";
 const passport = require("passport");
@@ -39,39 +39,7 @@ router.use(passport.initialize());
 router.use(passport.session());
 initializePassport(passport, getUserByEmail, getUserById);
 
-router.get("/users", utils.checkAuthenticated, async (req, res) => {
-  try {
-    await getUsers()
-      .then(async (resolveUsers) => {
-        users = resolveUsers;
-        for (let index = 0; index < users.length; index++) {
-          const user = users[index];
-          await getSetNamesByUserId(user.userId)
-            .then((resolveUserSetNames) => {
-              var names = "";
-              for (let index = 0; index < resolveUserSetNames.length; index++) {
-                names += resolveUserSetNames[index].photoSetName;
-                names += ", ";
-              }
-              user.userSetNames = names;
-              //utils.log(user);
-            })
-            .catch((error) => {
-              utils.log(error);
-            });
-        }
-        res.render("users", {
-          users: users,
-          session: session,
-        });
-      })
-      .catch((error) => {
-        utils.log(error);
-      });
-  } catch (e) {
-    utils.log(error);
-  }
-});
+
 router.get("/edituser/:index", utils.checkAuthenticated, async (req, res) => {
   var remainingSetNames = [];
   var duplicateSetIds = [];

@@ -48,9 +48,15 @@ block content
                 label.detaillabel(for= "newProperties") properties:
                 input.detailinput(name= "newProperties", type = "text", value = herb.herbProperties)
                 label.detaillabel(for= "newLinks") links:
-                input.detailinputThick(name= "newLinks", type = "text", value = herb.herbLinks) 
+                if herb.herbLinks
+                  each link in herb.herbLinks
+                    input.detailinputThick(name= "newLinks", type = "text", value = link.url) 
+                input.detailinputThick(name= "newLinks", type = "text")
                 label.detaillabel(for= "newProducts") products:
-                input.detailinputThick(name= "newProducts", type = "text", value = herb.herbProducts) 
+                if herb.herbProducts
+                  each link in herb.herbProducts
+                    input.detailinputThick(name= "newProducts", type = "text", value = link.url) 
+                input.detailinputThick(name= "newProducts", type = "text") 
                 label.detaillabel(for= "newComments") comments:
                 input.detailinput(name= "newComments", type = "text", value = herb.herbComments) 
                 label.detaillabel(for= "newText") description:

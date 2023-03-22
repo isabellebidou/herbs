@@ -6,7 +6,7 @@ block navigation
           
             if session.user && herb
                 if session.user.userRole == 'admin'
-                  a(href='/editherb/'+herb.herbId) edit
+                  a(href='/editherb/'+herb.herbName) edit
       
               
 block content
@@ -46,7 +46,7 @@ block content
         p.itemp products:
           if herb.herbProducts && herb.herbProducts!= []
             each link in herb.herbProducts
-              a.itemp(href= link.url) #{link.url} 
+              a.itemp(href= link.url) buy #{herb.herbName} online
         p.itemp tags: #{herb.herbTags}
            
       
@@ -56,7 +56,7 @@ block content
   if session.filter      
         a.closeWindow(href='/filterherbs') x
   else
-        button.closeWindow(onclick="history.back()") x
+        button.closeWindow(onclick="/") x
   unless session.filter
           unless back == null
             a.back(href='/displayherb/'+back) 
