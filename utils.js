@@ -1,4 +1,4 @@
-
+//const fs = require("fs");
 
 function findTagsList(gallery) {
   return new Promise((resolve, reject) => {
@@ -51,6 +51,8 @@ function findTagsList(gallery) {
     result = [...result, ...names, ...properties];
     const uniqueResult = new Set(result);
     const finalResult = [...uniqueResult];
+    //var data = JSON.stringify(finalResult);
+    //fs.writeFileSync("./models/datalist.json", data);
     if (finalResult) resolve(finalResult.sort());
   });
 }

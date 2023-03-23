@@ -8,6 +8,8 @@ const utils = require("../utils");
 const secret = require("../secret");
 const getGallery = require("../get/getgallery");
 const getTags = require("../get/getTagsList");
+const gallery = require("../models/data.json");
+const datalist = require("../models/datalist.json");
 const db = secret.db;
 var searchItem = " ";
 const passport = require("passport");
@@ -32,31 +34,20 @@ router.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    /*store: new MemoryStore({
-      //https://github.com/HubSpot/oauth-quickstart-nodejs/issues/15
-      //https://www.npmjs.com/package/memorystore
-      checkPeriod: 86400000, // prune expired entries every 24h
-    }),*/
   })
 );
 router.use(passport.initialize());
 router.use(passport.session());
 initializePassport(passport, getUserByEmail, getUserById);
-//https://www.npmjs.com/package/node-localstorage
-// if (typeof localStorage === "undefined" || localStorage === null) {
-//     var LocalStorage = require('node-localstorage').LocalStorage;
-//     localStorage = new LocalStorage('./scratch');
-//   }
-//gallery page
 
-router.get("/", timeout('7s'), bodyParser.json(), haltOnTimedout, async (req, res, next) => {
-  saveGet(req.body, async function (err, id) {
-    //console.log(req.session)
-    //console.log(session)
+
+router.get("/", bodyParser.json(), async (req, res, next) => {
+
   req.session.dbIsOffline = false;
   if (!session.gallery)
   try {
-    await getGallery
+    session.gallery = gallery; 
+    /*await getGallery
       .getGlobalGallery(true)
       .then((resolveGallery) => {
         session.filter = false;
@@ -68,7 +59,7 @@ router.get("/", timeout('7s'), bodyParser.json(), haltOnTimedout, async (req, re
         session.filter = false;
         session.dbIsOffline = true;
         globalGallery = error.rejectGallery;
-      }); 
+      }); */
 
   } catch (e) {
     utils.log(e)
@@ -76,8 +67,9 @@ router.get("/", timeout('7s'), bodyParser.json(), haltOnTimedout, async (req, re
 
   if ( !session.dataList){
     try {
-      dataList = await utils.findTagsList(globalGallery);
-      session.dataList= dataList;
+      //dataList = await utils.findTagsList(gallery);
+      dataList = datalist;
+      session.dataList= datalist;
     } catch (error) {
       utils.log(error)
     }
@@ -86,17 +78,14 @@ router.get("/", timeout('7s'), bodyParser.json(), haltOnTimedout, async (req, re
   try {
     
     
-    //console.log(session)
     res.render("index", {
-      //gallery: globalGallery,
       session: session,
-      //datalist: dataList,
     });
   } catch (error) {
     utils.log(error)
   }
  
-})
+//})
 
 
   
@@ -158,7 +147,6 @@ router.get("/filterherbs", timeout('10s'), bodyParser.json(), haltOnTimedout, er
     res.render("filterherbs", {
       gallery: filteredGallery,
       session: session,
-      //searchItem: req.session.lastSearchItem
       searchItem: searchItem
     });
   });

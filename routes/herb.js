@@ -24,63 +24,82 @@ router.use(
     extended: true,
   })
 );
-/*router.use(
+router.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false,
-    store: new MemoryStore({
-      //https://github.com/HubSpot/oauth-quickstart-nodejs/issues/15
-      //https://www.npmjs.com/package/memorystore
-      checkPeriod: 86400000, // prune expired entries every 24h
-    }),
+    saveUninitialized: false
+   
   })
-);*/
+);
 
 router.use(passport.initialize());
 router.use(passport.session());
 
 initializePassport(passport, getUserByEmail, getUserById);
-function haltOnTimedout (req, res, next) {
+function haltOnTimedout(req, res, next) {
   if (!req.timedout) next()
 }
 
-function saveGet (get, cb) {
+function saveGet(get, cb) {
   setTimeout(function () {
     cb(null, ((Math.random() * 40000) >>> 0))
   }, (Math.random() * 7000) >>> 0)
 }
 
 
-router.get("/displayherb/:index", timeout('7s'), bodyParser.json(), haltOnTimedout,async function (req, res) {
-  saveGet(req.body, async function (err, id) {
-  try {
+router.get("/displayherb/:index", bodyParser.json(), async function (req, res) {
+  if (session.gallery) {
+    globalGallery = session.gallery
+    try {
+      for (let index = 0; index < globalGallery.length; index++) {
+        const element = globalGallery[index];
+        //var herb = globalGallery.find(()=> {return item.herName === req.params.index;} );
+        if (element.herbName === req.params.index) {
+          herb = element;
+          herb.herbLinks = herb.herbLinks === "null" ? "" : utils.stringToArray(herb.herbLinks);
+          herb.herbProducts = herb.herbProducts === "null" ? "" : utils.stringToArray(herb.herbProducts);
+          res.render("displayherb", {
+            herb: herb,
+            session: session,
+            next: null,
+            back: null
+          });
+        }
+
+      }
+    } catch {
+      console.log('something fishy')
+
+    }
+  } else {
+    try {
       await getHerbByName
-      .getHerbByName(req.params.index)
-      .then(async (resolveHerb) => {
-        herb = resolveHerb[0];
-        herb.herbLinks = herb.herbLinks === "null" ? "" : utils.stringToArray(herb.herbLinks);
-        herb.herbProducts = herb.herbProducts === "null" ? "" : utils.stringToArray(herb.herbProducts);
-        res.render("displayherb", {
-          herb: herb,
-          session: session,
-          next: null,
-          back: null
-        });    
+        .getHerbByName(req.params.index)
+        .then(async (resolveHerb) => {
+          herb = resolveHerb[0];
+          herb.herbLinks = herb.herbLinks === "null" ? "" : utils.stringToArray(herb.herbLinks);
+          herb.herbProducts = herb.herbProducts === "null" ? "" : utils.stringToArray(herb.herbProducts);
+          res.render("displayherb", {
+            herb: herb,
+            session: session,
+            next: null,
+            back: null
+          });
 
-      })
-      .catch((error) => {
-        session.filter = false;
-        session.dbIsOffline = true;
-        globalGallery = error.rejectGallery;
-      });
-     
+        })
+        .catch((error) => {
+          session.filter = false;
+          session.dbIsOffline = true;
+          globalGallery = error.rejectGallery;
+        });
 
-  } catch (e) {
-    utils.log(e)
-    res.redirect("/");
+
+    } catch (e) {
+      utils.log(e)
+      res.redirect("/");
+    }
   }
-})
 });
 
 //edit
@@ -89,33 +108,32 @@ router.get("/editherb/:index", async function (req, res) {
   function chooseherb(indOne) {
     return indOne.herName === req.params.index;
   }
-  
+
   try {
     await getHerbByName
-    .getHerbByName(req.params.index)
-    .then(async (resolveHerb) => {
-      herb = resolveHerb[0];
-      herb.herbLinks = herb.herbLinks === "null" ? "" : utils.stringToArray(herb.herbLinks);
-      herb.herbProducts = herb.herbProducts === "null" ? "" : utils.stringToArray(herb.herbProducts);
-      res.render("editherb", {
-        herb: herb,
-        session: session,
-    
-      
-      });    
+      .getHerbByName(req.params.index)
+      .then(async (resolveHerb) => {
+        herb = resolveHerb[0];
+        herb.herbLinks = herb.herbLinks === "null" ? "" : utils.stringToArray(herb.herbLinks);
+        herb.herbProducts = herb.herbProducts === "null" ? "" : utils.stringToArray(herb.herbProducts);
+        res.render("editherb", {
+          herb: herb,
+          session: session,
 
-    })
-    .catch((error) => {
-      session.filter = false;
-      session.dbIsOffline = true;
-      globalGallery = error.rejectGallery;
-    });
-   
+        });
 
-} catch (e) {
-  utils.log(e)
-  res.redirect("/");
-}
+      })
+      .catch((error) => {
+        session.filter = false;
+        session.dbIsOffline = true;
+        globalGallery = error.rejectGallery;
+      });
+
+
+  } catch (e) {
+    utils.log(e)
+    res.redirect("/");
+  }
 
 
 
@@ -151,14 +169,14 @@ router.post("/editherb/:index", utils.checkAuthenticated, function (req, res) {
     req.params.index +
     '" ;';
 
-    
+
 
   db.query(sql, (err, res1) => {
     if (err) throw err;
   });
-  
-    res.redirect(`/displayherb/${(req.params.index)}`);
- 
+
+  res.redirect(`/displayherb/${(req.params.index)}`);
+
 });
 
 module.exports = router;
