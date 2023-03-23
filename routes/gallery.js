@@ -32,11 +32,11 @@ router.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    store: new MemoryStore({
+    /*store: new MemoryStore({
       //https://github.com/HubSpot/oauth-quickstart-nodejs/issues/15
       //https://www.npmjs.com/package/memorystore
       checkPeriod: 86400000, // prune expired entries every 24h
-    }),
+    }),*/
   })
 );
 router.use(passport.initialize());
@@ -49,10 +49,12 @@ initializePassport(passport, getUserByEmail, getUserById);
 //   }
 //gallery page
 
-router.get("/", timeout('10s'), bodyParser.json(), haltOnTimedout, async (req, res, next) => {
+router.get("/", timeout('7s'), bodyParser.json(), haltOnTimedout, async (req, res, next) => {
   saveGet(req.body, async function (err, id) {
+    //console.log(req.session)
+    //console.log(session)
   req.session.dbIsOffline = false;
-  if (globalGallery && globalGallery.length === 0)
+  if (!session.gallery)
   try {
     await getGallery
       .getGlobalGallery(true)
@@ -60,37 +62,35 @@ router.get("/", timeout('10s'), bodyParser.json(), haltOnTimedout, async (req, r
         session.filter = false;
         session.dbIsOffline = false;
         globalGallery = resolveGallery;
-
-        
-        
-
+        session.gallery= globalGallery;
       })
       .catch((error) => {
         session.filter = false;
         session.dbIsOffline = true;
         globalGallery = error.rejectGallery;
-      });
-
-      
-        
+      }); 
 
   } catch (e) {
     utils.log(e)
   }
 
-  if ( dataList.length === 0){
+  if ( !session.dataList){
     try {
       dataList = await utils.findTagsList(globalGallery);
+      session.dataList= dataList;
     } catch (error) {
       utils.log(error)
     }
   }
 
   try {
+    
+    
+    //console.log(session)
     res.render("index", {
-      gallery: globalGallery,
+      //gallery: globalGallery,
       session: session,
-      datalist: dataList,
+      //datalist: dataList,
     });
   } catch (error) {
     utils.log(error)
@@ -103,19 +103,31 @@ router.get("/", timeout('10s'), bodyParser.json(), haltOnTimedout, async (req, r
 });
 
 function haltOnTimedout (req, res, next) {
-  if (!req.timedout) next()
+  if (!req.timedout){
+		next();
+	}
+	else{
+		let err = new Error("timedout error");
+		err.status = 504;
+		next(err);
+	}
 }
+
 
 function saveGet (get, cb) {
   setTimeout(function () {
     cb(null, ((Math.random() * 40000) >>> 0))
   }, (Math.random() * 7000) >>> 0)
 }
+function errorHandler( err, req, res, next) {
+  //handle your timeout error here
+  res.sendStatus(err.status)
+};
 
 //   //https://stackoverflow.com/questions/53940043/unhandledpromiserejectionwarning-this-error-originated-either-by-throwing-insid
 
 // filter
-router.get("/filterherbs", timeout('10s'), bodyParser.json(), haltOnTimedout, async (req, res, next) => {
+router.get("/filterherbs", timeout('10s'), bodyParser.json(), haltOnTimedout, errorHandler, async (req, res, next) => {
   saveGet(req.body, async function (err, id) {
   let sql =
     'select * FROM herb WHERE herbTags LIKE  "%' +

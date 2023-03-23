@@ -3,14 +3,12 @@ const router = express.Router();
 const upload = require("../storage-config");
 const utils = require("../utils");
 const secret = require("../secret");
-//const getGallery = require("../get/getgallery");
-//const getSetNames = require("../get/getsetnames");
+
 var message = "";
 // toggle to use
 // const { findherbSetValues } = require("../utils");
 
-// const { getSetNames } = require("../getsetnames");
-// const { updateSetIdInherbTable  } = require("../updatesetId");
+
 const db = secret.db;
 const fs = require("fs");
 var bodyParser = require("body-parser");

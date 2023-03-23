@@ -24,7 +24,7 @@ router.use(
     extended: true,
   })
 );
-router.use(
+/*router.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
@@ -35,7 +35,7 @@ router.use(
       checkPeriod: 86400000, // prune expired entries every 24h
     }),
   })
-);
+);*/
 
 router.use(passport.initialize());
 router.use(passport.session());
@@ -52,7 +52,7 @@ function saveGet (get, cb) {
 }
 
 
-router.get("/displayherb/:index", timeout('10s'), bodyParser.json(), haltOnTimedout,async function (req, res) {
+router.get("/displayherb/:index", timeout('7s'), bodyParser.json(), haltOnTimedout,async function (req, res) {
   saveGet(req.body, async function (err, id) {
   try {
       await getHerbByName
@@ -89,9 +89,6 @@ router.get("/editherb/:index", async function (req, res) {
   function chooseherb(indOne) {
     return indOne.herName === req.params.index;
   }
-  
-
-
   
   try {
     await getHerbByName

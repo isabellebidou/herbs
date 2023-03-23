@@ -56,7 +56,7 @@ block content
   if session.filter      
         a.closeWindow(href='/filterherbs') x
   else
-        button.closeWindow(onclick="/") x
+        a.closeWindow(href='/') x
   unless session.filter
           unless back == null
             a.back(href='/displayherb/'+back) 

@@ -23,7 +23,7 @@ router.use(
     extended: true,
   })
 );
-router.use(
+/*router.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
@@ -34,7 +34,7 @@ router.use(
       checkPeriod: 86400000, // prune expired entries every 24h
     }),
   })
-);
+);*/
 router.use(passport.initialize());
 router.use(passport.session());
 initializePassport(passport, getUserByEmail, getUserById);

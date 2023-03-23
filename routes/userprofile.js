@@ -23,11 +23,6 @@ router.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    store: new MemoryStore({
-      //https://github.com/HubSpot/oauth-quickstart-nodejs/issues/15
-      //https://www.npmjs.com/package/memorystore
-      checkPeriod: 86400000, // prune expired entries every 24h
-    }),
   })
 );
 router.use(passport.initialize());
