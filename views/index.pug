@@ -79,7 +79,7 @@ block content
                             div.tooltip
                                 div.item.photoThumbnail
                                     if herb.herbPicPath
-                                        a(href=`/displayherb/${herb.herbId}`) 
+                                        a(href=`/displayherb/${herb.herbName}`) 
                                             //img.diplayplant(src=herb.imageUrl, alt=herb.herbName)
                                             img.image(src="https://isabelles3.s3.eu-west-1.amazonaws.com/plantpics/"+herb.herbPicPath, alt=herb.herbName title= herb.herbName loading= "lazy" width= "375" height= "375")
                                             //s3://isabelles3/plantpics/

@@ -29,7 +29,7 @@ router.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false
-   
+
   })
 );
 
@@ -49,56 +49,73 @@ function saveGet(get, cb) {
 
 
 router.get("/displayherb/:index", bodyParser.json(), async function (req, res) {
-  if (session.gallery) {
-    globalGallery = session.gallery
-    try {
-      for (let index = 0; index < globalGallery.length; index++) {
-        const element = globalGallery[index];
-        //var herb = globalGallery.find(()=> {return item.herName === req.params.index;} );
-        if (element.herbName === req.params.index) {
-          herb = element;
-          herb.herbLinks = herb.herbLinks === "null" ? "" : utils.stringToArray(herb.herbLinks);
-          herb.herbProducts = herb.herbProducts === "null" ? "" : utils.stringToArray(herb.herbProducts);
-          res.render("displayherb", {
-            herb: herb,
-            session: session,
-            next: null,
-            back: null
-          });
+  if (req && req.params && req.params.index) {
+    if (session.gallery) {
+      globalGallery = session.gallery
+      try {
+        for (let index = 0; index < globalGallery.length; index++) {
+          const element = globalGallery[index];
+          //var herb = globalGallery.find(()=> {return item.herName === req.params.index;} );
+          if (element.herbName === req.params.index) {
+            herb = element;
+            herb.herbLinks = herb.herbLinks === "null" ? "" : utils.stringToArray(herb.herbLinks);
+            herb.herbProducts = herb.herbProducts === "null" ? "" : utils.stringToArray(herb.herbProducts);
+            res.render("displayherb", {
+              herb: herb,
+              session: session,
+              next: null,
+              back: null
+            });
+          }
+
         }
+      } catch {
+        res.redirect('/');
 
       }
-    } catch {
-      console.log('something fishy')
+    } else {
+      try {
+        globalGallery = require("../models/data.json");
+        for (let index = 0; index < globalGallery.length; index++) {
+          const element = globalGallery[index];
+          //var herb = globalGallery.find(()=> {return item.herName === req.params.index;} );
+          if (element.herbName === req.params.index) {
+            herb = element;
+            herb.herbLinks = herb.herbLinks === "null" ? "" : utils.stringToArray(herb.herbLinks);
+            herb.herbProducts = herb.herbProducts === "null" ? "" : utils.stringToArray(herb.herbProducts);
+            res.render("displayherb", {
+              herb: herb,
+              session: session,
+              next: null,
+              back: null
+            });
+          }
+        }
 
+      } catch (error) {
+        await getHerbByName
+          .getHerbByName(req.params.index)
+          .then(async (resolveHerb) => {
+            herb = resolveHerb[0];
+            herb.herbLinks = herb.herbLinks === "null" ? "" : utils.stringToArray(herb.herbLinks);
+            herb.herbProducts = herb.herbProducts === "null" ? "" : utils.stringToArray(herb.herbProducts);
+            res.render("displayherb", {
+              herb: herb,
+              session: session,
+              next: null,
+              back: null
+            });
+
+          })
+          .catch((error) => {
+            session.filter = false;
+            session.dbIsOffline = true;
+            res.redirect('/');
+          });
+      }
     }
   } else {
-    try {
-      await getHerbByName
-        .getHerbByName(req.params.index)
-        .then(async (resolveHerb) => {
-          herb = resolveHerb[0];
-          herb.herbLinks = herb.herbLinks === "null" ? "" : utils.stringToArray(herb.herbLinks);
-          herb.herbProducts = herb.herbProducts === "null" ? "" : utils.stringToArray(herb.herbProducts);
-          res.render("displayherb", {
-            herb: herb,
-            session: session,
-            next: null,
-            back: null
-          });
-
-        })
-        .catch((error) => {
-          session.filter = false;
-          session.dbIsOffline = true;
-          globalGallery = error.rejectGallery;
-        });
-
-
-    } catch (e) {
-      utils.log(e)
-      res.redirect("/");
-    }
+    res.redirect('/');
   }
 });
 

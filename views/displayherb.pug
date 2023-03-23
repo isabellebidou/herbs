@@ -53,8 +53,8 @@ block content
       
     
               
-  if session.filter      
-        a.closeWindow(href='/filterherbs') x
+  if session.searchItem      
+        a.closeWindow(href='/filter/:'+session.searchItem) x
   else
         a.closeWindow(href='/') x
   unless session.filter
