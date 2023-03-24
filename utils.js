@@ -58,30 +58,32 @@ function findTagsList(gallery) {
 }
 function stringToArray(str) {
   var array = [];
-  if ((typeof(str) === 'string') && (str.includes(','))){
-  
+  if (str.includes(',')) {
+
     var values = str.split(",")
 
-  if (values.length>1) {
-    for (j = 0; j < values.length; j++) {
-      if (values[j] && values[j] != "[]" && values[j] != "undefined") {
-        var url = values[j].trim().toLowerCase();
-        if (url && url !== null){
-          try {
-            let domain = new URL(url);
-            domain = domain.hostname;
-          array.push({ url, domain });
-          } catch (error) {
-            log(url+ ' '+error)
-            
+    if (values.length > 1) {
+      for (j = 0; j < values.length; j++) {
+        if (values[j] && values[j] != "[]" && values[j] != "undefined") {
+          var url = values[j].trim().toLowerCase();
+
+          if (url && url !== null) {
+            try {
+              let domain = new URL(url);
+              domain = domain.hostname;
+              array.push({ url, domain });
+            } catch (error) {
+              log(url + ' ' + error)
+
+            }
           }
-        } 
+        }
       }
     }
+  } else {
+
+    return str
   }
-} else {
-  return str
-}
   return array;
 }
 function checkAuthenticated(req, res, next) {
@@ -136,30 +138,30 @@ function getKey(val, map) {
 
   return invertedMap.get(val);
 }
-function makeSqlQuery(filtered, searchItem){
+function makeSqlQuery(filtered, searchItem) {
   var sql = "";
   if (filtered === true) {
     sql =
-  'select * FROM herb WHERE herbTags LIKE  "%' +
-  searchItem +
-  '%" OR herbProperties LIKE "%' +
-  searchItem +
-  '%" OR herbName LIKE "%' +
-  searchItem +
-  '%" OR herbNameChinese LIKE "%' +
-  searchItem +
-  '%" OR herbNameFrench LIKE "%' +
-  searchItem +
-  '%" OR herbNameLatin LIKE "%' +
-  searchItem +
-  '%" OR herbCategory LIKE "%' +
-  searchItem +
-  '%" ORDER BY herbName;';
+      'select * FROM herb WHERE herbTags LIKE  "%' +
+      searchItem +
+      '%" OR herbProperties LIKE "%' +
+      searchItem +
+      '%" OR herbName LIKE "%' +
+      searchItem +
+      '%" OR herbNameChinese LIKE "%' +
+      searchItem +
+      '%" OR herbNameFrench LIKE "%' +
+      searchItem +
+      '%" OR herbNameLatin LIKE "%' +
+      searchItem +
+      '%" OR herbCategory LIKE "%' +
+      searchItem +
+      '%" ORDER BY herbName;';
   } else {
     sql = "select * FROM herb ORDER BY herbName ASC; "
   }
 
-return sql;
+  return sql;
 }
 
 function findherbInJsonArray(id, gallery) {
