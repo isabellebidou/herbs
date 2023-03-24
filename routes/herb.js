@@ -50,16 +50,20 @@ function saveGet(get, cb) {
 
 router.get("/displayherb/:index", bodyParser.json(), async function (req, res) {
   if (req && req.params && req.params.index) {
+
     if (session.gallery) {
+
       globalGallery = session.gallery
       try {
         for (let index = 0; index < globalGallery.length; index++) {
           const element = globalGallery[index];
           //var herb = globalGallery.find(()=> {return item.herName === req.params.index;} );
           if (element.herbName === req.params.index) {
+
             herb = element;
-            herb.herbLinks = herb.herbLinks === "null" ? "" : utils.stringToArray(herb.herbLinks);
-            herb.herbProducts = herb.herbProducts === "null" ? "" : utils.stringToArray(herb.herbProducts);
+
+            (!herb.herbLinks) || (herb.herbLinks  === "") || (herb.herbLinks === "null")? "" : utils.stringToArray(herb.herbLinks);
+            (!herb.herbProducts) || (herb.herbProducts === "" ) ||  (herb.herbProducts === "null" )? "" : utils.stringToArray(herb.herbProducts);
             res.render("displayherb", {
               herb: herb,
               session: session,
@@ -69,8 +73,10 @@ router.get("/displayherb/:index", bodyParser.json(), async function (req, res) {
           }
 
         }
-      } catch {
-        res.redirect('/');
+      } catch (e){
+        utils.log(e)
+       // res.redirect('/');
+        
 
       }
     } else {

@@ -57,21 +57,31 @@ function findTagsList(gallery) {
   });
 }
 function stringToArray(str) {
-  var values = str.split(",");
   var array = [];
-  if (values) {
+  if ((typeof(str) === 'string') && (str.includes(','))){
+  
+    var values = str.split(",")
+
+  if (values.length>1) {
     for (j = 0; j < values.length; j++) {
       if (values[j] && values[j] != "[]" && values[j] != "undefined") {
         var url = values[j].trim().toLowerCase();
         if (url && url !== null){
-          let domain = new URL(url);
-          domain = domain.hostname;
+          try {
+            let domain = new URL(url);
+            domain = domain.hostname;
           array.push({ url, domain });
-
+          } catch (error) {
+            log(url+ ' '+error)
+            
+          }
         } 
       }
     }
   }
+} else {
+  return str
+}
   return array;
 }
 function checkAuthenticated(req, res, next) {

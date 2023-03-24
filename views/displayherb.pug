@@ -38,16 +38,24 @@ block content
           p.descriptionp #{line} 
                               
         
-        p.itemp It is important to note that while these benefits have been traditionally associated with #{herb.herbName} , more research is needed to fully understand its efficacy and safety. The information shared on this website, may or may not have been backed by science and comes from tradition and what is widely shared online. It is recommended to consult a healthcare professional before taking #{herb.herbName} or any other supplement for these purposes.                       
+       
         p.itemp contraindications: #{herb.herbComments} 
-        if herb.herbLinks && herb.herbLinks!= [] && herb.herbLinks!= undefined                  
+        
+        
+        if herb.herbProducts && typeof(herb.herbProducts)=== 'string'
+          - let domain = new URL(herb.herbProducts);
+          - domain = domain.hostname;
+          a.buyp(href= herb.herbProducts) buy #{herb.herbName} online : #{domain}
+        if herb.herbProducts && herb.herbProducts!= [] && herb.herbProducts!= undefined && typeof(herb.herbProducts)!== 'string'
+          each link in herb.herbProducts
+            a.buyp(href= link.url) buy #{herb.herbName} online : #{link.domain}
+        if herb.herbLinks && typeof(herb.herbLinks)=== 'string'
+          a.itemp(href= herb.herbLinks) further info @ #{herb.herbLinks}
+        if herb.herbLinks && herb.herbLinks!= [] && herb.herbLinks!= undefined && typeof(herb.herbLinks)!== 'string'                 
           each link in herb.herbLinks
-              .itemp(href= link.url) #{link.url} 
-        p.itemp products:
-          if herb.herbProducts && herb.herbProducts!= []
-            each link in herb.herbProducts
-              a.itemp(href= link.url) buy #{herb.herbName} online
+              .itemp(href= link.url) further info @ #{link.url} 
         p.itemp tags: #{herb.herbTags}
+        p.itemp It is important to note that while these benefits have been traditionally associated with #{herb.herbName} , more research is needed to fully understand its efficacy and safety. The information shared on this website, may or may not have been backed by science and comes from tradition and what is widely shared online. It is recommended to consult a healthcare professional before taking #{herb.herbName} or any other supplement for these purposes.                       
            
       
       
