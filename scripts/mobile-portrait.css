@@ -14,6 +14,16 @@
     height: 2em;
     font-size: large;
   }
+  .logo {
+    text-decoration: none;
+    margin-top: 0.2%;
+    margin-left: 4%;
+    height: 115%;
+    width:75px
+   
+  
+  
+  }
    /* https://stackoverflow.com/questions/15901030/reset-remove-css-styles-for-element-only */
  .usersetinput, .usersetlabel {
   width: auto;
@@ -30,7 +40,7 @@
   padding: 5px;
 }
   .header {
-    height: 2em;
+    height: 4em;
   }
   .authentication {
     display: none;
@@ -54,7 +64,7 @@
   .maincontent {
     color: rgb(180, 25, 25);
     position: fixed;
-    height: 95%;
+    height: 80%;
     width: 100%;
     right: 0%;
     bottom: 0%;
@@ -171,7 +181,7 @@
 
   .searchItem {
     position: fixed;
-    top: 9%;
+    top: 13%;
     text-decoration: none;
     left: 1%;
     padding: 0em;
@@ -186,7 +196,7 @@
   }
   .search {
     position: fixed;
-    top: 7%;
+    top: 12%;
     z-index: 1;
     width: 65%;
     height: 3em;
@@ -199,7 +209,7 @@
 
   .searchbutton {
     position: fixed;
-    top: 7%;
+    top: 12%;
     width: 25%;
     right: 1%;
     height: 3em;
