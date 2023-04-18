@@ -281,16 +281,16 @@ form {
   text-decoration: none;
   margin-top: 0.2%;
   margin-left: 4%;
-  min-height: 115%;
-  width:125px;
-   height: 125px;
+  min-height: 90%;
+  width:100px;
+   height: 100px;
 
 
 }
 
 .searchItem {
   position: fixed;
-  top: 13%;
+  top: 14%;
   text-decoration: none;
   left: 2%;
   padding: 0em;
@@ -309,7 +309,7 @@ form {
 .search {
   position: fixed;
   background-color: rgba(243, 236, 236, 0.6);
-  top: 12%;
+  top: 14%;
   z-index: 20;
   width: 35%;
   height: 3em;
@@ -323,7 +323,7 @@ form {
 .searchbutton {
   position: fixed;
   background-color: rgba(243, 236, 236, 0.6);
-  top: 12%;
+  top: 14%;
   width: 5%;
   right: 30%;
   padding: 0em;
@@ -396,7 +396,7 @@ h3 {
 .header {
   position: fixed;
   width: 100%;
-  height: 11%;
+  height: 13%;
   top: 0%;
   z-index: 1;
 
