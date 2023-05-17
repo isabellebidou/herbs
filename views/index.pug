@@ -78,34 +78,32 @@ block content
                         
                             div.tooltip
                                 div.item.photoThumbnail
-                                    if herb.herbPicPath
+                                    if herb && herb.herbPicPath
                                         a(href=`/displayherb/${herb.herbName}`) 
                                             //img.diplayplant(src=herb.imageUrl, alt=herb.herbName)
-                                            img.image(src="https://isabelles3.s3.eu-west-1.amazonaws.com/plantpics/"+herb.herbPicPath, alt=herb.herbName title= herb.herbName loading= "lazy" width= "375" height= "375")
+                                            img.image(src="https://isabelleherbs.s3.eu-west-1.amazonaws.com/plantpics/"+herb.herbPicPath, alt=herb.herbName title= herb.herbName loading= "lazy" width= "375" height= "375")
+                                            //img.image(src=herb.imageUrl, alt=herb.herbName title= herb.herbName loading= "lazy" width= "375" height= "375")
                                             //s3://isabelles3/plantpics/
                                             //https://isabelles3.s3.eu-west-1.amazonaws.com/plantpics/artemisiaannua.png
                                     
                                     
-                                    a.h1.itemtitle(href=`/displayherb/${herb.herbName}`)  #{herb.herbName} 
-                                    a.threedots(href=`/displayherb/${herb.herbName}`) more ...
-                                               
-                                    - var nameCat=''
-                                    - nameCat =  herb.herbNameLatin!= ''? nameCat+" latin:  "+herb.herbNameLatin : nameCat
-                                    - nameCat =  herb.herbCategory? nameCat+" category:  "+herb.herbCategory : nameCat 
-                                    if nameCat.length > 1 && cat !== 'undefined'
-                                        h3.itemp #{nameCat}
-                                    -nameCat ='';
-                                    - var names =''
-                                    - names =  herb.herbNameFrench != 'undefined'? herb.herbNameFrench : names
-                                    - names =  herb.herbNameChinese? names+" "+herb.herbNameChinese : names
-                                    if names && names !== 'undefined'
-                                        p.itemp other names: #{names}
-                                    -names = '';                 
-                                    if herb.herbProperties && herb.herbProperties!= "" && herb.herbProperties !== "null"
-                                    h2.itemp may help with: #{herb.herbProperties} 
-                                    p.disclaimerp  benefits traditionally associated with #{herb.herbName}. Consult a healthcare professional before taking, respect recommended dosage and again, less is more!.  
-                                    if herb.herbComments && herb.herbComments!= "" && herb.herbComments !== "null"
-                                        p.itemp contraindications: #{herb.herbComments} 
-                                    
-                                    
-                                         
+                                        a.h1.itemtitle(href=`/displayherb/${herb.herbName}`)  #{herb.herbName} 
+                                        a.threedots(href=`/displayherb/${herb.herbName}`) more ...
+                                                
+                                        - var nameCat=''
+                                        - nameCat =  herb.herbNameLatin!= ''? nameCat+" latin:  "+herb.herbNameLatin : nameCat
+                                        - nameCat =  herb.herbCategory? nameCat+" category:  "+herb.herbCategory : nameCat 
+                                        if nameCat.length > 1 && cat !== 'undefined'
+                                            h3.itemp #{nameCat}
+                                        -nameCat ='';
+                                        - var names =''
+                                        - names =  herb.herbNameFrench != 'undefined'? herb.herbNameFrench : names
+                                        - names =  herb.herbNameChinese? names+" "+herb.herbNameChinese : names
+                                        if names && names !== 'undefined'
+                                            p.itemp other names: #{names}
+                                        -names = '';                 
+                                        if herb.herbProperties && herb.herbProperties!= "" && herb.herbProperties !== "null"
+                                        h2.itemp may help with: #{herb.herbProperties} 
+                                        p.disclaimerp  benefits traditionally associated with #{herb.herbName}. Consult a healthcare professional before taking, respect recommended dosage and again, less is more!.  
+                                        if herb.herbComments && herb.herbComments!= "" && herb.herbComments !== "null"
+                                            p.itemp contraindications: #{herb.herbComments}

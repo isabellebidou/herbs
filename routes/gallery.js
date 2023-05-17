@@ -17,6 +17,7 @@ const getUserByEmail = require("../passport-config").getUserByEmail;
 const getUserById = require("../passport-config").getUserbyId;
 const session = require("express-session");
 var bodyParser = require("body-parser");
+
 router.use(
   bodyParser.urlencoded({
     extended: true,
@@ -35,10 +36,12 @@ initializePassport(passport, getUserByEmail, getUserById);
 
 
 router.get("/", bodyParser.json(), async (req, res, next) => {
+
   session.filter = false;
   session.searchItem = null;
-
   req.session.dbIsOffline = false;
+
+ 
   if (!session.gallery)
     try {
       gallery.sort((a, b) => {
@@ -47,6 +50,8 @@ router.get("/", bodyParser.json(), async (req, res, next) => {
         return 0;
       });
       session.gallery = gallery;
+
+
       /*await getGallery
         .getGlobalGallery(true)
         .then((resolveGallery) => {
@@ -76,7 +81,7 @@ router.get("/", bodyParser.json(), async (req, res, next) => {
   }
   try {
     res.render("index", {
-      session: session,
+      session: session
     });
   } catch (error) {
     utils.log(error)
@@ -88,7 +93,7 @@ router.get("/", bodyParser.json(), async (req, res, next) => {
 
 // filter
 router.get("/filterherbs", bodyParser.json(), async (req, res, next) => {
-  console.log("boum!")
+
 
 });
 String.prototype.equalIgnoreCase = function (str) {
