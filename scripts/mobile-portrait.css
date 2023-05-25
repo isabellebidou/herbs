@@ -284,8 +284,8 @@
   }
   .left {
     position: fixed;
-    width: 100%;
-    height: 20%;
+    width: 90%;
+    height: 10%;
     padding: 5%;
     opacity: 50%;
     top: 0%;
@@ -295,9 +295,9 @@
 
   .right {
     position: absolute;
-    width: 100%;
+    width: 90%;
     padding: 5%;
-    top:40% ;
+    top:25% ;
     height: 200%;
   
     overflow-y: auto;
@@ -305,8 +305,8 @@
   }
   
   .imgcontainer {
-    width: 100%;
-    height: 100%;
+    width: 90%;
+    height: auto;
   
     display: flex;
     justify-content: center;
@@ -315,8 +315,8 @@
   
   .diplayplant {
     position: relative;
-    width: 100%;
-    margin: auto;
+    
+    margin: auto auto;
     display: block;
   
   }

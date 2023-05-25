@@ -93,6 +93,67 @@ router.get("/", bodyParser.json(), async (req, res, next) => {
 
 // filter
 router.get("/filterherbs", bodyParser.json(), async (req, res, next) => {
+  if (session.searchItem || req && req.body && req.body.search) {
+    session.filter = true;
+    if (!session.searchItem)  session.searchItem = req.body.search;
+    globalGallery = session.gallery ? session.gallery : gallery;
+    try {
+      var result = [];
+      for (let index = 0; index < globalGallery.length; index++) {
+        const element = globalGallery[index];
+        if (element.herbName && element.herbName.equalIgnoreCase(session.searchItem)
+          || (element.herbProperties && element.herbProperties.includes(session.searchItem))
+          || (element.herbNameFrench && element.herbNameFrench.includes(session.searchItem))
+          || (element.herbNameChinese && element.herbNameChinese.includes(session.searchItem))
+          || (element.herbNameLatin && element.herbNameLatin.includes(session.searchItem))
+          || (element.herbTags && element.herbTags.includes(session.searchItem))
+        ) {
+          result.push(element)
+        }
+      }
+      res.render("filterherbs", {
+        gallery: result,
+        session: session,
+        //searchItem: searchItem,
+      });
+    } catch (e) {
+      utils.log(e)
+      res.redirect('/');
+    }
+
+    /*let sql =
+      'select * FROM herb WHERE herbTags LIKE  "%' +
+      searchItem +
+      '%" OR herbProperties LIKE "%' +
+      searchItem +
+      '%" OR herbName LIKE "%' +
+      searchItem +
+      '%" OR herbNameChinese LIKE "%' +
+      searchItem +
+      '%" OR herbNameFrench LIKE "%' +
+      searchItem +
+      '%" OR herbNameLatin LIKE "%' +
+      searchItem +
+      '%" OR herbCategory LIKE "%' +
+      searchItem +
+      '%" ORDER BY herbName;';
+      db.query(sql, async (err, gallery) => {
+      if (err) throw err;
+      console.error(err);
+      await gallery.forEach(async (herb) => {
+        herb.herbLinks = utils.stringToArray(herb.herbLinks);
+        herb.herbProducts = utils.stringToArray(herb.herbProducts);
+      });
+      res.render("filterherbs", {
+        gallery: await gallery,
+        session: session,
+        searchItem: searchItem,
+      });
+    });*/
+  } else {
+    res.redirect('/')
+    utils.log('redirect')
+  }
 
 
 });

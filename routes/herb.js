@@ -50,6 +50,7 @@ function saveGet(get, cb) {
 
 router.get("/displayherb/:index", bodyParser.json(), async function (req, res) {
   if (req && req.params && req.params.index) {
+    console.log(session.searchItem)
 
     if (session.gallery) {
 
